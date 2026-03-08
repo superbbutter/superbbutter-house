@@ -156,39 +156,40 @@ h1 {
 .rule-box p:last-child { margin-bottom: 0; }
 .highlight { color: #b91c1c; font-weight: 500; } 
 
-/* OC Menu Card (แบบใหม่) */
+/* OC Menu Card (แบบรูปใหญ่) */
 .menu-card {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--main);
   border-radius: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(120, 53, 15, 0.03);
+  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.05);
   transition: var(--transition);
 }
-.menu-card:hover { box-shadow: 0 6px 15px var(--glow); }
+.menu-card:hover { box-shadow: 0 8px 20px var(--glow); transform: translateY(-3px); }
 
 .menu-header {
-  display: flex;
-  align-items: center;
-  padding: 12px;
+  display: block;
   cursor: pointer;
 }
 .menu-img {
-  width: 65px;
-  height: 65px;
-  border-radius: 15px;
+  width: 100%;
+  height: 250px; /* ปรับความสูงของรูปได้ที่นี่ */
   object-fit: cover;
-  margin-right: 15px;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  background-color: #FDE047; /* สีพื้นหลังกรณีรูปยังไม่โหลด */
+  display: block;
+  background-color: #FFF8D6;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+}
+.menu-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
 }
 .menu-title {
-  flex-grow: 1;
   font-weight: 500;
   color: var(--dark);
-  font-size: 15px;
+  font-size: 16px;
 }
 .menu-icon {
   font-size: 14px;
@@ -197,7 +198,7 @@ h1 {
   padding: 5px;
   background: #FFF8D6;
   border-radius: 50%;
-  width: 28px; height: 28px;
+  width: 32px; height: 32px;
   display: flex; align-items: center; justify-content: center;
 }
 .menu-card.open .menu-icon {
@@ -215,28 +216,29 @@ h1 {
 }
 .menu-card.open .menu-details {
   max-height: 200px; 
-  padding: 10px 15px 15px;
-  border-top: 1px dashed var(--main);
+  padding: 0px 15px 15px;
 }
 .detail-text {
-  font-size: 13.5px;
-  margin-bottom: 6px;
+  font-size: 14px;
+  margin-bottom: 8px;
   color: var(--darker);
 }
 .btn-view {
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 5px;
   background: linear-gradient(135deg, var(--main), #FDE047);
   color: var(--darker);
-  padding: 8px 20px;
-  border-radius: 20px;
+  padding: 10px 20px;
+  border-radius: 25px;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
   box-shadow: 0 4px 10px rgba(251, 191, 36, 0.4);
   transition: var(--transition);
+  text-align: center;
+  width: 100%;
 }
-.btn-view:hover { transform: translateY(-2px); }
+.btn-view:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(251, 191, 36, 0.6); }
 
 /* Mini Contact (Every Page) */
 .mini-contact {
@@ -342,8 +344,10 @@ h1 {
             <div class="menu-card">
                 <div class="menu-header" onclick="toggleMenu(this)">
                     <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="ขนมปังถั่วแดง" class="menu-img">
-                    <div class="menu-title">( 1 ) ขนมปังถั่วแดง 🥐</div>
-                    <div class="menu-icon">▼</div>
+                    <div class="menu-title-row">
+                        <div class="menu-title">( 1 ) ขนมปังถั่วแดง 🥐</div>
+                        <div class="menu-icon">▼</div>
+                    </div>
                 </div>
                 <div class="menu-details">
                     <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
@@ -355,8 +359,10 @@ h1 {
             <div class="menu-card">
                 <div class="menu-header" onclick="toggleMenu(this)">
                     <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="ขนมปังเมล่อน" class="menu-img">
-                    <div class="menu-title">( 2 ) ขนมปังเมล่อน 🍈</div>
-                    <div class="menu-icon">▼</div>
+                    <div class="menu-title-row">
+                        <div class="menu-title">( 2 ) ขนมปังเมล่อน 🍈</div>
+                        <div class="menu-icon">▼</div>
+                    </div>
                 </div>
                 <div class="menu-details">
                     <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
@@ -376,8 +382,10 @@ h1 {
             <div class="menu-card">
                 <div class="menu-header" onclick="toggleMenu(this)">
                     <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="เค้กสตอเบอรี่" class="menu-img">
-                    <div class="menu-title">( 1 ) เค้กสตอเบอรี่ 🍓</div>
-                    <div class="menu-icon">▼</div>
+                    <div class="menu-title-row">
+                        <div class="menu-title">( 1 ) เค้กสตอเบอรี่ 🍓</div>
+                        <div class="menu-icon">▼</div>
+                    </div>
                 </div>
                 <div class="menu-details">
                     <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
@@ -389,8 +397,10 @@ h1 {
             <div class="menu-card">
                 <div class="menu-header" onclick="toggleMenu(this)">
                     <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="เค้กส้ม" class="menu-img">
-                    <div class="menu-title">( 2 ) เค้กส้ม 🍊</div>
-                    <div class="menu-icon">▼</div>
+                    <div class="menu-title-row">
+                        <div class="menu-title">( 2 ) เค้กส้ม 🍊</div>
+                        <div class="menu-icon">▼</div>
+                    </div>
                 </div>
                 <div class="menu-details">
                     <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
@@ -410,8 +420,10 @@ h1 {
             <div class="menu-card">
                 <div class="menu-header" onclick="toggleMenu(this)">
                     <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="ชาเขียว" class="menu-img">
-                    <div class="menu-title">( 1 ) ชาเขียว 🍵</div>
-                    <div class="menu-icon">▼</div>
+                    <div class="menu-title-row">
+                        <div class="menu-title">( 1 ) ชาเขียว 🍵</div>
+                        <div class="menu-icon">▼</div>
+                    </div>
                 </div>
                 <div class="menu-details">
                     <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
@@ -423,8 +435,10 @@ h1 {
             <div class="menu-card">
                 <div class="menu-header" onclick="toggleMenu(this)">
                     <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="อเมริกาโน่" class="menu-img">
-                    <div class="menu-title">( 2 ) อเมริกาโน่ ☕️</div>
-                    <div class="menu-icon">▼</div>
+                    <div class="menu-title-row">
+                        <div class="menu-title">( 2 ) อเมริกาโน่ ☕️</div>
+                        <div class="menu-icon">▼</div>
+                    </div>
                 </div>
                 <div class="menu-details">
                     <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
@@ -464,11 +478,6 @@ function showPage(pageId, element) {
 // เปิด-ปิด กล่องรายละเอียดเมนู OC
 function toggleMenu(headerElement) {
     const card = headerElement.parentElement;
-    
-    // ถ้าอยากให้เปิดได้ทีละกล่อง ให้เอาคอมเมนต์ 2 บรรทัดข้างล่างออกค่ะ
-    // const allCards = document.querySelectorAll('.menu-card');
-    // allCards.forEach(c => { if(c !== card) c.classList.remove('open'); });
-
     card.classList.toggle('open');
 }
 </script>
