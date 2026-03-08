@@ -119,7 +119,7 @@ h1 {
 
 .container {
   width: 100%;
-  padding: 10px 15px 100px;
+  padding: 10px 15px 50px;
 }
 
 .page { display: none; animation: fadeIn 0.4s ease; }
@@ -151,7 +151,7 @@ h1 {
 }
 
 .menu-card { background: rgba(255, 255, 255, 0.85); border: 1px solid var(--main); border-radius: 20px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.05); transition: var(--transition); }
-.menu-card:hover { box-shadow: 0 8px 20px var(--glow); transform: translateY(-3px); }
+.menu-card:hover { transform: translateY(-3px); }
 .menu-header { display: block; cursor: pointer; }
 .menu-title-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; }
 .menu-title { font-weight: 500; color: var(--dark); font-size: 15px; }
@@ -190,6 +190,12 @@ h1 {
 .socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
 .socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); }
 .copyright { font-size: 10px; opacity: 0.6; }
+
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+.modal-content { background: var(--bg); margin: 15% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
+.modal-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: center; }
+.btn-delete-confirm { background: #b91c1c; color: #fff; margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; }
+.btn-close-modal { color: var(--dark); font-size: 12px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: block; }
 
 .loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; }
 </style>
@@ -272,10 +278,22 @@ h1 {
       <div class="socials-mini">
         <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank">Facebook</a>
         <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank">Line</a>
+        <a href="javascript:void(0)" onclick="openDeleteModal()" style="border-color: #b91c1c; color: #b91c1c;">แจ้งลบข้อมูล</a>
       </div>
       <div class="copyright">© 2026 SuperBButter Bakery. All rights reserved.</div>
     </div>
   </div> 
+</div>
+
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <h3>📢 แจ้งถอนการติดตั้ง</h3>
+    <p style="font-size: 13px; margin: 10px 0;">กรุณาระบุชื่อและรหัสลับเพื่อลบข้อมูลค่ะ</p>
+    <input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม / ตัวละคร">
+    <input type="password" id="delPin" class="modal-input" placeholder="รหัสลับ 4 หลัก">
+    <button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ยืนยันการลบ</button>
+    <span class="btn-close-modal" onclick="closeDeleteModal()">ยกเลิกและกลับหน้าหลัก</span>
+  </div>
 </div>
 
 <script>
@@ -305,6 +323,9 @@ function toggleMenu(headerElement) {
   headerElement.parentElement.classList.toggle('open');
 }
 
+function openDeleteModal() { document.getElementById('deleteModal').style.display = 'block'; }
+function closeDeleteModal() { document.getElementById('deleteModal').style.display = 'none'; }
+
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
 async function fetchData() {
@@ -314,6 +335,23 @@ async function fetchData() {
     displayData(data);
   } catch (error) {
     console.error('Error:', error);
+  }
+}
+
+async function confirmDelete() {
+  const name = document.getElementById('delName').value;
+  const pin = document.getElementById('delPin').value;
+  if(!name || !pin) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ");
+  
+  if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${name}" ออกจากเตาอบ?`)) {
+    const resp = await fetch(`${API_URL}?action=delete&name=${encodeURIComponent(name)}&pin=${encodeURIComponent(pin)}`);
+    const result = await resp.text();
+    if(result === "Success") {
+      alert("ลบข้อมูลเรียบร้อยแล้วค่ะ! หน้าเว็บจะรีเฟรชอัตโนมัติ");
+      location.reload();
+    } else {
+      alert("ชื่อหรือรหัสลับไม่ถูกต้องค่ะ ไม่สามารถลบได้ 🥲");
+    }
   }
 }
 
