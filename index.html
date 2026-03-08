@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SuperBButter - Bakery & OC</title>
 
+<link rel="icon" type="image/x-icon" href="https://drive.google.com/thumbnail?id=1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1&sz=w64">
+
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -71,7 +73,6 @@ h1 {
   margin-bottom: 5px;
 }
 
-/* แก้ไขให้ข้อความอยู่กึ่งกลางอีโมจิเป๊ะๆ */
 .nav-item {
   text-decoration: none;
   color: var(--dark);
@@ -160,7 +161,6 @@ h1 {
 .menu-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: rgba(255, 255, 255, 0.5); padding: 0 15px; }
 .menu-card.open .menu-details { max-height: 500px; padding: 10px 15px 15px; }
 
-/* แก้ไขให้ข้อความ Detail อยู่กึ่งกลางอีโมจิเป๊ะๆ */
 .detail-text { 
   font-size: 14px; 
   margin-bottom: 8px; 
@@ -178,13 +178,16 @@ h1 {
 .btn-accept { font-size: 16px; padding: 15px; margin-top: 15px; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
 
-.floating-emoji { position: absolute; font-size: 24px; z-index: 5; animation: floatEmoji 3s infinite; }
-.emoji-1 { top: -10px; left: -10px; } .emoji-2 { top: 20px; right: -20px; } .emoji-3 { bottom: 15px; left: -15px; } .emoji-4 { bottom: -5px; right: -10px; }
-@keyframes floatEmoji { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.floating-emoji { position: absolute; font-size: 24px; z-index: 5; animation: floatEmoji 3s infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+.emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } 
+.emoji-2 { top: 20px; right: -20px; animation-delay: 0.7s; } 
+.emoji-3 { bottom: 15px; left: -15px; animation-delay: 1.4s; } 
+.emoji-4 { bottom: -5px; right: -10px; animation-delay: 2.1s; font-size: 28px; } 
+@keyframes floatEmoji { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(8deg); } }
 
-.mini-contact { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.3); }
+.mini-contact { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.5); }
 .socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
-.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); }
+.socials-mini a { padding: 8px 20px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 13px; font-weight: 500; border: 1px solid var(--main); transition: var(--transition); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
 .loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; }
@@ -205,11 +208,6 @@ h1 {
       <p>♡ สามารถชื่นชมเด็กๆ ได้แต่ขอความร่วมมือ <span style="text-decoration: underline;">แจ้งให้ทางร้านทราบก่อนนะคะ</span></p>
       <p class="highlight">❯❯ หากพบพฤติกรรมไม่เหมาะสม ทางร้านขอเชิญออกจากครัวทันทีค่ะ !!</p>
     </div>
-    <h2 style="margin-top: 20px;">📋 ประกาศจากหน้าเตาอบ</h2>
-    <div class="rule-box" style="background: rgba(255,255,255,0.9); border-color: #b91c1c;">
-      <p class="highlight">⚠︎ Warning</p>
-      <p>✘ ห้ามคัดลอกดีไซน์ นำไปดัดแปลง หรือจำหน่ายต่อโดยเด็ดขาด</p>
-    </div>
     <button class="btn-view btn-accept" onclick="acceptRules()">✅ ล้างมือและเข้าสู่ครัว</button>
   </div>
 </div>
@@ -224,6 +222,7 @@ h1 {
       </div>
     </div>
     <h1>SuperBButter</h1>
+
     <nav class="nav-bar">
       <div class="nav-item active" onclick="showPage('home', this)"><span>🏠</span><span>โฮม</span></div>
       <div class="nav-item" onclick="showPage('bread', this)"><span>🍞</span><span>ขนมปัง</span></div>
@@ -244,7 +243,7 @@ h1 {
       <div class="section">
         <h2>🍞 เมนูขนมปัง</h2>
         <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ</p>
-        <div id="bread-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <div id="bread-container"><div class="loading-text">กำลังโหลดข้อมูล... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
@@ -252,7 +251,7 @@ h1 {
       <div class="section">
         <h2>🍰 เมนูเค้ก</h2>
         <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ</p>
-        <div id="cake-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <div id="cake-container"><div class="loading-text">กำลังโหลดข้อมูล... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
@@ -260,7 +259,7 @@ h1 {
       <div class="section">
         <h2>🍵 เมนูเครื่องดื่ม</h2>
         <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ</p>
-        <div id="drink-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <div id="drink-container"><div class="loading-text">กำลังโหลดข้อมูล... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
