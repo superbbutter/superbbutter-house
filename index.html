@@ -34,6 +34,7 @@ body {
 
 body.locked { overflow: hidden; }
 
+/* 🌟 Header 🌟 */
 header {
   width: 100%;
   display: flex;
@@ -151,9 +152,9 @@ h1 {
 .menu-card:hover { transform: translateY(-3px); }
 .menu-header { display: block; cursor: pointer; }
 .menu-title-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; }
-.menu-title { font-weight: 500; color: var(--dark); font-size: 15px; line-height: 1.3; }
+.menu-title { font-weight: 500; color: var(--dark); font-size: 15px; line-height: 1.2; }
 
-/* 🌟 สไตล์ใหม่สำหรับคำบรรยายใต้ชื่อ 🌟 */
+/* สไตล์สำหรับคำโปรย */
 .menu-slogan { font-size: 12px; color: var(--dark); opacity: 0.7; font-weight: 400; margin-top: 2px; }
 
 .menu-icon { font-size: 12px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #FFF8D6; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
@@ -188,9 +189,10 @@ h1 {
 
 .mini-contact { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.3); }
 .socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
-.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); }
+.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); transition: var(--transition); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
+/* 🌟 Popup Modals 🌟 */
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); overflow-y: auto; }
 .modal-content { background: var(--bg); margin: 5% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 450px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
 .modal-input, .modal-select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: left; background: #fff; }
@@ -216,11 +218,6 @@ h1 {
       <p>꩜ .ᐟ ก่อนก้าวเข้าสู่ครัวขนมของเรา กรุณาทำตามประกาศอย่างเคร่งครัด !</p>
       <p>♡ สามารถชื่นชมเด็กๆ ได้แต่ขอความร่วมมือ <span style="text-decoration: underline;">แจ้งให้ทางร้านทราบก่อนนะคะ</span></p>
       <p class="highlight">❯❯ หากพบพฤติกรรมไม่เหมาะสม ทางร้านขอเชิญออกจากครัวทันทีค่ะ !!</p>
-    </div>
-    <h2 style="margin-top: 20px;">📋 ประกาศจากหน้าเตาอบ</h2>
-    <div class="rule-box" style="background: rgba(255,255,255,0.9); border-color: #b91c1c;">
-      <p class="highlight">⚠︎ Warning</p>
-      <p>✘ ห้ามคัดลอกดีไซน์ นำไปดัดแปลง หรือจำหน่ายต่อโดยเด็ดขาด</p>
     </div>
     <button class="btn-view btn-accept" onclick="acceptRules()">✅ ล้างมือและเข้าสู่ครัว</button>
   </div>
@@ -255,24 +252,21 @@ h1 {
     <div id="bread" class="page">
       <div class="section">
         <h2>🍞 เมนูขนมปัง</h2>
-        <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ</p>
-        <div id="bread-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <div id="bread-container"><div class="loading-text">กำลังโหลดข้อมูล... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
     <div id="cake" class="page">
       <div class="section">
         <h2>🍰 เมนูเค้ก</h2>
-        <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ</p>
-        <div id="cake-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <div id="cake-container"><div class="loading-text">กำลังโหลดข้อมูล... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
     <div id="drink" class="page">
       <div class="section">
         <h2>🍵 เมนูเครื่องดื่ม</h2>
-        <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ</p>
-        <div id="drink-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <div id="drink-container"><div class="loading-text">กำลังโหลดข้อมูล... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
@@ -314,7 +308,7 @@ h1 {
     <input type="text" id="charName" class="modal-input" placeholder="ระบุชื่อ">
 
     <label class="modal-label">คำรรยาย (คำโปรยเพิ่มเติม)</label>
-    <input type="text" id="charDesc" class="modal-input" placeholder="ใส่คำโปรยสั้นๆ (ถ้ามี)">
+    <input type="text" id="charDesc" class="modal-input" placeholder="คำบรรยายสั้นๆ (ถ้ามี)">
 
     <label class="modal-label">ลิ้งก์รูปตัวละคร * (Drive + สาธารณะ)</label>
     <input type="text" id="charImg" class="modal-input" placeholder="https://drive.google.com/...">
@@ -394,12 +388,11 @@ async function fetchData() {
   } catch (error) { console.error('Error:', error); }
 }
 
-// 🌟 ฟังก์ชันส่งข้อมูลไปยัง Google Form (เพิ่มหัวข้อ คำบรรยาย) 🌟
 function submitNewCharacter() {
     const data = {
         category: document.getElementById('charCategory').value,
         name: document.getElementById('charName').value,
-        desc: document.getElementById('charDesc').value, // เพิ่มหัวข้อนี้
+        desc: document.getElementById('charDesc').value,
         img: document.getElementById('charImg').value,
         artist: document.getElementById('charArtist').value,
         artistLink: document.getElementById('charArtistLink').value,
@@ -412,11 +405,10 @@ function submitNewCharacter() {
     }
 
     const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeE5PmUTSmDN-dJ97oABe23DgAqubMoPzkAOPAtWLKTy3ckg/formResponse";
-    
     const params = new URLSearchParams();
     params.append('entry.1342287640', data.category);
     params.append('entry.1240441369', data.name);
-    params.append('entry.590471728', data.desc); // 🌟 ID ของคำบรรยาย
+    params.append('entry.590471728', data.desc);
     params.append('entry.57350701', data.img);
     params.append('entry.1596328020', data.artist);
     params.append('entry.632817786', data.artistLink);
@@ -424,7 +416,7 @@ function submitNewCharacter() {
     params.append('entry.232575950', data.more);
 
     fetch(formUrl, { method: 'POST', mode: 'no-cors', body: params }).then(() => {
-        alert("อบขนมสำเร็จ! ข้อมูลถูกส่งไปยังระบบแล้วค่ะ");
+        alert("อบขนมสำเร็จ! ข้อมูลถูกส่งไปแล้วค่ะ");
         location.reload();
     }).catch(err => { alert("เกิดข้อผิดพลาดในการส่งข้อมูลค่ะ"); });
 }
@@ -447,15 +439,17 @@ function displayData(data) {
   data.forEach(item => {
     const target = containers[item['หมวดหมู่']];
     if (!target) return;
-    let imgUrl = item['ลิงก์รูปภาพ'] || '';
+    
+    // 🌟 ดึงข้อมูลรูปแบบเดิมเพื่อให้รูปขึ้นปกติ 🌟
+    let imgUrl = item['ลิงก์รูปภาพ'] || item['Link รูปตัวละคร'] || '';
     if (imgUrl.includes('drive.google.com/file/d/')) {
       const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
     }
-    const artistDisplay = item['ลิงก์นักวาด'] ? `<a href="${item['ลิงก์นักวาด']}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
     
-    // 🌟 ดึงข้อมูล คำโปรย มาแสดงใต้ชื่อ 🌟
-    const sloganHTML = item['คำรรยาย'] ? `<div class="menu-slogan">${item['คำรรยาย']}</div>` : '';
+    const artistDisplay = (item['ลิงก์นักวาด'] || item['Link นักวาด']) ? `<a href="${item['ลิงก์นักวาด'] || item['Link นักวาด']}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
+    
+    const sloganHTML = item['คำบรรยาย'] ? `<div class="menu-slogan">${item['คำบรรยาย']}</div>` : '';
 
     target.innerHTML += `
       <div class="menu-card">
@@ -472,7 +466,7 @@ function displayData(data) {
         <div class="menu-details">
           <div class="detail-text"><span>🎨</span> <strong>นักวาด:</strong> ${artistDisplay}</div>
           <div class="detail-text"><span>💰</span> <strong>มูลค่า:</strong> ${item['มูลค่า']}</div>
-          <a href="${item['ลิงก์เพิ่มเติม'] || '#'}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+          <a href="${item['ลิงก์เพิ่มเติม'] || item['Link เพื่อดูเพิ่มเติม'] || '#'}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
         </div>
       </div>`;
   });
