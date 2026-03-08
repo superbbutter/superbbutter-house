@@ -391,10 +391,10 @@ function toggleMenu(headerElement) {
 }
 
 // ==========================================
-// ส่วนดึงข้อมูลจาก Google Sheets (รันลำดับอัตโนมัติ)
+// ส่วนดึงข้อมูลจาก Google Sheets (ฉบับสมบูรณ์ แบบไม่มีเลขหน้าชื่อ)
 // ==========================================
 
-// 1. นำ URL ที่ได้จาก Apps Script มาวางในเครื่องหมายคำพูดด้านล่าง
+// 🚨 นำ URL ที่ได้จาก Apps Script มาวางในเครื่องหมายคำพูดด้านล่าง
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
 async function fetchData() {
@@ -415,58 +415,54 @@ function displayData(data) {
     const cakeContainer = document.getElementById('cake-container');
     const drinkContainer = document.getElementById('drink-container');
 
-    // ล้างข้อความ "กำลังโหลด..." ออก
+    // ล้างข้อความโหลด
     breadContainer.innerHTML = '';
     cakeContainer.innerHTML = '';
     drinkContainer.innerHTML = '';
 
-    // สร้างตัวนับลำดับแยกตามหมวดหมู่
-    let breadCount = 1;
-    let cakeCount = 1;
-    let drinkCount = 1;
-
     data.forEach(item => {
         const category = item['หมวดหมู่'];
         const name = item['ชื่อขนม'] || 'ไม่มีชื่อ';
-        const imgUrl = item['ลิงก์รูปภาพ'] || '';
+        let imgUrl = item['ลิงก์รูปภาพ'] || '';
         const artist = item['นักวาด'] || '-';
-        const artistLink = item['ลิงก์นักวาด'] || ''; // ดึงข้อมูลลิงก์นักวาดมา (ถ้าไม่มีจะเป็นค่าว่าง)
+        const artistLink = item['ลิงก์นักวาด'] || ''; 
         const price = item['มูลค่า'] || '-';
         const link = item['ลิงก์เพิ่มเติม'] || '#';
 
-        // เช็คว่ามีลิงก์นักวาดไหม?
+        // 🌟 แปลงลิงก์ Google Drive อัตโนมัติ
+        if (imgUrl.includes('drive.google.com/file/d/')) {
+            const match = imgUrl.match(/\/d\/(.+?)\//);
+            if (match && match[1]) {
+                imgUrl = `https://drive.google.com/uc?export=view&id=${match[1]}`;
+            }
+        }
+
+        // 🌟 ซ่อน/แสดง ลิงก์นักวาดแบบอัตโนมัติ
         let artistDisplay = artist; 
         if (artistLink.trim() !== '') {
-            // ถ้ามีลิงก์ ให้ครอบชื่อด้วย <a>
             artistDisplay = `<a href="${artistLink}" target="_blank" style="color: var(--darker); text-decoration: underline; font-weight: 500;">${artist}</a>`;
         }
 
-        // ตัวแปรสำหรับเก็บว่าตอนนี้เป็นลำดับที่เท่าไหร่
-        let currentNumber = 0;
         let targetContainer = null;
 
-        // เช็คหมวดหมู่เพื่อรันลำดับเลขให้ถูกต้อง
+        // แยกหมวดหมู่
         if (category === 'ขนมปัง') {
-            currentNumber = breadCount++;
             targetContainer = breadContainer;
         } else if (category === 'เค้ก') {
-            currentNumber = cakeCount++;
             targetContainer = cakeContainer;
         } else if (category === 'เครื่องดื่ม') {
-            currentNumber = drinkCount++;
             targetContainer = drinkContainer;
         }
 
-        // ถ้าพิมพ์หมวดหมู่มาผิด ข้ามไปเลย
-        if (!targetContainer) return;
+        if (!targetContainer) return; // ข้ามถ้าหมวดหมู่ไม่ตรง
 
-        // สร้าง HTML
+        // สร้าง HTML โดยเอาตัวเลขออกไปแล้ว
         const cardHTML = `
         <div class="menu-card">
             <div class="menu-header" onclick="toggleMenu(this)">
                 <img src="${imgUrl}" alt="${name}" class="menu-img">
                 <div class="menu-title-row">
-                    <div class="menu-title">( ${currentNumber} ) ${name}</div>
+                    <div class="menu-title">${name}</div>
                     <div class="menu-icon">▼</div>
                 </div>
             </div>
@@ -478,11 +474,10 @@ function displayData(data) {
         </div>
         `;
 
-        // เอาไปใส่ในหน้าเว็บ
         targetContainer.innerHTML += cardHTML;
     });
 
-    // แจ้งเตือนถ้าหมวดไหนไม่มีข้อมูล
+    // แสดงข้อความถ้าหมวดไหนยังไม่มีข้อมูล
     if(breadContainer.innerHTML === '') breadContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
     if(cakeContainer.innerHTML === '') cakeContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
     if(drinkContainer.innerHTML === '') drinkContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
