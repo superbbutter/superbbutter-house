@@ -371,7 +371,6 @@ h1 {
 </div>
 
 <script>
-// สลับหน้าเมนูด้านล่าง
 function showPage(pageId, element) {
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.remove('active'));
@@ -384,17 +383,12 @@ function showPage(pageId, element) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// เปิด-ปิด กล่องรายละเอียดเมนู OC
 function toggleMenu(headerElement) {
     const card = headerElement.parentElement;
     card.classList.toggle('open');
 }
 
-// ==========================================
-// ส่วนดึงข้อมูลจาก Google Sheets (ฉบับสมบูรณ์ แบบไม่มีเลขหน้าชื่อ)
-// ==========================================
-
-// 🚨 นำ URL ที่ได้จาก Apps Script มาวางในเครื่องหมายคำพูดด้านล่าง
+// ลิงก์ของคุณ (ไม่ต้องแก้แล้ว)
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
 async function fetchData() {
@@ -415,7 +409,6 @@ function displayData(data) {
     const cakeContainer = document.getElementById('cake-container');
     const drinkContainer = document.getElementById('drink-container');
 
-    // ล้างข้อความโหลด
     breadContainer.innerHTML = '';
     cakeContainer.innerHTML = '';
     drinkContainer.innerHTML = '';
@@ -429,15 +422,15 @@ function displayData(data) {
         const price = item['มูลค่า'] || '-';
         const link = item['ลิงก์เพิ่มเติม'] || '#';
 
-        // 🌟 แปลงลิงก์ Google Drive อัตโนมัติ
+        // 🌟 อัปเดตการดึงรูปภาพจาก Google Drive ให้โชว์ 100% 🌟
         if (imgUrl.includes('drive.google.com/file/d/')) {
             const match = imgUrl.match(/\/d\/(.+?)\//);
             if (match && match[1]) {
-                imgUrl = `https://drive.google.com/uc?export=view&id=${match[1]}`;
+                // ใช้ API thumbnail ตัวใหม่ของ Google ป้องกันการโดนบล็อก
+                imgUrl = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
             }
         }
 
-        // 🌟 ซ่อน/แสดง ลิงก์นักวาดแบบอัตโนมัติ
         let artistDisplay = artist; 
         if (artistLink.trim() !== '') {
             artistDisplay = `<a href="${artistLink}" target="_blank" style="color: var(--darker); text-decoration: underline; font-weight: 500;">${artist}</a>`;
@@ -445,46 +438,4 @@ function displayData(data) {
 
         let targetContainer = null;
 
-        // แยกหมวดหมู่
         if (category === 'ขนมปัง') {
-            targetContainer = breadContainer;
-        } else if (category === 'เค้ก') {
-            targetContainer = cakeContainer;
-        } else if (category === 'เครื่องดื่ม') {
-            targetContainer = drinkContainer;
-        }
-
-        if (!targetContainer) return; // ข้ามถ้าหมวดหมู่ไม่ตรง
-
-        // สร้าง HTML โดยเอาตัวเลขออกไปแล้ว
-        const cardHTML = `
-        <div class="menu-card">
-            <div class="menu-header" onclick="toggleMenu(this)">
-                <img src="${imgUrl}" alt="${name}" class="menu-img">
-                <div class="menu-title-row">
-                    <div class="menu-title">${name}</div>
-                    <div class="menu-icon">▼</div>
-                </div>
-            </div>
-            <div class="menu-details">
-                <div class="detail-text">🎨 <strong>นักวาด:</strong> ${artistDisplay}</div>
-                <div class="detail-text">💰 <strong>มูลค่า:</strong> ${price}</div>
-                <a href="${link}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
-            </div>
-        </div>
-        `;
-
-        targetContainer.innerHTML += cardHTML;
-    });
-
-    // แสดงข้อความถ้าหมวดไหนยังไม่มีข้อมูล
-    if(breadContainer.innerHTML === '') breadContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
-    if(cakeContainer.innerHTML === '') cakeContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
-    if(drinkContainer.innerHTML === '') drinkContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
-}
-
-fetchData();
-</script>
-
-</body>
-</html>
