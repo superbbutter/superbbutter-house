@@ -287,12 +287,12 @@ h1 {
 
 <div id="deleteModal" class="modal">
   <div class="modal-content">
-    <h3>📢 แจ้งถอนการติดตั้ง</h3>
-    <p style="font-size: 13px; margin: 10px 0;">กรุณาระบุชื่อและรหัสลับเพื่อลบข้อมูลค่ะ</p>
-    <input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม / ตัวละคร">
-    <input type="password" id="delPin" class="modal-input" placeholder="รหัสลับ 4 หลัก">
+    <h3>🗑️ ลบข้อมูล</h3>
+    <p style="font-size: 13px; margin: 10px 0;">กรุณาระบุชื่อและป้อนรหัสเพื่อลบข้อมูลค่ะ</p>
+    <input type="text" id="delName" class="modal-input" placeholder="ชื่อตัวละคร">
+    <input type="password" id="delPin" class="modal-input" placeholder="รหัสลบข้อมูล">
     <button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ยืนยันการลบ</button>
-    <span class="btn-close-modal" onclick="closeDeleteModal()">ยกเลิกและกลับหน้าหลัก</span>
+    <span class="btn-close-modal" onclick="closeDeleteModal()">ยกเลิก</span>
   </div>
 </div>
 
@@ -350,7 +350,7 @@ async function confirmDelete() {
       alert("ลบข้อมูลเรียบร้อยแล้วค่ะ! หน้าเว็บจะรีเฟรชอัตโนมัติ");
       location.reload();
     } else {
-      alert("ชื่อหรือรหัสลับไม่ถูกต้องค่ะ ไม่สามารถลบได้ 🥲");
+      alert("ชื่อหรือรหัสไม่ถูกต้องค่ะ ไม่สามารถลบได้ 🥲");
     }
   }
 }
