@@ -68,7 +68,7 @@ h1 {
   box-shadow: 0 8px 25px rgba(120, 53, 15, 0.1);
   z-index: 1000;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  margin-bottom: 5px;
+  margin-bottom: 5px; /* ลดระยะห่างลง */
 }
 
 .nav-item {
@@ -85,7 +85,6 @@ h1 {
   padding: 6px 10px;
   border-radius: 20px;
   width: 25%;
-  text-align: center;
 }
 
 .nav-item.active { background: var(--dark); color: #fff; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2); }
@@ -117,7 +116,7 @@ h1 {
 
 .container {
   width: 100%;
-  padding: 10px 15px 50px;
+  padding: 10px 15px 50px; /* ปรับลดพื้นที่ว่างด้านล่าง */
 }
 
 .page { display: none; animation: fadeIn 0.4s ease; }
@@ -156,13 +155,13 @@ h1 {
 .menu-icon { font-size: 12px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #FFF8D6; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
 .menu-card.open .menu-icon { transform: rotate(180deg); background: var(--main); }
 .menu-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: rgba(255, 255, 255, 0.5); padding: 0 15px; }
-.menu-card.open .menu-details { max-height: 500px; padding: 10px 15px 15px; }
+.menu-card.open .menu-details { max-height: 300px; padding: 10px 15px 15px; }
 .detail-text { font-size: 14px; margin-bottom: 8px; color: var(--darker); }
 
 .btn-view { display: inline-block; margin-top: 5px; background: linear-gradient(135deg, var(--main), #FDE047); color: var(--darker); padding: 10px 20px; border-radius: 25px; text-decoration: none; font-size: 13px; font-weight: 600; text-align: center; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
 .btn-view:hover { transform: translateY(-2px); }
 
-.rule-box { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 15px; font-size: 13px; line-height: 1.6; border: 1px dashed var(--main); }
+.rule-box { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 15px; font-size: 13px; line-height: 1.6; border: 1px dashed var(--main); text-align: left; }
 .highlight { color: #b91c1c; font-weight: 500; } 
 .btn-accept { font-size: 16px; padding: 15px; margin-top: 15px; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
@@ -176,7 +175,7 @@ h1 {
 .socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
-.loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; font-style: italic; }
+.loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; }
 </style>
 </head>
 
@@ -193,6 +192,11 @@ h1 {
       <p>꩜ .ᐟ ก่อนก้าวเข้าสู่ครัวขนมของเรา กรุณาทำตามประกาศอย่างเคร่งครัด !</p>
       <p>♡ สามารถชื่นชมเด็กๆ ได้แต่ขอความร่วมมือ <span style="text-decoration: underline;">แจ้งให้ทางร้านทราบก่อนนะคะ</span></p>
       <p class="highlight">❯❯ หากพบพฤติกรรมไม่เหมาะสม ทางร้านขอเชิญออกจากครัวทันทีค่ะ !!</p>
+    </div>
+    <h2 style="margin-top: 20px;">📋 ประกาศจากหน้าเตาอบ</h2>
+    <div class="rule-box" style="background: rgba(255,255,255,0.9); border-color: #b91c1c;">
+      <p class="highlight">⚠︎ Warning</p>
+      <p>✘ ห้ามคัดลอกดีไซน์ นำไปดัดแปลง หรือจำหน่ายต่อโดยเด็ดขาด</p>
     </div>
     <button class="btn-view btn-accept" onclick="acceptRules()">✅ ล้างมือและเข้าสู่ครัว</button>
   </div>
@@ -229,7 +233,7 @@ h1 {
         <h2>🍞 เมนูขนมปัง</h2>
         <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ</p>
         <div id="bread-container">
-            <div class="loading-text">กำลังนวดแป้งและอบขนมปัง... 🥖</div>
+          <div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div>
         </div>
       </div>
     </div>
@@ -239,7 +243,7 @@ h1 {
         <h2>🍰 เมนูเค้ก</h2>
         <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ</p>
         <div id="cake-container">
-            <div class="loading-text">กำลังตีครีมและแต่งหน้าเค้ก... 🎂</div>
+          <div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div>
         </div>
       </div>
     </div>
@@ -249,7 +253,7 @@ h1 {
         <h2>🍵 เมนูเครื่องดื่ม</h2>
         <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ</p>
         <div id="drink-container">
-            <div class="loading-text">กำลังชงเครื่องดื่มเย็นๆ... 🥤</div>
+          <div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div>
         </div>
       </div>
     </div>
@@ -261,10 +265,7 @@ h1 {
       </div>
       <div class="copyright">© 2026 SuperBButter Bakery. All rights reserved.</div>
     </div>
-  </div>
-</div>
-
-<script>
+  </div> </div> <script>
 function acceptRules() {
   const gate = document.getElementById('rules-gate');
   const mainWrapper = document.getElementById('main-wrapper');
@@ -291,7 +292,6 @@ function toggleMenu(headerElement) {
   headerElement.parentElement.classList.toggle('open');
 }
 
-// 🚨 URL ของคุณ
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
 async function fetchData() {
@@ -301,11 +301,6 @@ async function fetchData() {
     displayData(data);
   } catch (error) {
     console.error('Error:', error);
-    // แสดงข้อความ Error ถ้าโหลดไม่สำเร็จ
-    const errorMsg = '<div class="loading-text" style="color:#b91c1c;">เกิดข้อผิดพลาดในการดึงข้อมูลจากเตาอบค่ะ 🥲</div>';
-    document.getElementById('bread-container').innerHTML = errorMsg;
-    document.getElementById('cake-container').innerHTML = errorMsg;
-    document.getElementById('drink-container').innerHTML = errorMsg;
   }
 }
 
@@ -315,8 +310,6 @@ function displayData(data) {
     'เค้ก': document.getElementById('cake-container'),
     'เครื่องดื่ม': document.getElementById('drink-container')
   };
-  
-  // ล้างข้อความ Loading ออกเพื่อเตรียมใส่ข้อมูลจริง
   Object.values(containers).forEach(c => c.innerHTML = '');
 
   data.forEach(item => {
@@ -348,15 +341,11 @@ function displayData(data) {
       </div>`;
   });
 
-  // เช็คว่าหน้าไหนไม่มีข้อมูลเลย ให้ขึ้นข้อความแจ้ง
   Object.keys(containers).forEach(key => {
-    if (containers[key].innerHTML === '') {
-        containers[key].innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>';
-    }
+    if (containers[key].innerHTML === '') containers[key].innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>';
   });
 }
 
-// เริ่มโหลดข้อมูลทันที
 fetchData();
 </script>
 </body>
