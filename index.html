@@ -34,7 +34,6 @@ body {
 
 body.locked { overflow: hidden; }
 
-/* 🌟 Header 🌟 */
 header {
   width: 100%;
   display: flex;
@@ -91,7 +90,6 @@ h1 {
 
 .nav-item.active { background: var(--dark); color: #fff; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2); }
 
-/* Rules Gate Area */
 #rules-gate {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -153,14 +151,17 @@ h1 {
 .menu-card:hover { transform: translateY(-3px); }
 .menu-header { display: block; cursor: pointer; }
 .menu-title-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; }
-.menu-title { font-weight: 500; color: var(--dark); font-size: 15px; }
+.menu-title { font-weight: 500; color: var(--dark); font-size: 15px; line-height: 1.3; }
+
+/* 🌟 สไตล์ใหม่สำหรับคำบรรยายใต้ชื่อ 🌟 */
+.menu-slogan { font-size: 12px; color: var(--dark); opacity: 0.7; font-weight: 400; margin-top: 2px; }
+
 .menu-icon { font-size: 12px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #FFF8D6; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
 .menu-card.open .menu-icon { transform: rotate(180deg); background: var(--main); }
 
 .menu-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: rgba(255, 255, 255, 0.5); padding: 0 15px; }
-.menu-card.open .menu-details { max-height: 500px; padding: 10px 15px 15px; }
+.menu-card.open .menu-details { max-height: 600px; padding: 10px 15px 15px; }
 
-/* แก้ไขให้ข้อความ Detail อยู่กึ่งกลางอีโมจิเป๊ะๆ */
 .detail-text { 
   font-size: 14px; 
   margin-bottom: 8px; 
@@ -187,14 +188,12 @@ h1 {
 
 .mini-contact { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.3); }
 .socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
-.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); transition: var(--transition); }
+.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
-/* 🌟 Popup Modals 🌟 */
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); overflow-y: auto; }
 .modal-content { background: var(--bg); margin: 5% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 450px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
 .modal-input, .modal-select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: left; background: #fff; }
-.modal-select { cursor: pointer; }
 .modal-label { display: block; text-align: left; font-size: 12px; font-weight: 600; margin-top: 5px; color: var(--dark); }
 .btn-confirm { background: var(--main); color: var(--darker); margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
 .btn-delete-confirm { background: #b91c1c; color: #fff; margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; }
@@ -294,7 +293,6 @@ h1 {
 <div id="addAuthModal" class="modal">
   <div class="modal-content">
     <h3>🔑 เข้าสู่ระบบหลังเตา</h3>
-    <p style="font-size: 13px; margin: 10px 0;">กรุณาใส่รหัสเพื่อเข้าสู่ฟอร์มเพิ่มข้อมูล</p>
     <input type="password" id="addMasterPin" class="modal-input" placeholder="รหัสผ่าน">
     <button class="btn-confirm" onclick="checkAddAuth()">ยืนยันรหัส</button>
     <span class="btn-close-modal" onclick="closeModal('addAuthModal')">ยกเลิก</span>
@@ -314,6 +312,9 @@ h1 {
 
     <label class="modal-label">ชื่อขนม *</label>
     <input type="text" id="charName" class="modal-input" placeholder="ระบุชื่อ">
+
+    <label class="modal-label">คำรรยาย (คำโปรยเพิ่มเติม)</label>
+    <input type="text" id="charDesc" class="modal-input" placeholder="ใส่คำโปรยสั้นๆ (ถ้ามี)">
 
     <label class="modal-label">ลิ้งก์รูปตัวละคร * (Drive + สาธารณะ)</label>
     <input type="text" id="charImg" class="modal-input" placeholder="https://drive.google.com/...">
@@ -338,7 +339,6 @@ h1 {
 <div id="deleteModal" class="modal">
   <div class="modal-content">
     <h3>📢 แจ้งถอนการติดตั้ง</h3>
-    <p style="font-size: 13px; margin: 10px 0;">กรุณาระบุชื่อและรหัสลับเพื่อลบข้อมูลค่ะ</p>
     <input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม / ตัวละคร">
     <input type="password" id="delPin" class="modal-input" placeholder="รหัสผ่านเตาอบ">
     <button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ยืนยันการลบ</button>
@@ -347,7 +347,6 @@ h1 {
 </div>
 
 <script>
-// --- ส่วนคงที่ห้ามเปลี่ยน ---
 function acceptRules() {
   const gate = document.getElementById('rules-gate');
   const mainWrapper = document.getElementById('main-wrapper');
@@ -387,11 +386,20 @@ function checkAddAuth() {
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
-// 🌟 ฟังก์ชันส่งข้อมูลไปยัง Google Form 🌟
+async function fetchData() {
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    displayData(data);
+  } catch (error) { console.error('Error:', error); }
+}
+
+// 🌟 ฟังก์ชันส่งข้อมูลไปยัง Google Form (เพิ่มหัวข้อ คำบรรยาย) 🌟
 function submitNewCharacter() {
     const data = {
         category: document.getElementById('charCategory').value,
         name: document.getElementById('charName').value,
+        desc: document.getElementById('charDesc').value, // เพิ่มหัวข้อนี้
         img: document.getElementById('charImg').value,
         artist: document.getElementById('charArtist').value,
         artistLink: document.getElementById('charArtistLink').value,
@@ -403,38 +411,22 @@ function submitNewCharacter() {
         return alert("กรุณากรอกข้อมูลในช่องที่มี * ให้ครบถ้วนค่ะ");
     }
 
-    // สร้าง Form เสมือนเพื่อส่งข้อมูล (ใช้ Entry ID จากที่คุณส่งมา)
     const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeE5PmUTSmDN-dJ97oABe23DgAqubMoPzkAOPAtWLKTy3ckg/formResponse";
     
     const params = new URLSearchParams();
     params.append('entry.1342287640', data.category);
     params.append('entry.1240441369', data.name);
+    params.append('entry.590471728', data.desc); // 🌟 ID ของคำบรรยาย
     params.append('entry.57350701', data.img);
     params.append('entry.1596328020', data.artist);
     params.append('entry.632817786', data.artistLink);
     params.append('entry.825859639', data.price);
     params.append('entry.232575950', data.more);
 
-    // ส่งข้อมูลแบบ no-cors (Google Form รองรับการรับข้อมูลแบบนี้)
-    fetch(formUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: params
-    }).then(() => {
-        alert("อบขนมสำเร็จ! ข้อมูลถูกส่งไปยังระบบแล้วค่ะ (อาจใช้เวลาอัปเดตสักครู่)");
+    fetch(formUrl, { method: 'POST', mode: 'no-cors', body: params }).then(() => {
+        alert("อบขนมสำเร็จ! ข้อมูลถูกส่งไปยังระบบแล้วค่ะ");
         location.reload();
-    }).catch(err => {
-        alert("เกิดข้อผิดพลาดในการส่งข้อมูลค่ะ");
-    });
-}
-
-// --- ส่วนที่เหลือคงเดิม ---
-async function fetchData() {
-  try {
-    const response = await fetch(API_URL);
-    const data = await response.json();
-    displayData(data);
-  } catch (error) { console.error('Error:', error); }
+    }).catch(err => { alert("เกิดข้อผิดพลาดในการส่งข้อมูลค่ะ"); });
 }
 
 async function confirmDelete() {
@@ -461,12 +453,19 @@ function displayData(data) {
       if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
     }
     const artistDisplay = item['ลิงก์นักวาด'] ? `<a href="${item['ลิงก์นักวาด']}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
+    
+    // 🌟 ดึงข้อมูล คำโปรย มาแสดงใต้ชื่อ 🌟
+    const sloganHTML = item['คำรรยาย'] ? `<div class="menu-slogan">${item['คำรรยาย']}</div>` : '';
+
     target.innerHTML += `
       <div class="menu-card">
         <div class="menu-header" onclick="toggleMenu(this)">
           <img src="${imgUrl}" alt="${item['ชื่อขนม']}" class="menu-img">
           <div class="menu-title-row">
-            <div class="menu-title">${item['ชื่อขนม']}</div>
+            <div>
+                <div class="menu-title">${item['ชื่อขนม']}</div>
+                ${sloganHTML}
+            </div>
             <div class="menu-icon">▼</div>
           </div>
         </div>
