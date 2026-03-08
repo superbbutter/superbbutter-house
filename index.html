@@ -33,10 +33,30 @@ body {
 
 body.locked { overflow: hidden; }
 
-/* 🌟 ส่วนที่แก้ไข: ย้าย Nav Bar มาไว้ด้านบน (Sticky Header) 🌟 */
+/* 🌟 ส่วน Header ที่จะแสดงในทุกหน้า 🌟 */
+header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  background: transparent;
+}
+
+.logo-wrapper { position: relative; width: 150px; height: 150px; margin-bottom: 10px; }
+.logo { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: 0 10px 30px var(--glow); transition: var(--transition); border: 5px solid #fff; position: relative; z-index: 2; }
+.logo img { width: 100%; height: 100%; object-fit: cover; background-color: #fff; }
+
+h1 { 
+  font-size: 28px; 
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, var(--darker), var(--dark)); 
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+  font-weight: 600;
+}
+
 .nav-bar {
-  position: sticky; 
-  top: 15px; /* เว้นระยะจากขอบบนเล็กน้อยให้ดูมีมิติ */
   width: 95%; 
   max-width: 450px;
   backdrop-filter: blur(15px);
@@ -74,8 +94,7 @@ body.locked { overflow: hidden; }
   box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
 }
 
-/* ------------------------------------------- */
-
+/* Rules Gate */
 #rules-gate {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -96,13 +115,13 @@ body.locked { overflow: hidden; }
   animation: fadeIn 0.6s ease;
 }
 
+/* Main Wrapper */
 #main-wrapper {
   display: none;
   width: 100%;
   max-width: 500px;
   opacity: 0;
   transition: opacity 0.5s ease;
-  padding-top: 10px;
 }
 
 .container {
@@ -128,53 +147,24 @@ body.locked { overflow: hidden; }
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-h1, h2, h3 { color: var(--darker); margin-bottom: 15px; font-weight: 600; }
-h1 { 
-  font-size: 28px; 
-  background: linear-gradient(90deg, var(--darker), var(--dark)); 
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-}
-.center { text-align: center; }
-
-.logo-wrapper { position: relative; width: 150px; height: 150px; margin: 0 auto 20px; }
-.logo { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: 0 10px 30px var(--glow); transition: var(--transition); border: 5px solid #fff; position: relative; z-index: 2; }
-.logo img { width: 100%; height: 100%; object-fit: cover; background-color: #fff; }
-.logo-wrapper:hover .logo { transform: scale(1.03) rotate(2deg); }
-
-.floating-emoji { position: absolute; font-size: 24px; z-index: 5; animation: floatEmoji 3s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
-.emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } 
-.emoji-2 { top: 20px; right: -20px; animation-delay: 0.7s; } 
-.emoji-3 { bottom: 15px; left: -15px; animation-delay: 1.4s; } 
-.emoji-4 { bottom: -5px; right: -10px; animation-delay: 2.1s; font-size: 28px; } 
-
-@keyframes floatEmoji { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(8deg); } }
-
-.desc { font-size: 14px; line-height: 1.6; opacity: 0.9; margin-bottom: 20px; }
-.rule-box { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 15px; font-size: 13.5px; line-height: 1.7; margin-bottom: 15px; border: 1px dashed var(--main); text-align: left; }
-.rule-box p { margin-bottom: 8px; }
-.rule-box p:last-child { margin-bottom: 0; }
-.highlight { color: #b91c1c; font-weight: 500; } 
-
-.menu-card { background: rgba(255, 255, 255, 0.85); border: 1px solid var(--main); border-radius: 20px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.05); transition: var(--transition); }
-.menu-card:hover { box-shadow: 0 8px 20px var(--glow); transform: translateY(-3px); }
-.menu-header { display: block; cursor: pointer; }
-
+/* 🌟 สัดส่วนรูปภาพ 879:1024 🌟 */
 .menu-img { 
   width: 100%; 
   height: auto; 
-  aspect-ratio: 4 / 5; 
+  aspect-ratio: 879 / 1024; 
   object-fit: cover; 
   display: block; 
   background-color: #FFF8D6; 
   border-bottom: 1px solid rgba(251, 191, 36, 0.3); 
 }
 
+.menu-card { background: rgba(255, 255, 255, 0.85); border: 1px solid var(--main); border-radius: 20px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.05); transition: var(--transition); }
+.menu-card:hover { box-shadow: 0 8px 20px var(--glow); transform: translateY(-3px); }
+.menu-header { display: block; cursor: pointer; }
 .menu-title-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; }
 .menu-title { font-weight: 500; color: var(--dark); font-size: 16px; }
 .menu-icon { font-size: 14px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #FFF8D6; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
 .menu-card.open .menu-icon { transform: rotate(180deg); background: var(--main); }
-
 .menu-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; background: rgba(255, 255, 255, 0.5); padding: 0 15px; }
 .menu-card.open .menu-details { max-height: 200px; padding: 0px 15px 15px; }
 .detail-text { font-size: 14px; margin-bottom: 8px; color: var(--darker); }
@@ -182,17 +172,22 @@ h1 {
 .btn-view { display: inline-block; margin-top: 5px; background: linear-gradient(135deg, var(--main), #FDE047); color: var(--darker); padding: 10px 20px; border-radius: 25px; text-decoration: none; font-size: 13.5px; font-weight: 600; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.4); transition: var(--transition); text-align: center; width: 100%; cursor: pointer; border: none; }
 .btn-view:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(251, 191, 36, 0.6); }
 
+.floating-emoji { position: absolute; font-size: 24px; z-index: 5; animation: floatEmoji 3s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+.emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } 
+.emoji-2 { top: 20px; right: -20px; animation-delay: 0.7s; } 
+.emoji-3 { bottom: 15px; left: -15px; animation-delay: 1.4s; } 
+.emoji-4 { bottom: -5px; right: -10px; animation-delay: 2.1s; font-size: 28px; } 
+@keyframes floatEmoji { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(8deg); } }
+
+.rule-box { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 15px; font-size: 13.5px; line-height: 1.7; margin-bottom: 15px; border: 1px dashed var(--main); text-align: left; }
+.highlight { color: #b91c1c; font-weight: 500; } 
 .btn-accept { font-size: 16px; padding: 15px; width: 100%; margin-top: 10px; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
 
 .mini-contact { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.5); }
-.mini-contact-title { font-size: 13px; font-weight: 500; margin-bottom: 10px; color: var(--darker); }
 .socials-mini { display: flex; gap: 10px; justify-content: center; }
 .socials-mini a { padding: 8px 20px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 13px; font-weight: 500; border: 1px solid var(--main); transition: var(--transition); }
-.socials-mini a:hover { background: var(--main); color: var(--darker); }
 .copyright { font-size: 11px; opacity: 0.6; margin-top: 15px; text-align: center; }
-
-.loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; }
 </style>
 </head>
 
@@ -204,7 +199,7 @@ h1 {
             <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         
-        <h2 style="font-size: 20px;">📋 กติกาการเข้าชมครัว</h2>
+        <h2>📋 กติกาการเข้าชมครัว</h2>
         <div class="rule-box">
             <p><strong>₊˚ෆ อ่านรายละเอียดให้ครบถ้วน ୭˚. ᵎᵎ</strong></p>
             <p>꩜ .ᐟ ก่อนก้าวเข้าสู่ครัวขนมของเรา กรุณาทำตามประกาศอย่างเคร่งครัด เพื่อไม่ให้แป้งเลอะ หรือ เตาอบเสียอุณหภูมิ !</p>
@@ -212,46 +207,43 @@ h1 {
             <p class="highlight">❯❯❯❯ หากพบพฤติกรรมที่ทำให้บรรยากาศร้านเสีย ทางร้านขอเชิญออกจากครัวทันที และขอปิดเตาไม่รับออเดอร์ในอนาคตค่ะ !!</p>
         </div>
 
-        <h2 style="font-size: 20px; margin-top: 25px;">📋 .ᐟ.ᐟ ประกาศจากหน้าเตาอบ</h2>
+        <h2 style="margin-top: 25px;">📋 .ᐟ.ᐟ ประกาศจากหน้าเตาอบ</h2>
         <div class="rule-box" style="background: rgba(255,255,255,0.9); border-color: #b91c1c;">
             <p class="highlight">⚠︎ Warning ❮❮</p>
             <p>✘ ห้ามเก็บบันทึก หรือ คัดลอกดีไซน์ของเด็กๆ ห้ามนำดีไซน์ไปดัดแปลง อบซ้ำ ทำซ้ำ หรือ นำไปจำหน่ายต่อ</p>
-            <p>╰┈➤ หากตรวจพบการละเมิดทางร้านและเชฟจะเรียกเก็บค่าเสียหายตามสมควร</p>
         </div>
         
-        <p style="font-size: 13px; margin-bottom: 15px;">
-            <strong>ⓘ หากต้องการสอบถาม :</strong><br>กรุณาแจ้งชื่อขนมหรือแนบรูปแคปจากหน้าร้านเพื่อพูดคุยเท่านั้นนะคะ
-        </p>
-
         <button class="btn-view btn-accept" onclick="acceptRules()">✅ ล้างมือและเข้าสู่ครัว</button>
     </div>
 </div>
 
 <div id="main-wrapper">
-    <nav class="nav-bar">
-        <div class="nav-item active" onclick="showPage('home', this)">🏠<br>โฮม</div>
-        <div class="nav-item" onclick="showPage('bread', this)">🍞<br>ขนมปัง</div>
-        <div class="nav-item" onclick="showPage('cake', this)">🍰<br>เค้ก</div>
-        <div class="nav-item" onclick="showPage('drink', this)">🍵<br>เครื่องดื่ม</div>
-    </nav>
+    <header>
+        <div class="logo-wrapper">
+            <div class="floating-emoji emoji-1">🧸</div>
+            <div class="floating-emoji emoji-2">🧈</div>
+            <div class="floating-emoji emoji-3">🥞</div>
+            <div class="floating-emoji emoji-4">⭐️</div>
+            <div class="logo">
+                <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="SuperBButter Logo">
+            </div>
+        </div>
+        <h1>SuperBButter</h1>
+
+        <nav class="nav-bar">
+            <div class="nav-item active" onclick="showPage('home', this)">🏠<br>โฮม</div>
+            <div class="nav-item" onclick="showPage('bread', this)">🍞<br>ขนมปัง</div>
+            <div class="nav-item" onclick="showPage('cake', this)">🍰<br>เค้ก</div>
+            <div class="nav-item" onclick="showPage('drink', this)">🍵<br>เครื่องดื่ม</div>
+        </nav>
+    </header>
 
     <div class="container">
         <div id="home" class="page active">
-            <div class="section center" style="border:none;box-shadow:none;background:transparent; backdrop-filter: none; padding-bottom: 0;">
-                <div class="logo-wrapper">
-                    <div class="floating-emoji emoji-1">🧸</div>
-                    <div class="floating-emoji emoji-2">🧈</div>
-                    <div class="floating-emoji emoji-3">🥞</div>
-                    <div class="floating-emoji emoji-4">⭐️</div>
-                    <div class="logo">
-                        <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="SuperBButter Logo">
-                    </div>
-                </div>
-
-                <h1>SuperBButter</h1>
-                <div class="desc">
-                    <p>เบเกอรี่เล็ก ๆ ที่เต็มไปด้วยขนมจากเชฟยอดฝีมือ 👩🏻‍🍳</p>
-                    <p style="margin-top: 5px;">เด็ก ๆ ทุกคนคือขนมภายในร้านที่แสนอร่อย<br>ส่วนนักวาดก็คือเหล่าเชฟชั้นยอดที่รังสรรค์เด็ก ๆ ขึ้นมา ✨</p>
+            <div class="section center" style="border:none;box-shadow:none;background:transparent; backdrop-filter: none; padding-top: 0;">
+                <div class="rule-box" style="text-align: center; border-color: var(--main);">
+                    <p style="font-size: 14px; font-weight: 500;">ยินดีต้อนรับสู่ครัวขนมของเราค่ะ 🧁</p>
+                    <p style="font-size: 13px; opacity: 0.9;">ขอบคุณที่ให้ความร่วมมือในการอ่านกติกานะคะ<br>เชิญเลือกชมเมนูที่แถบด้านบนได้เลยค่ะ 👇</p>
                 </div>
             </div>
         </div>
@@ -259,32 +251,25 @@ h1 {
         <div id="bread" class="page">
             <div class="section">
                 <h2>🍞 เมนูขนมปัง</h2>
-                <div id="bread-container">
-                    <div class="loading-text">กำลังอบขนมปัง... 👩🏻‍🍳</div>
-                </div>
+                <div id="bread-container"></div>
             </div>
         </div>
 
         <div id="cake" class="page">
             <div class="section">
                 <h2>🍰 เมนูเค้ก</h2>
-                <div id="cake-container">
-                    <div class="loading-text">กำลังแต่งหน้าเค้ก... 👩🏻‍🍳</div>
-                </div>
+                <div id="cake-container"></div>
             </div>
         </div>
 
         <div id="drink" class="page">
             <div class="section">
                 <h2>🍵 เมนูเครื่องดื่ม</h2>
-                <div id="drink-container">
-                    <div class="loading-text">กำลังชงเครื่องดื่ม... 👩🏻‍🍳</div>
-                </div>
+                <div id="drink-container"></div>
             </div>
         </div>
 
         <div class="mini-contact">
-            <div class="mini-contact-title">📱 ช่องทางติดต่อเชฟ (Contact)</div>
             <div class="socials-mini">
                 <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank">Facebook</a>
                 <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank">Line</a>
@@ -301,7 +286,7 @@ function acceptRules() {
     gate.style.opacity = '0';
     setTimeout(() => {
         gate.style.display = 'none';
-        mainWrapper.style.display = 'flex'; // เปลี่ยนเป็น flex เพื่อให้จัดวาง nav-bar ได้ง่ายขึ้น
+        mainWrapper.style.display = 'flex';
         mainWrapper.style.flexDirection = 'column';
         mainWrapper.style.alignItems = 'center';
         setTimeout(() => { mainWrapper.style.opacity = '1'; }, 50);
