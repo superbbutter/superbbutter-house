@@ -139,31 +139,6 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* 🌟 หัวข้อหมวดหมู่ 🌟 */
-.category-header {
-    display: inline-flex;
-    align-items: center;
-    background: #fff;
-    border: 2px solid var(--main);
-    padding: 8px 25px;
-    border-radius: 50px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-.category-header h2 {
-    font-size: 18px;
-    color: var(--dark);
-    margin: 0;
-    font-weight: 600;
-}
-.category-desc {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-bottom: 30px; 
-    padding-left: 10px;
-    line-height: 1.6;
-}
-
 .menu-img { 
   width: 100%; 
   height: auto; 
@@ -200,6 +175,7 @@ h1 {
 .rule-box { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 15px; font-size: 13px; line-height: 1.6; border: 1px dashed var(--main); text-align: left; }
 .highlight { color: #b91c1c; font-weight: 500; } 
 .btn-accept { font-size: 16px; padding: 15px; margin-top: 15px; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
 
 .floating-emoji { position: absolute; font-size: 24px; z-index: 5; animation: floatEmoji 3s infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 .emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } 
@@ -213,25 +189,25 @@ h1 {
 .socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); transition: var(--transition); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
-/* 🌟 ปรับปรุงส่วนแจ้งเตือนให้กึ่งกลาง 🌟 */
-.loading-text { 
-    width: 100%;
-    text-align: center; 
-    padding: 60px 20px; 
-    color: var(--dark); 
-    font-size: 16px; 
-    font-weight: 500;
-    display: block;
-    clear: both;
-}
+/* 🌟 Popup Modals 🌟 */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); overflow-y: auto; }
+.modal-content { background: var(--bg); margin: 5% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 450px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
+.modal-input, .modal-select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: left; background: #fff; }
+.modal-select { cursor: pointer; }
+.modal-label { display: block; text-align: left; font-size: 12px; font-weight: 600; margin-top: 5px; color: var(--dark); }
+.btn-confirm { background: var(--main); color: var(--darker); margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.btn-delete-confirm { background: #b91c1c; color: #fff; margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; }
+.btn-close-modal { color: var(--dark); font-size: 12px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: block; }
+
+.loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; }
 
 /* 🌟 Status Lights & Styles 🌟 */
 .status-light { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-.status-sp-ota { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-.status-tent { background: #eab308; box-shadow: 0 0 8px #eab308; }
-.status-forever { background: #94a3b8; }
+.status-sp-ota { background: #22c55e; box-shadow: 0 0 8px #22c55e; } /* เขียว */
+.status-tent { background: #eab308; box-shadow: 0 0 8px #eab308; }   /* เหลือง */
+.status-forever { background: #94a3b8; }                             /* เทา */
 
-/* 🌟 Manage UI 🌟 */
+/* 🌟 Manage Tab UI & Modern Arrows 🌟 */
 .manage-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; background: rgba(120, 53, 15, 0.05); padding: 5px; border-radius: 15px; }
 .manage-tab { flex: 1; padding: 10px 5px; border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 500; transition: var(--transition); text-align: center; }
 .manage-tab.active { background: var(--main); color: var(--darker); box-shadow: 0 4px 10px var(--glow); }
@@ -240,11 +216,11 @@ h1 {
 .edit-row { display: flex; justify-content: space-between; align-items: center; }
 .order-group { display: flex; gap: 8px; }
 .btn-order { 
-    width: 32px; height: 32px; border-radius: 50%; border: 1px solid #eee; background: #fff; 
+    width: 32px; height: 32px; border-radius: 50%; border: 1px solid #eee; background: #f9fafb; 
     display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; 
-    transition: 0.2s; color: var(--dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: 0.2s; color: var(--dark);
 }
-.btn-order:hover { background: var(--main); border-color: var(--main); color: var(--darker); transform: scale(1.1); }
+.btn-order:hover { background: var(--main); border-color: var(--main); color: var(--darker); }
 </style>
 </head>
 
@@ -312,24 +288,21 @@ h1 {
 
     <div id="bread" class="page">
       <div class="section">
-        <div class="category-header"><h2>🍞 เมนูขนมปัง</h2></div>
-        <p class="category-desc">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ ✨</p>
+        <h2>🍞 เมนูขนมปัง</h2>
         <div id="bread-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
     <div id="cake" class="page">
       <div class="section">
-        <div class="category-header"><h2>🍰 เมนูเค้ก</h2></div>
-        <p class="category-desc">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ ✨</p>
+        <h2>🍰 เมนูเค้ก</h2>
         <div id="cake-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
       </div>
     </div>
 
     <div id="drink" class="page">
       <div class="section">
-        <div class="category-header"><h2>🍵 เมนูเครื่องดื่ม</h2></div>
-        <p class="category-desc">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ ✨</p>
+        <h2>🍵 เมนูเครื่องดื่ม</h2>
         <div id="drink-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
       </div>
     </div>
@@ -349,33 +322,214 @@ h1 {
   </div> 
 </div>
 
-<div id="addAuthModal" class="modal"><div class="modal-content"><h3>🔑 เข้าสู่ระบบ</h3><input type="password" id="addMasterPin" class="modal-input" placeholder="รหัสผ่าน"><button class="btn-confirm" onclick="checkAddAuth()">ยืนยัน</button><span class="btn-close-modal" onclick="closeModal('addAuthModal')">ยกเลิก</span></div></div>
-<div id="addCharModal" class="modal"><div class="modal-content" style="text-align: left;"><h3 style="text-align: center;">🧁 อบขนมชิ้นใหม่</h3><label class="modal-label">หมวดหมู่ *</label><select id="charCategory" class="modal-select"><option value="ขนมปัง">ขนมปัง</option><option value="เค้ก">เค้ก</option><option value="เครื่องดื่ม">เครื่องดื่ม</option></select><label class="modal-label">ชื่อขนม *</label><input type="text" id="charName" class="modal-input"><label class="modal-label">คำบรรยาย</label><input type="text" id="charDesc" class="modal-input"><label class="modal-label">ลิ้งก์รูป *</label><input type="text" id="charImg" class="modal-input"><label class="modal-label">นักวาด *</label><input type="text" id="charArtist" class="modal-input"><label class="modal-label">ลิ้งก์นักวาด</label><input type="text" id="charArtistLink" class="modal-input"><label class="modal-label">มูลค่า *</label><input type="text" id="charPrice" class="modal-input"><label class="modal-label">ลิ้งก์เพิ่มเติม *</label><input type="text" id="charMore" class="modal-input"><button class="btn-confirm" style="width:100%" onclick="submitNewCharacter()">🚀 ส่งเข้าเตาอบ</button><span class="btn-close-modal" style="text-align: center;" onclick="closeModal('addCharModal')">กลับหน้าหลัก</span></div></div>
-<div id="editAuthModal" class="modal"><div class="modal-content"><h3>🔑 ยืนยันตัวตน</h3><input type="password" id="editMasterPin" class="modal-input" placeholder="รหัสผ่าน"><button class="btn-confirm" onclick="checkEditAuth()">ยืนยัน</button><span class="btn-close-modal" onclick="closeModal('editAuthModal')">ยกเลิก</span></div></div>
-<div id="manageModal" class="modal"><div class="modal-content" style="max-width: 480px; text-align: left;"><h3 style="text-align: center;">🎨 ปรับแต่งห้องครัว</h3><div class="manage-nav"><div class="manage-tab active" data-cat="ขนมปัง" onclick="setManageCategory(this)">ขนมปัง</div><div class="manage-tab" data-cat="เค้ก" onclick="setManageCategory(this)">เค้ก</div><div class="manage-tab" data-cat="เครื่องดื่ม" onclick="setManageCategory(this)">เครื่องดื่ม</div></div><div id="edit-list-container" style="margin-top: 5px; max-height: 400px; overflow-y: auto; padding: 5px;"></div><button class="btn-confirm" onclick="saveAllEdits()">💾 บันทึก</button><span class="btn-close-modal" style="text-align: center;" onclick="closeModal('manageModal')">ปิด</span></div></div>
-<div id="deleteModal" class="modal"><div class="modal-content"><h3>📢 แจ้งลบ</h3><input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม"><input type="password" id="delPin" class="modal-input" placeholder="รหัสลับ"><button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ลบ</button><span class="btn-close-modal" onclick="closeModal('deleteModal')">ยกเลิก</span></div></div>
+<div id="addAuthModal" class="modal">
+  <div class="modal-content">
+    <h3>🔑 เข้าสู่ระบบหลังเตา</h3>
+    <input type="password" id="addMasterPin" class="modal-input" placeholder="รหัสผ่าน">
+    <button class="btn-confirm" onclick="checkAddAuth()">ยืนยันรหัส</button>
+    <span class="btn-close-modal" onclick="closeModal('addAuthModal')">ยกเลิก</span>
+  </div>
+</div>
+
+<div id="addCharModal" class="modal">
+  <div class="modal-content" style="text-align: left;">
+    <h3 style="text-align: center;">🧁 อบขนมชิ้นใหม่</h3>
+    <label class="modal-label">หมวดหมู่ *</label>
+    <select id="charCategory" class="modal-select"><option value="ขนมปัง">ขนมปัง</option><option value="เค้ก">เค้ก</option><option value="เครื่องดื่ม">เครื่องดื่ม</option></select>
+    <label class="modal-label">ชื่อขนม *</label><input type="text" id="charName" class="modal-input">
+    <label class="modal-label">คำบรรยาย</label><input type="text" id="charDesc" class="modal-input">
+    <label class="modal-label">ลิ้งก์รูป *</label><input type="text" id="charImg" class="modal-input">
+    <label class="modal-label">นักวาด *</label><input type="text" id="charArtist" class="modal-input">
+    <label class="modal-label">ลิ้งก์นักวาด</label><input type="text" id="charArtistLink" class="modal-input">
+    <label class="modal-label">มูลค่า *</label><input type="text" id="charPrice" class="modal-input">
+    <label class="modal-label">ลิ้งก์เพิ่มเติม *</label><input type="text" id="charMore" class="modal-input">
+    <button class="btn-confirm" style="width:100%" onclick="submitNewCharacter()">🚀 ส่งเข้าเตาอบ</button>
+    <span class="btn-close-modal" style="text-align: center;" onclick="closeModal('addCharModal')">กลับหน้าหลัก</span>
+  </div>
+</div>
+
+<div id="editAuthModal" class="modal">
+  <div class="modal-content">
+    <h3>🔑 ยืนยันตัวตนเชฟ</h3>
+    <input type="password" id="editMasterPin" class="modal-input" placeholder="รหัสผ่าน">
+    <button class="btn-confirm" onclick="checkEditAuth()">ยืนยันรหัส</button>
+    <span class="btn-close-modal" onclick="closeModal('editAuthModal')">ยกเลิก</span>
+  </div>
+</div>
+
+<div id="manageModal" class="modal">
+  <div class="modal-content" style="max-width: 480px; text-align: left;">
+    <h3 style="text-align: center;">🎨 ปรับแต่งห้องครัว</h3>
+    
+    <div class="manage-nav">
+        <div class="manage-tab active" data-cat="ขนมปัง" onclick="setManageCategory(this)">ขนมปัง</div>
+        <div class="manage-tab" data-cat="เค้ก" onclick="setManageCategory(this)">เค้ก</div>
+        <div class="manage-tab" data-cat="เครื่องดื่ม" onclick="setManageCategory(this)">เครื่องดื่ม</div>
+    </div>
+
+    <div id="edit-list-container" style="margin-top: 5px; max-height: 400px; overflow-y: auto; padding: 5px;"></div>
+    
+    <button class="btn-confirm" onclick="saveAllEdits()">💾 บันทึกและรีโหลด</button>
+    <span class="btn-close-modal" style="text-align: center;" onclick="closeModal('manageModal')">ปิดหน้าต่าง</span>
+  </div>
+</div>
+
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <h3>📢 แจ้งถอนการติดตั้ง</h3>
+    <input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม">
+    <input type="password" id="delPin" class="modal-input" placeholder="รหัสลับ">
+    <button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ยืนยันการลบ</button>
+    <span class="btn-close-modal" onclick="closeModal('deleteModal')">ยกเลิก</span>
+  </div>
+</div>
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 let allData = []; 
-let currentManageCategory = "ขนมปัง";
+let currentManageCategory = "ขนมปัง"; // เก็บหมวดหมู่ปัจจุบันที่กำลังจัดการ
 
-function acceptRules() { const gate = document.getElementById('rules-gate'); const mainWrapper = document.getElementById('main-wrapper'); gate.style.opacity = '0'; setTimeout(() => { gate.style.display = 'none'; mainWrapper.style.display = 'flex'; mainWrapper.style.flexDirection = 'column'; mainWrapper.style.alignItems = 'center'; setTimeout(() => { mainWrapper.style.opacity = '1'; }, 50); document.body.classList.remove('locked'); }, 500); }
-function showPage(pageId, element) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(pageId).classList.add('active'); document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); element.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function acceptRules() {
+  const gate = document.getElementById('rules-gate');
+  const mainWrapper = document.getElementById('main-wrapper');
+  gate.style.opacity = '0';
+  setTimeout(() => {
+    gate.style.display = 'none';
+    mainWrapper.style.display = 'flex';
+    mainWrapper.style.flexDirection = 'column';
+    mainWrapper.style.alignItems = 'center';
+    setTimeout(() => { mainWrapper.style.opacity = '1'; }, 50);
+    document.body.classList.remove('locked');
+  }, 500);
+}
+
+function showPage(pageId, element) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  element.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function toggleMenu(headerElement) { headerElement.parentElement.classList.toggle('open'); }
 function openAddAuthModal() { document.getElementById('addAuthModal').style.display = 'block'; }
 function openDeleteModal() { document.getElementById('deleteModal').style.display = 'block'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function checkAddAuth() { if(document.getElementById('addMasterPin').value === "8888") { closeModal('addAuthModal'); document.getElementById('addCharModal').style.display = 'block'; } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); } }
-function submitNewCharacter() { const data = { category: document.getElementById('charCategory').value, name: document.getElementById('charName').value, desc: document.getElementById('charDesc').value, img: document.getElementById('charImg').value, artist: document.getElementById('charArtist').value, artistLink: document.getElementById('charArtistLink').value, price: document.getElementById('charPrice').value, more: document.getElementById('charMore').value }; if(!data.name || !data.img || !data.artist || !data.price || !data.more) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ"); const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeE5PmUTSmDN-dJ97oABe23DgAqubMoPzkAOPAtWLKTy3ckg/formResponse"; const params = new URLSearchParams(); params.append('entry.1342287640', data.category); params.append('entry.1240441369', data.name); params.append('entry.590471728', data.desc); params.append('entry.57350701', data.img); params.append('entry.1596328020', data.artist); params.append('entry.632817786', data.artistLink); params.append('entry.825859639', data.price); params.append('entry.232575950', data.more); fetch(formUrl, { method: 'POST', mode: 'no-cors', body: params }).then(() => { alert("สำเร็จ!"); location.reload(); }).catch(err => alert("เกิดข้อผิดพลาดค่ะ")); }
-function openEditAuthModal() { document.getElementById('editAuthModal').style.display = 'block'; }
-function checkEditAuth() { if(document.getElementById('editMasterPin').value === "8888") { closeModal('editAuthModal'); document.getElementById('manageModal').style.display = 'block'; renderEditList(); } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); } }
-function setManageCategory(element) { document.querySelectorAll('.manage-tab').forEach(t => t.classList.remove('active')); element.classList.add('active'); currentManageCategory = element.dataset.cat; renderEditList(); }
-function getLocalSettings() { return JSON.parse(localStorage.getItem('bakery_settings') || '{}'); }
-function renderEditList() { const container = document.getElementById('edit-list-container'); const settings = getLocalSettings(); const items = allData.filter(i => i['หมวดหมู่'] === currentManageCategory).sort((a,b) => (settings[a['ชื่อขนม']]?.order || 0) - (settings[b['ชื่อขนม']]?.order || 0)); container.innerHTML = ''; items.forEach((item, index) => { const name = item['ชื่อขนม']; const set = settings[name] || {}; container.innerHTML += `<div class="edit-card-item" data-name="${name}"><div class="edit-row"><strong>${name}</strong><div class="order-group"><div class="btn-order" onclick="moveItem('${name}', -1)">↑</div><div class="btn-order" onclick="moveItem('${name}', 1)">↓</div></div></div><div class="edit-row" style="gap:10px;"><select class="modal-select edit-sale" style="margin:0; flex:1"><option value="1" ${set.sale=='1'?'selected':''}>Forever Home</option><option value="2" ${set.sale=='2'?'selected':''}>TENT</option><option value="3" ${set.sale=='3'?'selected':''}>OTA/SP</option></select><select class="modal-select edit-love" style="margin:0; flex:1"><option value="1" ${set.love=='1'?'selected':''}>มีคู่ ❤️</option><option value="2" ${set.love=='2'?'selected':''}>โสด 🤍</option><option value="3" ${set.love=='3'?'selected':''}>ไม่มีความรัก 🚫</option></select></div></div>`; }); }
-function moveItem(name, dir) { const settings = getLocalSettings(); const items = allData.filter(i => i['หมวดหมู่'] === currentManageCategory).sort((a,b) => (settings[a['ชื่อขนม']]?.order || 0) - (settings[b['ชื่อขนม']]?.order || 0)); const idx = items.findIndex(i => i['ชื่อขนม'] === name); if(idx + dir >= 0 && idx + dir < items.length) { const temp = items[idx]; items[idx] = items[idx+dir]; items[idx+dir] = temp; items.forEach((it, i) => { if(!settings[it['ชื่อขนม']]) settings[it['ชื่อขนม']]={}; settings[it['ชื่อขนม']].order = i; }); localStorage.setItem('bakery_settings', JSON.stringify(settings)); renderEditList(); } }
-function saveAllEdits() { const settings = getLocalSettings(); document.querySelectorAll('.edit-card-item').forEach(card => { const name = card.dataset.name; if(!settings[name]) settings[name] = {}; settings[name].sale = card.querySelector('.edit-sale').value; settings[name].love = card.querySelector('.edit-love').value; }); localStorage.setItem('bakery_settings', JSON.stringify(settings)); alert("บันทึกสำเร็จ!"); location.reload(); }
 
+function checkAddAuth() {
+    if(document.getElementById('addMasterPin').value === "8888") {
+        closeModal('addAuthModal');
+        document.getElementById('addCharModal').style.display = 'block';
+    } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); }
+}
+
+function submitNewCharacter() {
+    const data = {
+        category: document.getElementById('charCategory').value,
+        name: document.getElementById('charName').value,
+        desc: document.getElementById('charDesc').value,
+        img: document.getElementById('charImg').value,
+        artist: document.getElementById('charArtist').value,
+        artistLink: document.getElementById('charArtistLink').value,
+        price: document.getElementById('charPrice').value,
+        more: document.getElementById('charMore').value
+    };
+    if(!data.name || !data.img || !data.artist || !data.price || !data.more) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ");
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeE5PmUTSmDN-dJ97oABe23DgAqubMoPzkAOPAtWLKTy3ckg/formResponse";
+    const params = new URLSearchParams();
+    params.append('entry.1342287640', data.category);
+    params.append('entry.1240441369', data.name);
+    params.append('entry.590471728', data.desc);
+    params.append('entry.57350701', data.img);
+    params.append('entry.1596328020', data.artist);
+    params.append('entry.632817786', data.artistLink);
+    params.append('entry.825859639', data.price);
+    params.append('entry.232575950', data.more);
+    fetch(formUrl, { method: 'POST', mode: 'no-cors', body: params }).then(() => {
+        alert("อบขนมสำเร็จ!"); location.reload();
+    }).catch(err => alert("เกิดข้อผิดพลาดค่ะ"));
+}
+
+// --- ส่วนจัดการการแก้ไข (ปรับปรุงใหม่) ---
+function openEditAuthModal() { document.getElementById('editAuthModal').style.display = 'block'; }
+
+function checkEditAuth() {
+    if(document.getElementById('editMasterPin').value === "8888") {
+        closeModal('editAuthModal');
+        document.getElementById('manageModal').style.display = 'block';
+        renderEditList();
+    } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); }
+}
+
+// ฟังก์ชันสำหรับสลับ Tab ในหน้าจัดการ
+function setManageCategory(element) {
+    document.querySelectorAll('.manage-tab').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    currentManageCategory = element.dataset.cat;
+    renderEditList();
+}
+
+function getLocalSettings() { return JSON.parse(localStorage.getItem('bakery_settings') || '{}'); }
+
+function renderEditList() {
+    const container = document.getElementById('edit-list-container');
+    const settings = getLocalSettings();
+    const items = allData.filter(i => i['หมวดหมู่'] === currentManageCategory).sort((a,b) => (settings[a['ชื่อขนม']]?.order || 0) - (settings[b['ชื่อขนม']]?.order || 0));
+
+    container.innerHTML = '';
+    items.forEach((item, index) => {
+        const name = item['ชื่อขนม'];
+        const set = settings[name] || {};
+        container.innerHTML += `
+            <div class="edit-card-item" data-name="${name}">
+                <div class="edit-row">
+                    <strong style="color:var(--darker)">${name}</strong> 
+                    <div class="order-group">
+                        <div class="btn-order" onclick="moveItem('${name}', -1)">↑</div>
+                        <div class="btn-order" onclick="moveItem('${name}', 1)">↓</div>
+                    </div>
+                </div>
+                <div class="edit-row" style="gap:10px;">
+                    <select class="modal-select edit-sale" style="margin:0; flex:1">
+                        <option value="1" ${set.sale=='1'?'selected':''}>Forever Home</option>
+                        <option value="2" ${set.sale=='2'?'selected':''}>TENT</option>
+                        <option value="3" ${set.sale=='3'?'selected':''}>OTA/SP</option>
+                    </select>
+                    <select class="modal-select edit-love" style="margin:0; flex:1">
+                        <option value="1" ${set.love=='1'?'selected':''}>มีคู่ ❤️</option>
+                        <option value="2" ${set.love=='2'?'selected':''}>โสด 🤍</option>
+                        <option value="3" ${set.love=='3'?'selected':''}>ไม่มีความรัก 🚫</option>
+                    </select>
+                </div>
+            </div>`;
+    });
+}
+
+function moveItem(name, dir) {
+    const settings = getLocalSettings();
+    const items = allData.filter(i => i['หมวดหมู่'] === currentManageCategory).sort((a,b) => (settings[a['ชื่อขนม']]?.order || 0) - (settings[b['ชื่อขนม']]?.order || 0));
+    const idx = items.findIndex(i => i['ชื่อขนม'] === name);
+    if(idx + dir >= 0 && idx + dir < items.length) {
+        const temp = items[idx]; items[idx] = items[idx+dir]; items[idx+dir] = temp;
+        items.forEach((it, i) => { if(!settings[it['ชื่อขนม']]) settings[it['ชื่อขนม']]={}; settings[it['ชื่อขนม']].order = i; });
+        localStorage.setItem('bakery_settings', JSON.stringify(settings));
+        renderEditList();
+    }
+}
+
+function saveAllEdits() {
+    const settings = getLocalSettings();
+    document.querySelectorAll('.edit-card-item').forEach(card => {
+        const name = card.dataset.name;
+        if(!settings[name]) settings[name] = {};
+        settings[name].sale = card.querySelector('.edit-sale').value;
+        settings[name].love = card.querySelector('.edit-love').value;
+    });
+    localStorage.setItem('bakery_settings', JSON.stringify(settings));
+    alert("บันทึกสำเร็จ!"); location.reload();
+}
+
+// --- ฟังก์ชันดึงข้อมูลและแสดงผล ---
 async function fetchData() {
   try {
     const response = await fetch(API_URL);
@@ -386,13 +540,9 @@ async function fetchData() {
 
 function displayData(data) {
   const containers = { 'ขนมปัง': document.getElementById('bread-container'), 'เค้ก': document.getElementById('cake-container'), 'เครื่องดื่ม': document.getElementById('drink-container') };
-  
-  Object.values(containers).forEach(c => {
-      const cards = c.querySelectorAll('.menu-card, .loading-text');
-      cards.forEach(card => card.remove());
-  });
-
+  Object.values(containers).forEach(c => c.innerHTML = '');
   const settings = getLocalSettings();
+
   data.sort((a, b) => (settings[a['ชื่อขนม']]?.order || 999) - (settings[b['ชื่อขนม']]?.order || 999));
 
   data.forEach(item => {
@@ -438,15 +588,21 @@ function displayData(data) {
         </div>
       </div>`;
   });
-
-  // 🌟 จุดที่มีการปรับปรุงเพื่อให้ข้อความแจ้งเตือนอยู่กึ่งกลาง 🌟
-  Object.keys(containers).forEach(key => { 
-      if (containers[key].querySelectorAll('.menu-card').length === 0) 
-          containers[key].innerHTML += '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>'; 
-  });
+  Object.keys(containers).forEach(key => { if (containers[key].innerHTML === '') containers[key].innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>'; });
 }
 
-async function confirmDelete() { const name = document.getElementById('delName').value; const pin = document.getElementById('delPin').value; if(!name || !pin) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ"); if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${name}"?`)) { const resp = await fetch(`${API_URL}?action=delete&name=${encodeURIComponent(name)}&pin=${encodeURIComponent(pin)}`); const result = await resp.text(); if(result === "Success") { alert("ลบสำเร็จ!"); location.reload(); } else { alert("ไม่ถูกต้องค่ะ"); } } }
+async function confirmDelete() {
+  const name = document.getElementById('delName').value;
+  const pin = document.getElementById('delPin').value;
+  if(!name || !pin) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ");
+  if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${name}"?`)) {
+    const resp = await fetch(`${API_URL}?action=delete&name=${encodeURIComponent(name)}&pin=${encodeURIComponent(pin)}`);
+    const result = await resp.text();
+    if(result === "Success") { alert("ลบข้อมูลแล้วค่ะ!"); location.reload(); }
+    else { alert("ข้อมูลไม่ถูกต้องค่ะ 🥲"); }
+  }
+}
+
 fetchData();
 </script>
 </body>
