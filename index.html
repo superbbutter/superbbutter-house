@@ -72,7 +72,6 @@ h1 {
   margin-bottom: 5px;
 }
 
-/* แก้ไขให้ข้อความอยู่กึ่งกลางอีโมจิเป๊ะๆ */
 .nav-item {
   text-decoration: none;
   color: var(--dark);
@@ -187,13 +186,17 @@ h1 {
 @keyframes floatEmoji { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
 .mini-contact { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.3); }
-.socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
-.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); }
+.socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+.socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); transition: var(--transition); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
-.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
-.modal-content { background: var(--bg); margin: 15% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 400px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
-.modal-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: center; }
+/* 🌟 Popup Modals 🌟 */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); overflow-y: auto; }
+.modal-content { background: var(--bg); margin: 5% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 450px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
+.modal-input, .modal-select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: left; background: #fff; }
+.modal-select { cursor: pointer; }
+.modal-label { display: block; text-align: left; font-size: 12px; font-weight: 600; margin-top: 5px; color: var(--dark); }
+.btn-confirm { background: var(--main); color: var(--darker); margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
 .btn-delete-confirm { background: #b91c1c; color: #fff; margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; }
 .btn-close-modal { color: var(--dark); font-size: 12px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: block; }
 
@@ -278,25 +281,73 @@ h1 {
       <div class="socials-mini">
         <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank">Facebook</a>
         <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank">Line</a>
-        <a href="javascript:void(0)" onclick="openDeleteModal()" style="border-color: #b91c1c; color: #b91c1c;">แจ้งลบข้อมูล</a>
+      </div>
+      <div class="socials-mini" style="margin-top: 5px;">
+        <a href="javascript:void(0)" onclick="openAddAuthModal()" style="border-color: var(--main); color: var(--dark);">➕ เพิ่มตัวละคร</a>
+        <a href="javascript:void(0)" onclick="openDeleteModal()" style="border-color: #b91c1c; color: #b91c1c;">🗑️ แจ้งลบข้อมูล</a>
       </div>
       <div class="copyright">© 2026 SuperBButter Bakery. All rights reserved.</div>
     </div>
   </div> 
 </div>
 
+<div id="addAuthModal" class="modal">
+  <div class="modal-content">
+    <h3>🔑 เข้าสู่ระบบหลังเตา</h3>
+    <p style="font-size: 13px; margin: 10px 0;">กรุณาใส่รหัสเพื่อเข้าสู่ฟอร์มเพิ่มข้อมูล</p>
+    <input type="password" id="addMasterPin" class="modal-input" placeholder="รหัสผ่าน">
+    <button class="btn-confirm" onclick="checkAddAuth()">ยืนยันรหัส</button>
+    <span class="btn-close-modal" onclick="closeModal('addAuthModal')">ยกเลิก</span>
+  </div>
+</div>
+
+<div id="addCharModal" class="modal">
+  <div class="modal-content" style="text-align: left;">
+    <h3 style="text-align: center;">🧁 อบขนมชิ้นใหม่</h3>
+    
+    <label class="modal-label">หมวดหมู่ *</label>
+    <select id="charCategory" class="modal-select">
+        <option value="ขนมปัง">ขนมปัง</option>
+        <option value="เค้ก">เค้ก</option>
+        <option value="เครื่องดื่ม">เครื่องดื่ม</option>
+    </select>
+
+    <label class="modal-label">ชื่อขนม *</label>
+    <input type="text" id="charName" class="modal-input" placeholder="ระบุชื่อ">
+
+    <label class="modal-label">ลิ้งก์รูปตัวละคร * (Drive + สาธารณะ)</label>
+    <input type="text" id="charImg" class="modal-input" placeholder="https://drive.google.com/...">
+
+    <label class="modal-label">นักวาด *</label>
+    <input type="text" id="charArtist" class="modal-input" placeholder="ชื่อนักวาด">
+
+    <label class="modal-label">ลิ้งก์นักวาด</label>
+    <input type="text" id="charArtistLink" class="modal-input" placeholder="URL (ถ้ามี)">
+
+    <label class="modal-label">มูลค่า *</label>
+    <input type="text" id="charPrice" class="modal-input" placeholder="ระบุมูลค่า">
+
+    <label class="modal-label">ลิ้งก์เพื่อดูเพิ่มเติม * (Drive + สาธารณะ)</label>
+    <input type="text" id="charMore" class="modal-input" placeholder="URL ข้อมูลเพิ่มเติม">
+
+    <button class="btn-confirm" style="width:100%" onclick="submitNewCharacter()">🚀 ส่งเข้าเตาอบ</button>
+    <span class="btn-close-modal" style="text-align: center;" onclick="closeModal('addCharModal')">กลับหน้าหลัก</span>
+  </div>
+</div>
+
 <div id="deleteModal" class="modal">
   <div class="modal-content">
-    <h3>🗑️ ลบข้อมูล</h3>
-    <p style="font-size: 13px; margin: 10px 0;">กรุณาระบุชื่อและป้อนรหัสเพื่อลบข้อมูลค่ะ</p>
-    <input type="text" id="delName" class="modal-input" placeholder="ชื่อตัวละคร">
-    <input type="password" id="delPin" class="modal-input" placeholder="รหัสลบข้อมูล">
+    <h3>📢 แจ้งถอนการติดตั้ง</h3>
+    <p style="font-size: 13px; margin: 10px 0;">กรุณาระบุชื่อและรหัสลับเพื่อลบข้อมูลค่ะ</p>
+    <input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม / ตัวละคร">
+    <input type="password" id="delPin" class="modal-input" placeholder="รหัสผ่านเตาอบ">
     <button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ยืนยันการลบ</button>
-    <span class="btn-close-modal" onclick="closeDeleteModal()">ยกเลิก</span>
+    <span class="btn-close-modal" onclick="closeModal('deleteModal')">ยกเลิก</span>
   </div>
 </div>
 
 <script>
+// --- ส่วนคงที่ห้ามเปลี่ยน ---
 function acceptRules() {
   const gate = document.getElementById('rules-gate');
   const mainWrapper = document.getElementById('main-wrapper');
@@ -323,58 +374,93 @@ function toggleMenu(headerElement) {
   headerElement.parentElement.classList.toggle('open');
 }
 
+function openAddAuthModal() { document.getElementById('addAuthModal').style.display = 'block'; }
 function openDeleteModal() { document.getElementById('deleteModal').style.display = 'block'; }
-function closeDeleteModal() { document.getElementById('deleteModal').style.display = 'none'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+function checkAddAuth() {
+    if(document.getElementById('addMasterPin').value === "8888") {
+        closeModal('addAuthModal');
+        document.getElementById('addCharModal').style.display = 'block';
+    } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); }
+}
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
+// 🌟 ฟังก์ชันส่งข้อมูลไปยัง Google Form 🌟
+function submitNewCharacter() {
+    const data = {
+        category: document.getElementById('charCategory').value,
+        name: document.getElementById('charName').value,
+        img: document.getElementById('charImg').value,
+        artist: document.getElementById('charArtist').value,
+        artistLink: document.getElementById('charArtistLink').value,
+        price: document.getElementById('charPrice').value,
+        more: document.getElementById('charMore').value
+    };
+
+    if(!data.name || !data.img || !data.artist || !data.price || !data.more) {
+        return alert("กรุณากรอกข้อมูลในช่องที่มี * ให้ครบถ้วนค่ะ");
+    }
+
+    // สร้าง Form เสมือนเพื่อส่งข้อมูล (ใช้ Entry ID จากที่คุณส่งมา)
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeE5PmUTSmDN-dJ97oABe23DgAqubMoPzkAOPAtWLKTy3ckg/formResponse";
+    
+    const params = new URLSearchParams();
+    params.append('entry.1342287640', data.category);
+    params.append('entry.1240441369', data.name);
+    params.append('entry.57350701', data.img);
+    params.append('entry.1596328020', data.artist);
+    params.append('entry.632817786', data.artistLink);
+    params.append('entry.825859639', data.price);
+    params.append('entry.232575950', data.more);
+
+    // ส่งข้อมูลแบบ no-cors (Google Form รองรับการรับข้อมูลแบบนี้)
+    fetch(formUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: params
+    }).then(() => {
+        alert("อบขนมสำเร็จ! ข้อมูลถูกส่งไปยังระบบแล้วค่ะ (อาจใช้เวลาอัปเดตสักครู่)");
+        location.reload();
+    }).catch(err => {
+        alert("เกิดข้อผิดพลาดในการส่งข้อมูลค่ะ");
+    });
+}
+
+// --- ส่วนที่เหลือคงเดิม ---
 async function fetchData() {
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
     displayData(data);
-  } catch (error) {
-    console.error('Error:', error);
-  }
+  } catch (error) { console.error('Error:', error); }
 }
 
 async function confirmDelete() {
   const name = document.getElementById('delName').value;
   const pin = document.getElementById('delPin').value;
   if(!name || !pin) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ");
-  
-  if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${name}" ออกจากเตาอบ?`)) {
+  if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${name}"?`)) {
     const resp = await fetch(`${API_URL}?action=delete&name=${encodeURIComponent(name)}&pin=${encodeURIComponent(pin)}`);
     const result = await resp.text();
-    if(result === "Success") {
-      alert("ลบข้อมูลเรียบร้อยแล้วค่ะ! หน้าเว็บจะรีเฟรชอัตโนมัติ");
-      location.reload();
-    } else {
-      alert("ชื่อหรือรหัสไม่ถูกต้องค่ะ ไม่สามารถลบได้ 🥲");
-    }
+    if(result === "Success") { alert("ลบข้อมูลแล้วค่ะ!"); location.reload(); }
+    else { alert("ข้อมูลไม่ถูกต้องค่ะ 🥲"); }
   }
 }
 
 function displayData(data) {
-  const containers = {
-    'ขนมปัง': document.getElementById('bread-container'),
-    'เค้ก': document.getElementById('cake-container'),
-    'เครื่องดื่ม': document.getElementById('drink-container')
-  };
+  const containers = { 'ขนมปัง': document.getElementById('bread-container'), 'เค้ก': document.getElementById('cake-container'), 'เครื่องดื่ม': document.getElementById('drink-container') };
   Object.values(containers).forEach(c => c.innerHTML = '');
-
   data.forEach(item => {
     const target = containers[item['หมวดหมู่']];
     if (!target) return;
-
     let imgUrl = item['ลิงก์รูปภาพ'] || '';
     if (imgUrl.includes('drive.google.com/file/d/')) {
       const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
     }
-
     const artistDisplay = item['ลิงก์นักวาด'] ? `<a href="${item['ลิงก์นักวาด']}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
-
     target.innerHTML += `
       <div class="menu-card">
         <div class="menu-header" onclick="toggleMenu(this)">
@@ -391,10 +477,7 @@ function displayData(data) {
         </div>
       </div>`;
   });
-
-  Object.keys(containers).forEach(key => {
-    if (containers[key].innerHTML === '') containers[key].innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>';
-  });
+  Object.keys(containers).forEach(key => { if (containers[key].innerHTML === '') containers[key].innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>'; });
 }
 
 fetchData();
