@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperBButter</title>
+<title>SuperBButter - Bakery & OC</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -94,7 +94,7 @@ h1 {
   box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
 }
 
-/* Rules Gate */
+/* Rules Gate Area */
 #rules-gate {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -146,7 +146,7 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* 🌟 อัตราส่วนภาพตามรูปที่คุณส่งมา 🌟 */
+/* 🌟 สัดส่วนรูปภาพ 879:1024 🌟 */
 .menu-img { 
   width: 100%; 
   height: auto; 
@@ -188,6 +188,8 @@ h1 {
 .socials-mini { display: flex; gap: 10px; justify-content: center; }
 .socials-mini a { padding: 8px 20px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 13px; font-weight: 500; border: 1px solid var(--main); transition: var(--transition); }
 .copyright { font-size: 11px; opacity: 0.6; margin-top: 15px; text-align: center; }
+
+.loading-text { text-align: center; padding: 20px; color: var(--dark); font-size: 14px; }
 </style>
 </head>
 
@@ -196,7 +198,7 @@ h1 {
 <div id="rules-gate">
     <div class="gate-content section center">
         <div style="width: 80px; height: 80px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; box-shadow: 0 5px 15px var(--glow);">
-            <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="ใส่ลิงก์รูปโลโก้.jpg" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         
         <h2>📋 กติกาการเข้าชมครัว</h2>
@@ -225,7 +227,7 @@ h1 {
             <div class="floating-emoji emoji-3">🥞</div>
             <div class="floating-emoji emoji-4">⭐️</div>
             <div class="logo">
-                <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="SuperBButter Logo">
+                <img src="ใส่ลิงก์รูปโลโก้.jpg" alt="SuperBButter Logo">
             </div>
         </div>
         <h1>SuperBButter</h1>
@@ -256,7 +258,9 @@ h1 {
             <div class="section">
                 <h2>🍞 เมนูขนมปัง</h2>
                 <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ</p>
-                <div id="bread-container"></div>
+                <div id="bread-container">
+                    <div class="loading-text">กำลังอบขนมปัง... รอสักครู่นะคะ 👩🏻‍🍳</div>
+                </div>
             </div>
         </div>
 
@@ -264,7 +268,9 @@ h1 {
             <div class="section">
                 <h2>🍰 เมนูเค้ก</h2>
                 <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ</p>
-                <div id="cake-container"></div>
+                <div id="cake-container">
+                    <div class="loading-text">กำลังแต่งหน้าเค้ก... รอสักครู่นะคะ 👩🏻‍🍳</div>
+                </div>
             </div>
         </div>
 
@@ -272,7 +278,9 @@ h1 {
             <div class="section">
                 <h2>🍵 เมนูเครื่องดื่ม</h2>
                 <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ</p>
-                <div id="drink-container"></div>
+                <div id="drink-container">
+                    <div class="loading-text">กำลังชงเครื่องดื่ม... รอสักครู่นะคะ 👩🏻‍🍳</div>
+                </div>
             </div>
         </div>
 
@@ -287,6 +295,7 @@ h1 {
 </div>
 
 <script>
+// 🌟 ฟังก์ชันจัดการหน้าจอ
 function acceptRules() {
     const gate = document.getElementById('rules-gate');
     const mainWrapper = document.getElementById('main-wrapper');
@@ -313,6 +322,10 @@ function toggleMenu(headerElement) {
     headerElement.parentElement.classList.toggle('open');
 }
 
+// ==========================================
+// 🚨 ส่วนจัดการข้อมูลจาก Google Sheets (โค้ดที่คุณต้องการ)
+// ==========================================
+
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
 async function fetchData() {
@@ -321,48 +334,85 @@ async function fetchData() {
         const data = await response.json();
         displayData(data);
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching data:', error);
+        document.getElementById('bread-container').innerHTML = '<div class="loading-text">เกิดข้อผิดพลาดในการโหลดข้อมูล 🥲</div>';
+        document.getElementById('cake-container').innerHTML = '<div class="loading-text">เกิดข้อผิดพลาดในการโหลดข้อมูล 🥲</div>';
+        document.getElementById('drink-container').innerHTML = '<div class="loading-text">เกิดข้อผิดพลาดในการโหลดข้อมูล 🥲</div>';
     }
 }
 
 function displayData(data) {
-    const containers = {
-        'ขนมปัง': document.getElementById('bread-container'),
-        'เค้ก': document.getElementById('cake-container'),
-        'เครื่องดื่ม': document.getElementById('drink-container')
-    };
+    const breadContainer = document.getElementById('bread-container');
+    const cakeContainer = document.getElementById('cake-container');
+    const drinkContainer = document.getElementById('drink-container');
 
-    Object.values(containers).forEach(c => c.innerHTML = '');
+    // ล้างข้อความโหลด
+    breadContainer.innerHTML = '';
+    cakeContainer.innerHTML = '';
+    drinkContainer.innerHTML = '';
 
     data.forEach(item => {
-        const target = containers[item['หมวดหมู่']];
-        if (!target) return;
-
+        const category = item['หมวดหมู่'];
+        const name = item['ชื่อขนม'] || 'ไม่มีชื่อ';
         let imgUrl = item['ลิงก์รูปภาพ'] || '';
+        const artist = item['นักวาด'] || '-';
+        const artistLink = item['ลิงก์นักวาด'] || ''; 
+        const price = item['มูลค่า'] || '-';
+        const link = item['ลิงก์เพิ่มเติม'] || '#';
+
+        // 🌟 แปลงลิงก์ Google Drive อัตโนมัติ
         if (imgUrl.includes('drive.google.com/file/d/')) {
-            const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
+            const match = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                // ใช้ระบบ thumbnail เพื่อความเสถียรของรูปภาพ
+                imgUrl = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+            }
         }
 
-        const artistLink = item['ลิงก์นักวาด'] || '';
-        const artistDisplay = artistLink ? `<a href="${artistLink}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
+        // 🌟 ซ่อน/แสดง ลิงก์นักวาดแบบอัตโนมัติ
+        let artistDisplay = artist; 
+        if (artistLink.trim() !== '') {
+            artistDisplay = `<a href="${artistLink}" target="_blank" style="color: var(--darker); text-decoration: underline; font-weight: 500;">${artist}</a>`;
+        }
 
-        target.innerHTML += `
+        let targetContainer = null;
+
+        // แยกหมวดหมู่
+        if (category === 'ขนมปัง') {
+            targetContainer = breadContainer;
+        } else if (category === 'เค้ก') {
+            targetContainer = cakeContainer;
+        } else if (category === 'เครื่องดื่ม') {
+            targetContainer = drinkContainer;
+        }
+
+        if (!targetContainer) return; // ข้ามถ้าหมวดหมู่ไม่ตรง
+
+        // สร้าง HTML โดยเอาตัวเลขออกไปแล้ว
+        const cardHTML = `
         <div class="menu-card">
             <div class="menu-header" onclick="toggleMenu(this)">
-                <img src="${imgUrl}" alt="${item['ชื่อขนม']}" class="menu-img">
+                <img src="${imgUrl}" alt="${name}" class="menu-img">
                 <div class="menu-title-row">
-                    <div class="menu-title">${item['ชื่อขนม']}</div>
+                    <div class="menu-title">${name}</div>
                     <div class="menu-icon">▼</div>
                 </div>
             </div>
             <div class="menu-details">
                 <div class="detail-text">🎨 <strong>นักวาด:</strong> ${artistDisplay}</div>
-                <div class="detail-text">💰 <strong>มูลค่า:</strong> ${item['มูลค่า']}</div>
-                <a href="${item['ลิงก์เพิ่มเติม'] || '#'}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                <div class="detail-text">💰 <strong>มูลค่า:</strong> ${price}</div>
+                <a href="${link}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
             </div>
-        </div>`;
+        </div>
+        `;
+
+        targetContainer.innerHTML += cardHTML;
     });
+
+    // แสดงข้อความถ้าหมวดไหนไม่มีข้อมูล
+    if(breadContainer.innerHTML === '') breadContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
+    if(cakeContainer.innerHTML === '') cakeContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
+    if(drinkContainer.innerHTML === '') drinkContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
 }
 
 fetchData();
