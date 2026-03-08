@@ -9,13 +9,13 @@
 
 <style>
 :root {
-  --bg: #FFFDF5; /* ครีมเนยละมุนๆ */
-  --main: #FBBF24; /* เหลือง */
-  --dark: #78350F; /* น้ำตาลช็อกโกแลต */
-  --darker: #451A03; /* น้ำตาลเข้ม */
+  --bg: #FFFDF5; 
+  --main: #FBBF24; 
+  --dark: #78350F; 
+  --darker: #451A03; 
   --white: rgba(255, 255, 255, 0.95);
-  --glass: rgba(255, 255, 255, 0.5); /* เอฟเฟกต์แก้ว */
-  --glow: rgba(251, 191, 36, 0.25); /* แสงเหลืองนุ่มนวล */
+  --glass: rgba(255, 255, 255, 0.5); 
+  --glow: rgba(251, 191, 36, 0.25); 
   --transition: 0.3s ease;
 }
 
@@ -115,7 +115,7 @@ h1 {
   position: relative;
   z-index: 2;
 }
-.logo img { width: 100%; height: 100%; object-fit: cover; }
+.logo img { width: 100%; height: 100%; object-fit: cover; background-color: #fff; }
 .logo-wrapper:hover .logo { transform: scale(1.03) rotate(2deg); }
 
 .floating-emoji {
@@ -126,10 +126,10 @@ h1 {
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
 }
 
-.emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } /* 🧸 */
-.emoji-2 { top: 20px; right: -20px; animation-delay: 0.7s; } /* 🧈 */
-.emoji-3 { bottom: 15px; left: -15px; animation-delay: 1.4s; } /* 🥞 */
-.emoji-4 { bottom: -5px; right: -10px; animation-delay: 2.1s; font-size: 28px; } /* ⭐️ */
+.emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } 
+.emoji-2 { top: 20px; right: -20px; animation-delay: 0.7s; } 
+.emoji-3 { bottom: 15px; left: -15px; animation-delay: 1.4s; } 
+.emoji-4 { bottom: -5px; right: -10px; animation-delay: 2.1s; font-size: 28px; } 
 
 @keyframes floatEmoji {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -154,36 +154,89 @@ h1 {
 }
 .rule-box p { margin-bottom: 8px; }
 .rule-box p:last-child { margin-bottom: 0; }
-.highlight { color: #b91c1c; font-weight: 500; } /* สีแดงสำหรับคำเตือน */
+.highlight { color: #b91c1c; font-weight: 500; } 
 
-/* Menu Buttons (Products) */
-.btn-menu {
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(255, 255, 255, 0.8);
+/* OC Menu Card (แบบใหม่) */
+.menu-card {
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--main);
+  border-radius: 20px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(120, 53, 15, 0.03);
+  transition: var(--transition);
+}
+.menu-card:hover { box-shadow: 0 6px 15px var(--glow); }
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+}
+.menu-img {
+  width: 65px;
+  height: 65px;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #FDE047; /* สีพื้นหลังกรณีรูปยังไม่โหลด */
+}
+.menu-title {
+  flex-grow: 1;
+  font-weight: 500;
   color: var(--dark);
-  padding: 15px 20px;
+  font-size: 15px;
+}
+.menu-icon {
+  font-size: 14px;
+  color: var(--dark);
+  transition: transform 0.3s ease;
+  padding: 5px;
+  background: #FFF8D6;
+  border-radius: 50%;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+}
+.menu-card.open .menu-icon {
+  transform: rotate(180deg);
+  background: var(--main);
+}
+
+/* ส่วนขยายของ OC Menu */
+.menu-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0 15px;
+}
+.menu-card.open .menu-details {
+  max-height: 200px; 
+  padding: 10px 15px 15px;
+  border-top: 1px dashed var(--main);
+}
+.detail-text {
+  font-size: 13.5px;
+  margin-bottom: 6px;
+  color: var(--darker);
+}
+.btn-view {
+  display: inline-block;
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--main), #FDE047);
+  color: var(--darker);
+  padding: 8px 20px;
   border-radius: 20px;
   text-decoration: none;
-  font-weight: 500;
-  margin-bottom: 12px;
-  transition: var(--transition);
-  box-shadow: 0 4px 10px rgba(120, 53, 15, 0.03);
-}
-.btn-menu:hover {
-  background: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px var(--glow);
-}
-.btn-menu-icon {
-  background: var(--main);
-  color: var(--darker);
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
+  box-shadow: 0 4px 10px rgba(251, 191, 36, 0.4);
+  transition: var(--transition);
 }
+.btn-view:hover { transform: translateY(-2px); }
 
 /* Mini Contact (Every Page) */
 .mini-contact {
@@ -241,7 +294,7 @@ h1 {
                 <div class="floating-emoji emoji-3">🥞</div>
                 <div class="floating-emoji emoji-4">⭐️</div>
                 <div class="logo">
-                    <img src="logo.jpg" alt="SuperBButter Logo">
+                    <img src="ใส่ลิงก์รูปร้านตรงนี้.jpg" alt="SuperBButter Logo">
                 </div>
             </div>
 
@@ -286,14 +339,32 @@ h1 {
             <h2>🍞 เมนูขนมปัง</h2>
             <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ</p>
 
-            <a href="https://julie-vwb.github.io/pinkjulie-land/" class="btn-menu">
-                <span>( 1 ) ขนมปังถั่วแดง</span>
-                <div class="btn-menu-icon">🥐</div>
-            </a>
-            <a href="https://julie-vwb.github.io/mahatep-shop/" class="btn-menu">
-                <span>( 2 ) ขนมปังเมล่อน</span>
-                <div class="btn-menu-icon">🍈</div>
-            </a>
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu(this)">
+                    <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="ขนมปังถั่วแดง" class="menu-img">
+                    <div class="menu-title">( 1 ) ขนมปังถั่วแดง 🥐</div>
+                    <div class="menu-icon">▼</div>
+                </div>
+                <div class="menu-details">
+                    <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
+                    <div class="detail-text">💰 <strong>มูลค่า:</strong> ระบุมูลค่า</div>
+                    <a href="https://julie-vwb.github.io/pinkjulie-land/" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu(this)">
+                    <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="ขนมปังเมล่อน" class="menu-img">
+                    <div class="menu-title">( 2 ) ขนมปังเมล่อน 🍈</div>
+                    <div class="menu-icon">▼</div>
+                </div>
+                <div class="menu-details">
+                    <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
+                    <div class="detail-text">💰 <strong>มูลค่า:</strong> ระบุมูลค่า</div>
+                    <a href="https://julie-vwb.github.io/mahatep-shop/" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -302,14 +373,32 @@ h1 {
             <h2>🍰 เมนูเค้ก</h2>
             <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ</p>
 
-            <a href="https://julie-vwb.github.io/cxllmestore-shop/" class="btn-menu">
-                <span>( 1 ) เค้กสตอเบอรี่</span>
-                <div class="btn-menu-icon">🍓</div>
-            </a>
-            <a href="https://julie-vwb.github.io/cooper-shop/" class="btn-menu">
-                <span>( 2 ) เค้กส้ม</span>
-                <div class="btn-menu-icon">🍊</div>
-            </a>
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu(this)">
+                    <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="เค้กสตอเบอรี่" class="menu-img">
+                    <div class="menu-title">( 1 ) เค้กสตอเบอรี่ 🍓</div>
+                    <div class="menu-icon">▼</div>
+                </div>
+                <div class="menu-details">
+                    <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
+                    <div class="detail-text">💰 <strong>มูลค่า:</strong> ระบุมูลค่า</div>
+                    <a href="https://julie-vwb.github.io/cxllmestore-shop/" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu(this)">
+                    <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="เค้กส้ม" class="menu-img">
+                    <div class="menu-title">( 2 ) เค้กส้ม 🍊</div>
+                    <div class="menu-icon">▼</div>
+                </div>
+                <div class="menu-details">
+                    <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
+                    <div class="detail-text">💰 <strong>มูลค่า:</strong> ระบุมูลค่า</div>
+                    <a href="https://julie-vwb.github.io/cooper-shop/" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -318,14 +407,32 @@ h1 {
             <h2>🍵 เมนูเครื่องดื่ม</h2>
             <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ</p>
 
-            <a href="https://julie-vwb.github.io/babybear-design/" class="btn-menu">
-                <span>( 1 ) ชาเขียว</span>
-                <div class="btn-menu-icon">🍵</div>
-            </a>
-            <a href="https://julie-vwb.github.io/tanewcutie-design/" class="btn-menu">
-                <span>( 2 ) อเมริกาโน่</span>
-                <div class="btn-menu-icon">☕️</div>
-            </a>
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu(this)">
+                    <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="ชาเขียว" class="menu-img">
+                    <div class="menu-title">( 1 ) ชาเขียว 🍵</div>
+                    <div class="menu-icon">▼</div>
+                </div>
+                <div class="menu-details">
+                    <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
+                    <div class="detail-text">💰 <strong>มูลค่า:</strong> ระบุมูลค่า</div>
+                    <a href="https://julie-vwb.github.io/babybear-design/" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu(this)">
+                    <img src="ใส่ลิงก์รูปตรงนี้.jpg" alt="อเมริกาโน่" class="menu-img">
+                    <div class="menu-title">( 2 ) อเมริกาโน่ ☕️</div>
+                    <div class="menu-icon">▼</div>
+                </div>
+                <div class="menu-details">
+                    <div class="detail-text">🎨 <strong>นักวาด:</strong> ระบุชื่อนักวาด</div>
+                    <div class="detail-text">💰 <strong>มูลค่า:</strong> ระบุมูลค่า</div>
+                    <a href="https://julie-vwb.github.io/tanewcutie-design/" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -341,21 +448,28 @@ h1 {
 </div>
 
 <script>
+// สลับหน้าเมนูด้านล่าง
 function showPage(pageId, element) {
-    // 1. ซ่อนทุกหน้า
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.remove('active'));
-
-    // 2. แสดงหน้าที่เลือก
     document.getElementById(pageId).classList.add('active');
 
-    // 3. เปลี่ยนสีปุ่มเมนู
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => item.classList.remove('active'));
     element.classList.add('active');
 
-    // 4. เลื่อนหน้าจอกลับไปด้านบนสุด
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// เปิด-ปิด กล่องรายละเอียดเมนู OC
+function toggleMenu(headerElement) {
+    const card = headerElement.parentElement;
+    
+    // ถ้าอยากให้เปิดได้ทีละกล่อง ให้เอาคอมเมนต์ 2 บรรทัดข้างล่างออกค่ะ
+    // const allCards = document.querySelectorAll('.menu-card');
+    // allCards.forEach(c => { if(c !== card) c.classList.remove('open'); });
+
+    card.classList.toggle('open');
 }
 </script>
 
