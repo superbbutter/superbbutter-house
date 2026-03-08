@@ -24,15 +24,58 @@
 body {
   background: var(--bg);
   background-image: linear-gradient(135deg, #FFFDF5 0%, #FFF8D6 100%);
-  display: flex; justify-content: center;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
   color: var(--dark);
   min-height: 100vh;
 }
 
-/* ล็อกหน้าจอไม่ให้เลื่อนตอนที่อยู่หน้ากติกา */
 body.locked { overflow: hidden; }
 
-/* 🌟 ส่วนตกแต่งหน้าต่างต้อนรับ (Rules Gate) 🌟 */
+/* 🌟 ส่วนที่แก้ไข: ย้าย Nav Bar มาไว้ด้านบน (Sticky Header) 🌟 */
+.nav-bar {
+  position: sticky; 
+  top: 15px; /* เว้นระยะจากขอบบนเล็กน้อยให้ดูมีมิติ */
+  width: 95%; 
+  max-width: 450px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.9);
+  display: flex; 
+  justify-content: space-around;
+  padding: 8px 5px;
+  border-radius: 35px;
+  box-shadow: 0 8px 25px rgba(120, 53, 15, 0.1);
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: var(--dark);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 2px;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 6px 12px;
+  border-radius: 20px;
+  width: 25%;
+  text-align: center;
+}
+
+.nav-item.active {
+  background: var(--dark);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
+}
+
+/* ------------------------------------------- */
+
 #rules-gate {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -53,18 +96,18 @@ body.locked { overflow: hidden; }
   animation: fadeIn 0.6s ease;
 }
 
-/* 🌟 ส่วนเนื้อหาหลักที่จะถูกซ่อนไว้ตอนแรก 🌟 */
 #main-wrapper {
   display: none;
   width: 100%;
   max-width: 500px;
   opacity: 0;
   transition: opacity 0.5s ease;
+  padding-top: 10px;
 }
 
 .container {
   width: 100%;
-  padding: 30px 15px 100px;
+  padding: 10px 15px 100px;
 }
 
 .page { display: none; animation: fadeIn 0.4s ease; }
@@ -94,39 +137,6 @@ h1 {
 }
 .center { text-align: center; }
 
-.nav-bar {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  width: 95%; max-width: 450px;
-  backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.9);
-  display: flex; justify-content: space-around;
-  padding: 10px 5px;
-  border-radius: 35px;
-  box-shadow: 0 12px 30px rgba(120, 53, 15, 0.1);
-  z-index: 1000;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.nav-item {
-  text-decoration: none;
-  color: var(--dark);
-  font-size: 13px;
-  font-weight: 500;
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  cursor: pointer;
-  transition: var(--transition);
-  padding: 8px 12px;
-  border-radius: 20px;
-  width: 25%;
-  text-align: center;
-}
-
-.nav-item.active {
-  background: var(--dark);
-  color: #fff;
-  box-shadow: 0 5px 15px rgba(120, 53, 15, 0.2);
-}
-
 .logo-wrapper { position: relative; width: 150px; height: 150px; margin: 0 auto 20px; }
 .logo { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: 0 10px 30px var(--glow); transition: var(--transition); border: 5px solid #fff; position: relative; z-index: 2; }
 .logo img { width: 100%; height: 100%; object-fit: cover; background-color: #fff; }
@@ -149,7 +159,17 @@ h1 {
 .menu-card { background: rgba(255, 255, 255, 0.85); border: 1px solid var(--main); border-radius: 20px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.05); transition: var(--transition); }
 .menu-card:hover { box-shadow: 0 8px 20px var(--glow); transform: translateY(-3px); }
 .menu-header { display: block; cursor: pointer; }
-.menu-img { width: 100%; height: 250px; object-fit: cover; display: block; background-color: #FFF8D6; border-bottom: 1px solid rgba(251, 191, 36, 0.3); }
+
+.menu-img { 
+  width: 100%; 
+  height: auto; 
+  aspect-ratio: 4 / 5; 
+  object-fit: cover; 
+  display: block; 
+  background-color: #FFF8D6; 
+  border-bottom: 1px solid rgba(251, 191, 36, 0.3); 
+}
+
 .menu-title-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; }
 .menu-title { font-weight: 500; color: var(--dark); font-size: 16px; }
 .menu-icon { font-size: 14px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #FFF8D6; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
@@ -162,7 +182,6 @@ h1 {
 .btn-view { display: inline-block; margin-top: 5px; background: linear-gradient(135deg, var(--main), #FDE047); color: var(--darker); padding: 10px 20px; border-radius: 25px; text-decoration: none; font-size: 13.5px; font-weight: 600; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.4); transition: var(--transition); text-align: center; width: 100%; cursor: pointer; border: none; }
 .btn-view:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(251, 191, 36, 0.6); }
 
-/* ปุ่มยืนยันขนาดใหญ่ในหน้าแรก */
 .btn-accept { font-size: 16px; padding: 15px; width: 100%; margin-top: 10px; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); } }
 
@@ -182,7 +201,7 @@ h1 {
 <div id="rules-gate">
     <div class="gate-content section center">
         <div style="width: 80px; height: 80px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; box-shadow: 0 5px 15px var(--glow);">
-            <img src="ใส่ลิงก์รูปร้านตรงนี้.jpg" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         
         <h2 style="font-size: 20px;">📋 กติกาการเข้าชมครัว</h2>
@@ -217,17 +236,15 @@ h1 {
     </nav>
 
     <div class="container">
-
         <div id="home" class="page active">
             <div class="section center" style="border:none;box-shadow:none;background:transparent; backdrop-filter: none; padding-bottom: 0;">
-                
                 <div class="logo-wrapper">
                     <div class="floating-emoji emoji-1">🧸</div>
                     <div class="floating-emoji emoji-2">🧈</div>
                     <div class="floating-emoji emoji-3">🥞</div>
                     <div class="floating-emoji emoji-4">⭐️</div>
                     <div class="logo">
-                        <img src="ใส่ลิงก์รูปร้านตรงนี้.jpg" alt="SuperBButter Logo">
+                        <img src="https://lh3.googleusercontent.com/d/1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1" alt="SuperBButter Logo">
                     </div>
                 </div>
 
@@ -236,20 +253,14 @@ h1 {
                     <p>เบเกอรี่เล็ก ๆ ที่เต็มไปด้วยขนมจากเชฟยอดฝีมือ 👩🏻‍🍳</p>
                     <p style="margin-top: 5px;">เด็ก ๆ ทุกคนคือขนมภายในร้านที่แสนอร่อย<br>ส่วนนักวาดก็คือเหล่าเชฟชั้นยอดที่รังสรรค์เด็ก ๆ ขึ้นมา ✨</p>
                 </div>
-
-                <div class="rule-box" style="margin-top: 30px; text-align: center; border-color: var(--main);">
-                    <p style="font-size: 14px; font-weight: 500;">ยินดีต้อนรับสู่ครัวขนมของเราค่ะ 🧁</p>
-                    <p style="font-size: 13px; opacity: 0.9;">ขอบคุณที่ให้ความร่วมมือในการอ่านกติกานะคะ<br>เชิญเลือกชมเมนูที่แถบด้านล่างได้เลยค่ะ 👇</p>
-                </div>
             </div>
         </div>
 
         <div id="bread" class="page">
             <div class="section">
                 <h2>🍞 เมนูขนมปัง</h2>
-                <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ</p>
                 <div id="bread-container">
-                    <div class="loading-text">กำลังอบขนมปัง... รอสักครู่นะคะ 👩🏻‍🍳</div>
+                    <div class="loading-text">กำลังอบขนมปัง... 👩🏻‍🍳</div>
                 </div>
             </div>
         </div>
@@ -257,9 +268,8 @@ h1 {
         <div id="cake" class="page">
             <div class="section">
                 <h2>🍰 เมนูเค้ก</h2>
-                <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ</p>
                 <div id="cake-container">
-                    <div class="loading-text">กำลังแต่งหน้าเค้ก... รอสักครู่นะคะ 👩🏻‍🍳</div>
+                    <div class="loading-text">กำลังแต่งหน้าเค้ก... 👩🏻‍🍳</div>
                 </div>
             </div>
         </div>
@@ -267,9 +277,8 @@ h1 {
         <div id="drink" class="page">
             <div class="section">
                 <h2>🍵 เมนูเครื่องดื่ม</h2>
-                <p style="font-size:13px; margin-bottom:20px; opacity:0.8;">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ</p>
                 <div id="drink-container">
-                    <div class="loading-text">กำลังชงเครื่องดื่ม... รอสักครู่นะคะ 👩🏻‍🍳</div>
+                    <div class="loading-text">กำลังชงเครื่องดื่ม... 👩🏻‍🍳</div>
                 </div>
             </div>
         </div>
@@ -282,51 +291,36 @@ h1 {
             </div>
             <div class="copyright">© 2026 SuperBButter Bakery. All rights reserved.</div>
         </div>
-
     </div>
 </div>
 
 <script>
-// 🌟 ฟังก์ชันสำหรับกดยืนยันกติกา 🌟
 function acceptRules() {
     const gate = document.getElementById('rules-gate');
     const mainWrapper = document.getElementById('main-wrapper');
-    
-    // ทำเอฟเฟกต์ค่อยๆ จางหาย
     gate.style.opacity = '0';
-    
     setTimeout(() => {
-        gate.style.display = 'none'; // ซ่อนหน้าต่างกติกา
-        mainWrapper.style.display = 'block'; // แสดงเว็บหลัก
-        
-        // ค่อยๆ โชว์เว็บหลักขึ้นมา
-        setTimeout(() => {
-            mainWrapper.style.opacity = '1';
-        }, 50);
-        
-        document.body.classList.remove('locked'); // ปลดล็อกให้เลื่อนจอได้
-    }, 500); // รอ 0.5 วินาทีให้เอฟเฟกต์จบ
+        gate.style.display = 'none';
+        mainWrapper.style.display = 'flex'; // เปลี่ยนเป็น flex เพื่อให้จัดวาง nav-bar ได้ง่ายขึ้น
+        mainWrapper.style.flexDirection = 'column';
+        mainWrapper.style.alignItems = 'center';
+        setTimeout(() => { mainWrapper.style.opacity = '1'; }, 50);
+        document.body.classList.remove('locked');
+    }, 500);
 }
 
-// สลับหน้าเมนูด้านล่าง
 function showPage(pageId, element) {
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
-
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => item.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
     element.classList.add('active');
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleMenu(headerElement) {
-    const card = headerElement.parentElement;
-    card.classList.toggle('open');
+    headerElement.parentElement.classList.toggle('open');
 }
 
-// ลิงก์ Apps Script ของคุณ
 const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
 
 async function fetchData() {
@@ -335,78 +329,48 @@ async function fetchData() {
         const data = await response.json();
         displayData(data);
     } catch (error) {
-        console.error('Error fetching data:', error);
-        document.getElementById('bread-container').innerHTML = '<div class="loading-text">เกิดข้อผิดพลาดในการโหลดข้อมูล 🥲</div>';
-        document.getElementById('cake-container').innerHTML = '<div class="loading-text">เกิดข้อผิดพลาดในการโหลดข้อมูล 🥲</div>';
-        document.getElementById('drink-container').innerHTML = '<div class="loading-text">เกิดข้อผิดพลาดในการโหลดข้อมูล 🥲</div>';
+        console.error('Error:', error);
     }
 }
 
 function displayData(data) {
-    const breadContainer = document.getElementById('bread-container');
-    const cakeContainer = document.getElementById('cake-container');
-    const drinkContainer = document.getElementById('drink-container');
+    const containers = {
+        'ขนมปัง': document.getElementById('bread-container'),
+        'เค้ก': document.getElementById('cake-container'),
+        'เครื่องดื่ม': document.getElementById('drink-container')
+    };
 
-    breadContainer.innerHTML = '';
-    cakeContainer.innerHTML = '';
-    drinkContainer.innerHTML = '';
+    Object.values(containers).forEach(c => c.innerHTML = '');
 
     data.forEach(item => {
-        const category = item['หมวดหมู่'];
-        const name = item['ชื่อขนม'] || 'ไม่มีชื่อ';
+        const target = containers[item['หมวดหมู่']];
+        if (!target) return;
+
         let imgUrl = item['ลิงก์รูปภาพ'] || '';
-        const artist = item['นักวาด'] || '-';
-        const artistLink = item['ลิงก์นักวาด'] || ''; 
-        const price = item['มูลค่า'] || '-';
-        const link = item['ลิงก์เพิ่มเติม'] || '#';
-
         if (imgUrl.includes('drive.google.com/file/d/')) {
-            const match = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            if (match && match[1]) {
-                imgUrl = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
-            }
+            const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
         }
 
-        let artistDisplay = artist; 
-        if (artistLink.trim() !== '') {
-            artistDisplay = `<a href="${artistLink}" target="_blank" style="color: var(--darker); text-decoration: underline; font-weight: 500;">${artist}</a>`;
-        }
+        const artistLink = item['ลิงก์นักวาด'] || '';
+        const artistDisplay = artistLink ? `<a href="${artistLink}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
 
-        let targetContainer = null;
-
-        if (category === 'ขนมปัง') {
-            targetContainer = breadContainer;
-        } else if (category === 'เค้ก') {
-            targetContainer = cakeContainer;
-        } else if (category === 'เครื่องดื่ม') {
-            targetContainer = drinkContainer;
-        }
-
-        if (!targetContainer) return;
-
-        const cardHTML = `
+        target.innerHTML += `
         <div class="menu-card">
             <div class="menu-header" onclick="toggleMenu(this)">
-                <img src="${imgUrl}" alt="${name}" class="menu-img">
+                <img src="${imgUrl}" alt="${item['ชื่อขนม']}" class="menu-img">
                 <div class="menu-title-row">
-                    <div class="menu-title">${name}</div>
+                    <div class="menu-title">${item['ชื่อขนม']}</div>
                     <div class="menu-icon">▼</div>
                 </div>
             </div>
             <div class="menu-details">
                 <div class="detail-text">🎨 <strong>นักวาด:</strong> ${artistDisplay}</div>
-                <div class="detail-text">💰 <strong>มูลค่า:</strong> ${price}</div>
-                <a href="${link}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
+                <div class="detail-text">💰 <strong>มูลค่า:</strong> ${item['มูลค่า']}</div>
+                <a href="${item['ลิงก์เพิ่มเติม'] || '#'}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
             </div>
-        </div>
-        `;
-
-        targetContainer.innerHTML += cardHTML;
+        </div>`;
     });
-
-    if(breadContainer.innerHTML === '') breadContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
-    if(cakeContainer.innerHTML === '') cakeContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
-    if(drinkContainer.innerHTML === '') drinkContainer.innerHTML = '<div class="loading-text">ยังไม่มีเมนูในหมวดหมู่นี้ 🥺</div>';
 }
 
 fetchData();
