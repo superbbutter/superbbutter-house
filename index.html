@@ -3,629 +3,1756 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperBButter - Bakery & OC</title>
+<title>SuperBButter - House</title>
 <link rel="icon" type="image/x-icon" href="https://drive.google.com/thumbnail?id=1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1&sz=w1000">
+
+<link rel="preload" href="https://drive.google.com/thumbnail?id=1e3zyO1VT4FCB020UAEmq5fOThW2R38SL&sz=w1600" as="image">
 
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg: #FFFDF5; 
-  --main: #FBBF24; 
-  --dark: #78350F; 
-  --darker: #451A03; 
+  /* 🎨 โทนสีครีม - ม่วงพาสเทล 🎨 */
+  --bg: #FFF8EC; 
+  --img-bg-pale: #FFFDF8; 
+  --main: #C4A4F7; 
+  --dark: #6B4E90; 
+  --darker: #4A316A; 
   --white: rgba(255, 255, 255, 0.95);
-  --glass: rgba(255, 255, 255, 0.5); 
-  --glow: rgba(251, 191, 36, 0.25); 
+  --glass: rgba(255, 255, 255, 0.6); 
+  --glow: rgba(196, 164, 247, 0.3); 
   --transition: 0.3s ease;
+  
+  /* 🎨 โทนสีสำหรับไอคอนวงกลม 🎨 */
+  --badge-personal: #E2CBFF;   
+  --badge-commercial: #B084F5; 
+  --badge-full: #8963BA;       
+  --badge-taken: #CBB2FF;      
+  --badge-single: #F2E6FF;     
+  --badge-none: #9CA3AF;       
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Mitr', sans-serif; }
 
-body {
-  background: var(--bg);
-  background-image: linear-gradient(135deg, #FFFDF5 0%, #FFF8D6 100%);
-  display: flex; 
-  flex-direction: column;
-  align-items: center;
-  color: var(--dark);
-  min-height: 100vh;
+button, input, select, textarea {
+    appearance: none; -webkit-appearance: none; -moz-appearance: none; outline: none; font-family: 'Mitr', sans-serif;
 }
 
+select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B4E90' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat; background-position: right 15px center; background-size: 16px; padding-right: 40px !important; 
+}
+
+body { background: var(--bg); background-image: linear-gradient(135deg, #FFF8EC 0%, #F7EFFF 100%); display: flex; flex-direction: column; align-items: center; color: var(--dark); min-height: 100vh; }
 body.locked { overflow: hidden; }
 
-/* 🌟 Header 🌟 */
-header {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
-  background: transparent;
+/* ป้องกันการกดค้างเพื่อเซฟรูป */
+.no-save {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
+/* Admin Bar */
+#admin-bar { display: none; background: var(--darker); color: #fff; padding: 12px; text-align: center; position: sticky; top: 0; z-index: 9999; width: 100%; font-size: 14px; font-weight: 500; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.btn-exit-edit { margin-left: 10px; padding: 5px 15px; border-radius: 20px; border: none; background: var(--main); color: #fff; cursor: pointer; font-weight: 600; transition: 0.2s; }
+.btn-exit-edit:hover { background: #B084F5; transform: scale(1.05); }
+
+/* 🌟 สไตล์ปุ่มเลือกโหมดการจัดเรียง 🌟 */
+.sort-btn {
+    padding: 4px 12px; 
+    border-radius: 16px; 
+    cursor: pointer; 
+    transition: 0.3s ease; 
+    font-weight: 500; 
+    color: #fff;
+}
+.sort-btn:hover { background: rgba(255,255,255,0.2); }
+.sort-btn.active {
+    background: #fff; 
+    color: var(--darker); 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#admin-add-bar { display: none; width: 100%; margin-bottom: 15px; animation: fadeIn 0.4s ease; }
+.btn-admin-add { width: 100%; padding: 15px; background: #B084F5; color: #fff; border: none; border-radius: 20px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(176, 132, 245, 0.3); transition: var(--transition); }
+.btn-admin-add:hover { background: #9B68ED; transform: translateY(-2px); }
+
+/* Header */
+header { width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 20px; background: transparent; }
 .logo-wrapper { position: relative; width: 150px; height: 150px; margin-bottom: 5px; }
 .logo { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; box-shadow: 0 10px 30px var(--glow); transition: var(--transition); border: 5px solid #fff; position: relative; z-index: 2; }
 .logo img { width: 100%; height: 100%; object-fit: cover; background-color: #fff; }
+h1 { font-size: 28px; margin-bottom: 10px; background: linear-gradient(90deg, var(--darker), var(--dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600; }
 
-h1 { 
-  font-size: 28px; 
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, var(--darker), var(--dark)); 
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent; 
-  font-weight: 600;
-}
-
-.nav-bar {
-  width: 95%; 
-  max-width: 450px;
-  backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.9);
-  display: flex; 
-  justify-content: space-around;
-  padding: 8px 5px;
-  border-radius: 35px;
-  box-shadow: 0 8px 25px rgba(120, 53, 15, 0.1);
-  z-index: 1000;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  margin-bottom: 5px;
-}
-
-.nav-item {
-  text-decoration: none;
-  color: var(--dark);
-  font-size: 12px;
-  font-weight: 500;
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center;
-  cursor: pointer;
-  transition: var(--transition);
-  padding: 6px 10px;
-  border-radius: 20px;
-  width: 25%;
-}
+.nav-bar { width: 95%; max-width: 450px; backdrop-filter: blur(15px); background: rgba(255, 255, 255, 0.9); display: flex; justify-content: space-around; padding: 8px 5px; border-radius: 35px; box-shadow: 0 8px 25px rgba(107, 78, 144, 0.1); z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.8); margin-bottom: 5px; }
+.nav-item { text-decoration: none; color: var(--dark); font-size: 12px; font-weight: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); padding: 6px 10px; border-radius: 20px; width: 25%; }
 .nav-item span { line-height: 1.2; }
+.nav-item.active { background: var(--dark); color: #fff; box-shadow: 0 4px 12px rgba(107, 78, 144, 0.2); }
 
-.nav-item.active { background: var(--dark); color: #fff; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2); }
-
-/* Rules Gate Area */
-#rules-gate {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: var(--bg);
-  background-image: linear-gradient(135deg, #FFFDF5 0%, #FFF8D6 100%);
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 15px;
-  overflow-y: auto;
-  transition: opacity 0.5s ease;
-}
-
+#rules-gate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); background-image: linear-gradient(135deg, #FFF8EC 0%, #F7EFFF 100%); z-index: 9999; display: flex; flex-direction: column; align-items: center; padding: 40px 15px; overflow-y: auto; transition: opacity 0.5s ease; }
 .gate-content { max-width: 500px; width: 100%; animation: fadeIn 0.6s ease; }
-
-#main-wrapper {
-  display: none;
-  width: 100%;
-  max-width: 500px;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.container {
-  width: 100%;
-  padding: 10px 15px 50px;
-}
-
+#main-wrapper { display: none; width: 100%; max-width: 500px; opacity: 0; transition: opacity 0.5s ease; }
+.container { width: 100%; padding: 10px 15px 50px; }
 .page { display: none; animation: fadeIn 0.4s ease; }
 .page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.section { backdrop-filter: blur(10px); background: var(--glass); border-radius: 25px; padding: 20px; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(107, 78, 144, 0.05); border: 1px solid rgba(255, 255, 255, 0.6); }
+.category-header { display: inline-flex; align-items: center; background: #fff; border: 2px solid var(--main); padding: 8px 25px; border-radius: 50px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.category-header h2 { font-size: 18px; color: var(--dark); margin: 0; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.category-desc { font-size: 13px; opacity: 0.8; margin-bottom: 25px; padding-left: 10px; display: flex; align-items: center; gap: 4px;}
 
-.section {
-  backdrop-filter: blur(10px);
-  background: var(--glass);
-  border-radius: 25px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 10px 30px rgba(120, 53, 15, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-}
-
-/* 🌟 หัวข้อหมวดหมู่แบบใหม่ 🌟 */
-.category-header {
-    display: inline-flex;
-    align-items: center;
-    background: #fff;
-    border: 2px solid var(--main);
-    padding: 8px 25px;
-    border-radius: 50px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-.category-header h2 {
-    font-size: 18px;
-    color: var(--dark);
-    margin: 0;
-    font-weight: 600;
-}
-.category-desc {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-bottom: 25px; /* ระยะห่างระหว่างข้อความและรูปภาพตัวละคร */
-    padding-left: 10px;
+/* 🌟 คอนเทนเนอร์ 2 คอลัมน์ 🌟 */
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-items: start; /* ป้องกันการ์ดยืดตามกันเวลาย่อขยาย */
 }
 
-.menu-img { 
-  width: 100%; 
-  height: auto; 
-  aspect-ratio: 879 / 1024; 
-  object-fit: cover; 
-  display: block; 
-  background-color: #FFF8D6; 
-  border-bottom: 1px solid rgba(251, 191, 36, 0.3); 
+/* 🌟 ปรับปรุงการ์ดให้เหมาะกับ 2 คอลัมน์ 🌟 */
+.menu-card { 
+    background: rgba(255, 255, 255, 0.85); 
+    border: 1px solid var(--main); 
+    border-radius: 20px; 
+    margin: 0; /* เปลี่ยนมาใช้ gap ของ grid แทน */
+    overflow: hidden; 
+    box-shadow: 0 4px 12px rgba(107, 78, 144, 0.05); 
+    transition: var(--transition); 
+    width: 100%;
 }
-
-.menu-card { background: rgba(255, 255, 255, 0.85); border: 1px solid var(--main); border-radius: 20px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(120, 53, 15, 0.05); transition: var(--transition); }
 .menu-card:hover { transform: translateY(-3px); }
 .menu-header { display: block; cursor: pointer; }
-.menu-title-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 15px; }
-.menu-title { font-weight: 500; color: var(--dark); font-size: 15px; flex: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
-.menu-icon { font-size: 12px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #FFF8D6; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; margin-left: 10px; }
-.menu-card.open .menu-icon { transform: rotate(180deg); background: var(--main); }
 
-.menu-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: rgba(255, 255, 255, 0.5); padding: 0 15px; }
-.menu-card.open .menu-details { max-height: 500px; padding: 10px 15px 15px; }
+.menu-img-wrapper { position: relative; width: 100%; background-color: #ffffff; border-bottom: 1px solid rgba(196, 164, 247, 0.3); }
+.menu-img { width: 100%; height: auto; aspect-ratio: 879 / 1024; object-fit: cover; display: block; pointer-events: none; }
 
-.detail-text { 
-  font-size: 14px; 
-  margin-bottom: 8px; 
-  color: var(--darker); 
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.menu-title-row { display: flex; flex-direction: column; align-items: flex-start; padding: 12px 10px; gap: 5px; }
+.menu-title { font-weight: 500; color: var(--dark); font-size: 13px; flex: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.menu-icon { font-size: 12px; color: var(--dark); transition: transform 0.3s ease; padding: 5px; background: #F7EFFF; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;}
+.menu-card.open .menu-icon { transform: rotate(180deg); background: var(--main); color: #fff; }
+.menu-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: rgba(255, 255, 255, 0.5); padding: 0 10px; }
+.menu-card.open .menu-details { max-height: 6000px; padding: 10px 10px 15px; }
+
+/* 🌟 สไตล์กล่องข้อมูลเพิ่มเติม 🌟 */
+.extra-info-box {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 12px; /* ลดฟอนต์เล็กน้อย */
+    line-height: 1.5;
+    color: var(--darker);
+    margin-bottom: 10px;
+    border-left: 3px solid var(--main);
+    text-align: left;
 }
 
-.btn-view { display: inline-block; margin-top: 5px; background: linear-gradient(135deg, var(--main), #FDE047); color: var(--darker); padding: 10px 20px; border-radius: 25px; text-decoration: none; font-size: 13px; font-weight: 600; text-align: center; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
+.detail-text { font-size: 12px; margin-bottom: 8px; color: var(--darker); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.btn-view { display: inline-flex; align-items: center; justify-content: center; gap: 6px; margin-top: 5px; background: linear-gradient(135deg, #D4BAFF, #E7D5FF); color: var(--darker); padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: 600; width: 100%; border: none; cursor: pointer; transition: 0.3s; }
 .btn-view:hover { transform: translateY(-2px); }
+.btn-gallery { background: #F7EFFF; border: 1px dashed var(--main); color: var(--dark); margin-top: 10px; }
+
+/* สไตล์สำหรับตู้กระจกโชว์ขนม (Mini Grid) */
+.all-chars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 15px 10px; justify-items: center; margin-top: 5px; }
+.mini-char-card { width: 100%; cursor: pointer; transition: transform 0.2s ease; text-align: center; }
+.mini-char-card:hover { transform: translateY(-4px); }
+.mini-char-img-wrapper { 
+    width: 100%; height: 100%;
+    border-radius: 18px; 
+    overflow: hidden; 
+    border: 2px solid var(--main); 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 10px rgba(107, 78, 144, 0.15); 
+    position: relative;
+    margin: 0;
+}
+.mini-char-img-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;}
+.mini-char-name { font-size: 11px; color: var(--darker); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 0 2px;}
+
+.mini-status-dot { 
+    position: absolute; 
+    top: -5px; 
+    right: -5px; 
+    width: 16px; 
+    height: 16px; 
+    border-radius: 50%; 
+    border: 2px solid #fff; 
+    z-index: 10; 
+}
+
+/* ปุ่มโฮมลอยตัว */
+.floating-home-btn {
+    display: none; 
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #C4A4F7, #9B68ED);
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 6px 20px rgba(155, 104, 237, 0.4);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid #fff;
+}
+.floating-home-btn:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 8px 25px rgba(155, 104, 237, 0.6);
+}
+
+/* 🌟 ปุ่มกลับไปบนสุดลอยตัว 🌟 */
+.floating-top-btn {
+    display: none; 
+    position: fixed;
+    bottom: 95px; 
+    right: 25px;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    color: var(--main);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(107, 78, 144, 0.15);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid var(--main);
+}
+.floating-top-btn:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 6px 20px rgba(155, 104, 237, 0.3);
+    background: #F7EFFF;
+}
 
 .rule-box { background: rgba(255, 255, 255, 0.7); padding: 15px; border-radius: 15px; font-size: 13px; line-height: 1.6; border: 1px dashed var(--main); text-align: left; }
-.highlight { color: #b91c1c; font-weight: 500; } 
-.btn-accept { font-size: 16px; padding: 15px; margin-top: 15px; animation: pulse 2s infinite; }
+.highlight { color: #9B68ED; font-weight: 500; } 
+.btn-accept { font-size: 16px; padding: 15px; margin-top: 15px; animation: pulse 2s infinite; cursor: pointer; width: 100%; background: var(--main); color: #fff; border-radius: 20px; font-weight: 600; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(196, 164, 247, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(176, 132, 245, 0); } 100% { box-shadow: 0 0 0 0 rgba(176, 132, 245, 0); } }
 
-.floating-emoji { position: absolute; font-size: 24px; z-index: 5; animation: floatEmoji 3s infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
-.emoji-1 { top: -10px; left: -10px; animation-delay: 0s; font-size: 26px; } 
-.emoji-2 { top: 20px; right: -20px; animation-delay: 0.7s; } 
-.emoji-3 { bottom: 15px; left: -15px; animation-delay: 1.4s; } 
-.emoji-4 { bottom: -5px; right: -10px; animation-delay: 2.1s; font-size: 28px; } 
-@keyframes floatEmoji { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+/* ดาวตกแต่ง */
+.floating-star { position: absolute; z-index: 5; filter: drop-shadow(0 4px 6px rgba(196, 164, 247, 0.2)); }
+.star-1 { top: -15px; left: -10px; color: #E2CBFF; width: 28px; animation: floatStar 3.2s ease-in-out infinite; } 
+.star-2 { top: 15px; right: -25px; color: #6B4E90; width: 14px; animation: floatStar 2.5s ease-in-out infinite 0.5s; } 
+.star-3 { top: 55%; left: -30px; color: #CBB2FF; width: 18px; animation: floatStar 3.5s ease-in-out infinite 1.2s; } 
+.star-4 { bottom: -10px; right: -15px; color: #9B68ED; width: 24px; animation: floatStar 2.8s ease-in-out infinite 0.8s; } 
+.star-5 { bottom: 10px; left: 15px; color: #B084F5; width: 12px; animation: floatStar 3s ease-in-out infinite 2s; } 
+@keyframes floatStar { 0%, 100% { transform: translateY(0) scale(1) rotate(0deg); } 50% { transform: translateY(-10px) scale(1.1) rotate(5deg); } }
 
-.mini-contact { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed rgba(251, 191, 36, 0.3); }
+.mini-contact { text-align: center; margin-top: 20px; padding-top: 20px; border-top: 2px dashed rgba(196, 164, 247, 0.3); }
 .socials-mini { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
 .socials-mini a { padding: 6px 15px; border-radius: 20px; background: #fff; text-decoration: none; color: var(--dark); font-size: 12px; border: 1px solid var(--main); transition: var(--transition); }
 .copyright { font-size: 10px; opacity: 0.6; }
 
-/* 🌟 Status Lights & Styles 🌟 */
-.status-light { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-.status-sp-ota { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-.status-tent { background: #eab308; box-shadow: 0 0 8px #eab308; }
-.status-forever { background: #94a3b8; }
+/* Status Lights */
+.status-light { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; flex-shrink: 0;}
+.status-sp-ota { background: #CBB2FF; box-shadow: 0 0 8px #CBB2FF; }
+.status-eo { background: #6B4E90; box-shadow: 0 0 8px #6B4E90; }
+.status-forever { background: #9CA3AF; }
 
-/* 🌟 Modal Styles 🌟 */
-.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); overflow-y: auto; }
-.modal-content { background: var(--bg); margin: 5% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 450px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
-.modal-input, .modal-select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 15px; border: 1px solid var(--main); font-size: 14px; text-align: left; background: #fff; }
-.btn-confirm { background: var(--main); color: var(--darker); margin-top: 15px; padding: 12px; width: 100%; border-radius: 15px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; }
-.btn-close-modal { color: var(--dark); font-size: 12px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: block; }
-
-/* 🌟 Manage UI 🌟 */
-.manage-nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; background: rgba(120, 53, 15, 0.05); padding: 5px; border-radius: 15px; }
-.manage-tab { flex: 1; padding: 10px 5px; border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 500; transition: var(--transition); text-align: center; }
-.manage-tab.active { background: var(--main); color: var(--darker); box-shadow: 0 4px 10px var(--glow); }
-
-.edit-card-item { background: #fff; padding: 15px; border-radius: 20px; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(251, 191, 36, 0.2); display: flex; flex-direction: column; gap: 10px; text-align: left; }
-.edit-row { display: flex; justify-content: space-between; align-items: center; }
-.order-group { display: flex; gap: 8px; }
-.btn-order { 
-    width: 32px; height: 32px; border-radius: 50%; border: 1px solid #eee; background: #fff; 
-    display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; 
-    transition: 0.2s; color: var(--dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+/* ไอคอนวงกลม */
+.usage-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; 
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
-.btn-order:hover { background: var(--main); border-color: var(--main); color: var(--darker); transform: scale(1.1); }
+.usage-personal { background: var(--badge-personal); } 
+.usage-commercial { background: var(--badge-commercial); } 
+.usage-full { background: var(--badge-full); } 
+.love-taken { background: var(--badge-taken); } 
+.love-single { background: var(--badge-single); } 
+.love-none { background: var(--badge-none); } 
+
+/* 🌟 ปุ่มวาปหมวดหมู่ 🌟 */
+.jump-bar { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; width: 100%; }
+.jump-btn { background: #fff; border: 1px dashed var(--main); padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; color: var(--dark); font-weight: 500; transition: 0.2s; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(107, 78, 144, 0.05); }
+.jump-btn:hover { background: #F7EFFF; border-color: var(--dark); transform: translateY(-2px); }
+
+/* Modals */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); overflow-y: auto; }
+.modal-content { background: var(--bg); margin: 5% auto; padding: 30px 25px; border-radius: 25px; width: 90%; max-width: 450px; border: 2px solid var(--main); animation: fadeIn 0.3s ease; text-align: center; }
+
+.modal-input, .modal-select { 
+    width: 100%; 
+    padding: 14px 16px; 
+    margin: 6px 0 18px; 
+    border-radius: 12px; 
+    border: 1px solid #e5e7eb; 
+    background-color: #f9fafb;
+    font-size: 14px; 
+    text-align: left; 
+    color: var(--dark);
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+.modal-input:focus, .modal-select:focus {
+    border-color: var(--main);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(196, 164, 247, 0.2);
+}
+.modal-label { display: block; text-align: left; font-size: 13px; font-weight: 600; color: var(--darker); margin-left: 4px; margin-bottom: 4px;}
+
+/* CSS Toggle Switch ลายน้ำ */
+.watermark-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(196, 164, 247, 0.15);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px dashed var(--main);
+    margin-top: -5px;
+    margin-bottom: 18px;
+}
+.watermark-label-text { font-size: 13px; color: var(--dark); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: .4s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+input:checked + .slider { background-color: var(--main); }
+input:checked + .slider:before { transform: translateX(20px); }
+
+.btn-confirm { background: var(--main); color: #fff; margin-top: 10px; padding: 14px; width: 100%; border-radius: 15px; border: none; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(176, 132, 245, 0.3); display: flex; align-items: center; justify-content: center; gap: 6px;}
+.btn-confirm:hover { transform: translateY(-2px); background: #9B68ED; }
+.btn-close-modal { color: #6b7280; font-size: 13px; cursor: pointer; text-decoration: underline; margin-top: 15px; display: block; text-align: center; transition: 0.2s; }
+.btn-close-modal:hover { color: var(--darker); }
+
+/* Edit Buttons */
+.btn-edit-inline, .btn-delete-inline, .btn-move-inline { 
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; font-size: 13px; cursor: pointer; color: var(--dark); font-weight: 500; transition: all 0.2s ease; 
+}
+.btn-edit-inline { flex: 1; padding: 8px 10px; border-color: var(--main); display: flex; align-items: center; justify-content: center; gap: 4px;}
+.btn-edit-inline:hover { background: var(--main); color: #fff; }
+
+.btn-delete-inline { flex: 0 0 auto; padding: 8px 10px; border-color: #FFE1EA; color: #D484B6; background: #FFF5F8; display: flex; align-items: center; justify-content: center; gap: 4px;}
+.btn-delete-inline:hover { background: #D484B6; color: #fff; }
+
+.btn-move-inline { 
+    flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; border-color: #d1d5db; background: #f3f4f6;
+}
+.btn-move-inline:hover { background: var(--main); border-color: var(--main); color: #fff; }
+
+/* 🌟 สไตล์ปุ่มเลื่อนขึ้น-ลง สำหรับรูปเพิ่มเติม 🌟 */
+.btn-move-ex {
+    background: #f3f4f6; color: var(--dark); border: 1px solid #e5e7eb; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; padding: 0;
+}
+.btn-move-ex:hover { background: var(--main); color: #fff; border-color: var(--main); }
+
+.edit-form-container { padding: 15px 10px; background: rgba(255,255,255,0.95); border-top: 1px dashed var(--main); display: flex; flex-direction: column; cursor: default; }
+.edit-actions { display: flex; gap: 10px; margin-top: 10px; }
+.edit-actions button { flex: 1; padding: 10px; border-radius: 12px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; color: #fff; display: flex; align-items: center; justify-content: center; gap: 4px;}
+.btn-save-inline { background: #B084F5; box-shadow: 0 4px 10px rgba(176, 132, 245, 0.2); }
+.btn-save-inline:hover { background: #9B68ED; transform: translateY(-2px); }
+.btn-cancel-inline { background: #D484B6; box-shadow: 0 4px 10px rgba(212, 132, 182, 0.2); }
+.btn-cancel-inline:hover { background: #BA639A; transform: translateY(-2px); }
+
+/* 🌟 สไตล์สำหรับกล่องพรีวิวรูปภาพ 🌟 */
+.image-preview-container {
+    width: 100%;
+    max-width: 250px;
+    margin: 5px auto 15px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px dashed var(--main);
+    background-color: var(--img-bg-pale);
+    display: none;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(107, 78, 144, 0.05);
+}
+.image-preview-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* 🌟 เช็คบ็อกซ์ฟิลเตอร์ (ใหม่) 🌟 */
+.filter-container {
+    display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; width: 100%;
+}
+.filter-btn {
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--darker); background: rgba(255, 255, 255, 0.7); padding: 8px 16px; border-radius: 12px; border: 2px solid rgba(196, 164, 247, 0.4); transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(107, 78, 144, 0.05);
+}
+.filter-btn:hover { border-color: var(--main); background: rgba(255,255,255,0.9); }
+.filter-btn input {
+    appearance: none; -webkit-appearance: none; margin: 0; width: 22px; height: 22px; border: 2px solid #cbd5e1; border-radius: 6px; background-color: #fff; display: grid; place-content: center; cursor: pointer; transition: 0.2s ease; flex-shrink: 0;
+}
+.filter-btn input::before {
+    content: ""; width: 12px; height: 12px; transform: scale(0); transition: 120ms transform ease-in-out; background-color: var(--main); clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+.filter-btn input:checked { border-color: var(--main); background-color: #F7EFFF; }
+.filter-btn input:checked::before { transform: scale(1); }
 </style>
+
+<script>
+function acceptRules() {
+    try {
+        const gate = document.getElementById('rules-gate');
+        const mainWrapper = document.getElementById('main-wrapper');
+        if (gate) {
+            gate.style.opacity = '0';
+            gate.style.pointerEvents = 'none';
+        }
+        setTimeout(() => {
+            if (gate) gate.style.display = 'none';
+            if (mainWrapper) {
+                mainWrapper.style.display = 'flex';
+                mainWrapper.style.flexDirection = 'column';
+                mainWrapper.style.alignItems = 'center';
+                mainWrapper.style.opacity = '1';
+            }
+            document.body.classList.remove('locked');
+        }, 500);
+    } catch (e) {
+        console.error("Error in acceptRules:", e);
+    }
+}
+</script>
 </head>
 
 <body class="locked">
+
+<div id="admin-bar">
+    <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px;">
+        <div style="font-weight: 600;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right:4px;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg> 
+            โหมดแก้ไข
+        </div>
+        
+        <div style="background: rgba(0,0,0,0.2); padding: 4px; border-radius: 20px; font-size: 13px; display: flex; align-items: center; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);">
+            <div id="btn-sort-auto" class="sort-btn" onclick="toggleSortMode('AUTO')">จัดเรียงอัตโนมัติ</div>
+            <div id="btn-sort-manual" class="sort-btn" onclick="toggleSortMode('MANUAL')">จัดเรียงเอง</div>
+        </div>
+
+        <button class="btn-exit-edit" onclick="exitEditMode()">ออก</button>
+    </div>
+</div>
 
 <div id="rules-gate">
   <div class="gate-content section center">
     <div style="width: 80px; height: 80px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid #fff; box-shadow: 0 5px 15px var(--glow);">
       <img src="https://drive.google.com/thumbnail?id=1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1&sz=w1000" alt="Logo" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
-    <h2>📋 กติกาการเข้าชมครัว</h2>
+    
+    <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> กติกาการเข้าชมครัว</h2>
     <div class="rule-box">
-      <p><strong>₊˚ෆ อ่านรายละเอียดให้ครบถ้วน ୭˚. ᵎᵎ</strong></p>
-      <p>꩜ .ᐟ ก่อนก้าวเข้าสู่ครัวขนมของเรา กรุณาทำตามประกาศอย่างเคร่งครัด !</p>
-      <p>♡ สามารถชื่นชมเด็กๆ ได้แต่ขอความร่วมมือ <span style="text-decoration: underline;">แจ้งให้ทางร้านทราบก่อนนะคะ</span></p>
-      <p class="highlight">❯❯ หากพบพฤติกรรมไม่เหมาะสม ทางร้านขอเชิญออกจากครัวทันทีค่ะ !!</p>
+      <p><strong>กรุณาอ่านรายละเอียดให้ครบถ้วน</strong></p>
+      <p>ก่อนเข้าสู่ครัวเข้าชมขนมของเรา กรุณาอ่านและทำตามประกาศอย่างเคร่งครัด !</p>
+      <p>สามารถชื่นชมเด็ก ๆ และอุ้มไปวาดได้แต่ขอความร่วมมือ <span style="text-decoration: underline;">แจ้งให้ทางร้านทราบก่อน</span>นะคะ</p>
     </div>
-    <h2 style="margin-top: 20px;">📋 ประกาศจากหน้าเตาอบ</h2>
-    <div class="rule-box" style="background: rgba(255,255,255,0.9); border-color: #b91c1c;">
-      <p class="highlight">⚠︎ Warning</p>
-      <p>✘ ห้ามคัดลอกดีไซน์ นำไปดัดแปลง หรือจำหน่ายต่อโดยเด็ดขาด</p>
+
+    <h2 style="margin-top: 20px; color: #9B68ED;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Warning</h2>
+    <div class="rule-box" style="background: rgba(255,255,255,0.9); border-color: #9B68ED; box-shadow: 0 4px 15px rgba(155, 104, 237, 0.1);">
+      <p class="highlight" style="font-size: 15px; margin-bottom: 8px;">คำเตือนลิขสิทธิ์และสิทธิ์ส่วนบุคคล</p>
+      <ul style="padding-left: 20px; font-size: 13px; line-height: 1.8; color: #6B4E90;">
+        <li><strong>ห้ามเซฟ (Save)</strong> รูปภาพทุกภาพในเว็บไซต์นี้เด็ดขาด</li>
+        <li><strong>ห้ามนำไปตัดต่อ</strong> ดัดแปลง แก้ไข หรือลบเครดิตนักวาด</li>
+        <li><strong>ห้ามนำไปใช้</strong> โดยไม่ได้รับอนุญาต</li>
+        <li><strong>ห้ามคัดลอกดีไซน์</strong> หรือนำไปแอบอ้างว่าเป็นของตนเอง</li>
+      </ul>
     </div>
-    <button class="btn-view btn-accept" onclick="acceptRules()">✅ ล้างมือและเข้าสู่ครัว</button>
+
+    <button class="btn-accept" onclick="acceptRules()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> 
+        รับทราบและยอมรับ
+    </button>
   </div>
 </div>
 
 <div id="main-wrapper">
   <header>
     <div class="logo-wrapper">
-      <div class="floating-emoji emoji-1">🧸</div><div class="floating-emoji emoji-2">🧈</div>
-      <div class="floating-emoji emoji-3">🥞</div><div class="floating-emoji emoji-4">⭐️</div>
+      <div class="floating-star star-1"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+      <div class="floating-star star-2"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+      <div class="floating-star star-3"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+      <div class="floating-star star-4"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+      <div class="floating-star star-5"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
       <div class="logo">
         <img src="https://drive.google.com/thumbnail?id=1aTumT9SN2pzCyOtInZyv85ksTcZyv5g1&sz=w1000" alt="SuperBButter Logo">
       </div>
     </div>
     <h1>SuperBButter</h1>
     <nav class="nav-bar">
-      <div class="nav-item active" onclick="showPage('home', this)"><span>🏠</span><span>โฮม</span></div>
-      <div class="nav-item" onclick="showPage('bread', this)"><span>🍞</span><span>ขนมปัง</span></div>
-      <div class="nav-item" onclick="showPage('cake', this)"><span>🍰</span><span>เค้ก</span></div>
-      <div class="nav-item" onclick="showPage('drink', this)"><span>🍵</span><span>เครื่องดื่ม</span></div>
+      <div class="nav-item active" id="nav-home" onclick="showPage('home', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:2px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>โฮม</span>
+      </div>
+      <div class="nav-item" id="nav-bread" onclick="showPage('bread', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:2px;"><rect x="3" y="8" width="18" height="12" rx="2"></rect><path d="M3 8c0-3 3-4 6-4s5 1 9 4"></path></svg>
+          <span>ขนมปัง</span>
+      </div>
+      <div class="nav-item" id="nav-cake" onclick="showPage('cake', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:2px;"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path><path d="M12 11v-4"></path><path d="M12 3v1"></path></svg>
+          <span>เค้ก</span>
+      </div>
+      <div class="nav-item" id="nav-drink" onclick="showPage('drink', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:2px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+          <span>เครื่องดื่ม</span>
+      </div>
     </nav>
   </header>
 
   <div class="container">
+    <div id="admin-add-bar">
+        <button class="btn-admin-add" onclick="openAddCharModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            อบขนมชิ้นใหม่ (เพิ่มตัวละคร)
+        </button>
+    </div>
+
     <div id="home" class="page active">
       <div class="rule-box" style="text-align: center; border-color: var(--main); margin-bottom: 15px;">
-        <p style="font-size: 14px; font-weight: 500;">เบเกอรี่เล็ก ๆ ที่เต็มไปด้วยขนมจากเชฟยอดฝีมือ 👩🏻‍🍳</p>
-        <p style="font-size: 13px; opacity: 0.9;">เด็ก ๆ ทุกคนคือขนมภายในร้านที่แสนอร่อย ✨</p>
+        <p style="font-size: 14px; font-weight: 500;">
+            เบเกอรี่เล็ก ๆ ที่เต็มไปด้วยขนมจากเชฟยอดฝีมือ
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><path d="M12 2C8.69 2 6 4.69 6 8c0 2.21 1.2 4.14 3 5.19V16h6v-2.81c1.8-1.05 3-2.98 3-5.19 0-3.31-2.69-6-6-6z"></path><path d="M8 22h8"></path><path d="M10 19h4"></path></svg>
+        </p>
+        <p style="font-size: 13px; opacity: 0.9;">
+            เด็ก ๆ ทุกคนคือขนมภายในร้านที่แสนอร่อย 
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </p>
       </div>
 
       <div class="section" style="padding: 15px;">
-        <h3 style="font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 5px;">✨ สัญลักษณ์ในครัว</h3>
+        <h3 style="font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 5px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            สัญลักษณ์ในครัว
+        </h3>
         <div style="font-size: 13px; line-height: 1.8;">
             <div><span class="status-light status-sp-ota"></span> <strong>SP / OTA :</strong> พร้อมสำหรับการย้ายบ้าน</div>
-            <div><span class="status-light status-tent"></span> <strong>TENT :</strong> ยังลังเลใจ (พิจารณาอยู่ค่ะ)</div>
-            <div><span class="status-light status-forever"></span> <strong>Forever Home :</strong> มีบ้านที่แสนอบอุ่นแล้ว</div>
+            <div><span class="status-light status-eo"></span> <strong>EO :</strong> ยังลังเลใจ (พิจารณาอยู่ค่ะ)</div>
+            <div><span class="status-light status-forever"></span> <strong>Forever Home :</strong> ไม่ปล่อยแน่นอน ถ้าโสดอยู่จีบได้</div>
             <div style="border-top: 1px dashed var(--main); margin: 8px 0;"></div>
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <span>❤️ มีคู่</span> <span>🤍 โสด</span> <span>🚫 ไม่มีความรัก</span>
+            
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 5px; align-items: center;">
+                <span style="display:flex; align-items:center; gap: 6px;">
+                    <span class="usage-badge usage-personal" title="Personal (ส่วนตัว)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                    <span>Personal</span>
+                </span>
+                <span style="display:flex; align-items:center; gap: 6px;">
+                    <span class="usage-badge usage-commercial" title="Commercial (เชิงพาณิชย์)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span>
+                    <span>Commercial</span>
+                </span>
+                <span style="display:flex; align-items:center; gap: 6px;">
+                    <span class="usage-badge usage-full" title="สิทธิ์ขาด (Full Rights)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+                    <span>สิทธิ์ขาด</span>
+                </span>
+            </div>
+            
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; align-items: center;">
+                <span style="display:flex; align-items:center; gap: 6px;">
+                    <span class="usage-badge love-single" title="โสด"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></span>
+                    <span>โสด</span>
+                </span>
+                <span style="display:flex; align-items:center; gap: 6px;">
+                    <span class="usage-badge love-taken" title="มีคู่"><svg width="11" height="11" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></span>
+                    <span>มีคู่</span>
+                </span>
+                <span style="display:flex; align-items:center; gap: 6px;">
+                    <span class="usage-badge love-none" title="ไม่มีความรัก"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg></span>
+                    <span>ไม่มีความรัก</span>
+                </span>
             </div>
         </div>
+      </div>
+
+      <div class="section" style="padding: 15px;">
+        <h3 style="font-size: 16px; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; justify-content: center; color: var(--darker);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            ตู้กระจกโชว์ขนม
+        </h3>
+
+        <div class="filter-container">
+            <label class="filter-btn">
+                <input type="checkbox" id="filter-sp" checked onchange="applyHomeFilter()">
+                <span style="display:flex; align-items:center; gap:4px;"><span class="status-light status-sp-ota" style="margin:0;"></span> SP/OTA</span>
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" id="filter-eo" checked onchange="applyHomeFilter()">
+                <span style="display:flex; align-items:center; gap:4px;"><span class="status-light status-eo" style="margin:0;"></span> EO</span>
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" id="filter-fh" checked onchange="applyHomeFilter()">
+                <span style="display:flex; align-items:center; gap:4px;"><span class="status-light status-forever" style="margin:0;"></span> Forever Home</span>
+            </label>
+        </div>
+
+        <h4 style="font-size: 14px; margin-bottom: 10px; color: var(--dark); display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="2"></rect><path d="M3 8c0-3 3-4 6-4s5 1 9 4"></path></svg> หมวดขนมปัง
+        </h4>
+        <div id="home-bread-grid" class="all-chars-grid"><div class="loading-text" style="grid-column: 1 / -1; font-size: 12px; opacity: 0.7;">กำลังจัดเรียงขนม...</div></div>
+
+        <h4 style="font-size: 14px; margin-top: 20px; margin-bottom: 10px; color: var(--dark); display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path><path d="M12 11v-4"></path><path d="M12 3v1"></path></svg> หมวดเค้ก
+        </h4>
+        <div id="home-cake-grid" class="all-chars-grid"><div class="loading-text" style="grid-column: 1 / -1; font-size: 12px; opacity: 0.7;">กำลังจัดเรียงขนม...</div></div>
+
+        <h4 style="font-size: 14px; margin-top: 20px; margin-bottom: 10px; color: var(--dark); display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg> หมวดเครื่องดื่ม
+        </h4>
+        <div id="home-drink-grid" class="all-chars-grid"><div class="loading-text" style="grid-column: 1 / -1; font-size: 12px; opacity: 0.7;">กำลังจัดเรียงขนม...</div></div>
       </div>
     </div>
 
     <div id="bread" class="page">
       <div class="section">
         <div class="category-header">
-            <h2>🍞 เมนูขนมปัง</h2>
+            <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="2"></rect><path d="M3 8c0-3 3-4 6-4s5 1 9 4"></path></svg> เมนูขนมปัง</h2>
         </div>
-        <p class="category-desc">ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ ✨</p>
-        <div id="bread-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <p class="category-desc">
+            ขนมอบใหม่หอมกรุ่นจากเตา พร้อมเสิร์ฟค่ะ 
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </p>
+        <div id="bread-container" class="category-container">
+            <div class="loading-text" style="grid-column: 1 / -1;">กำลังโหลดข้อมูล...</div>
+        </div>
       </div>
     </div>
 
     <div id="cake" class="page">
       <div class="section">
         <div class="category-header">
-            <h2>🍰 เมนูเค้ก</h2>
+            <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path><path d="M12 11v-4"></path><path d="M12 3v1"></path></svg> เมนูเค้ก</h2>
         </div>
-        <p class="category-desc">เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ ✨</p>
-        <div id="cake-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <p class="category-desc">
+            เค้กเนื้อนุ่ม ละมุนลิ้น รังสรรค์โดยเชฟยอดฝีมือ 
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </p>
+        <div id="cake-container" class="category-container">
+            <div class="loading-text" style="grid-column: 1 / -1;">กำลังโหลดข้อมูล...</div>
+        </div>
       </div>
     </div>
 
     <div id="drink" class="page">
       <div class="section">
         <div class="category-header">
-            <h2>🍵 เมนูเครื่องดื่ม</h2>
+            <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg> เมนูเครื่องดื่ม</h2>
         </div>
-        <p class="category-desc">เครื่องดื่มดับกระหาย ทานคู่กับขนมเข้ากันสุดๆ ✨</p>
-        <div id="drink-container"><div class="loading-text">กำลังโหลดข้อมูลจากเตาอบ... 👩🏻‍🍳</div></div>
+        <p class="category-desc">
+            เครื่องดื่มดับกระหาย จะหวานละมุน ขมเข้ม หรือเปรี๊ยวซ่าก็พร้อมเสิร์ฟ 
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </p>
+        <div id="drink-container" class="category-container">
+            <div class="loading-text" style="grid-column: 1 / -1;">กำลังโหลดข้อมูล...</div>
+        </div>
       </div>
     </div>
 
     <div class="mini-contact">
       <div class="socials-mini">
-        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank">Facebook</a>
-        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank">Line</a>
+        <a href="https://www.facebook.com/share/1hrXjWis3d/?mibextid=wwXIfr" target="_blank">Facebook</a>
+        <a href="https://line.me/ti/p/oVkw4O6ssa" target="_blank">Line</a>
       </div>
       <div class="socials-mini" style="margin-top: 5px;">
-        <a href="javascript:void(0)" onclick="openAddAuthModal()" style="border-color: var(--main); color: var(--dark);">➕ เพิ่มตัวละคร</a>
-        <a href="javascript:void(0)" onclick="openEditAuthModal()" style="border-color: var(--dark); color: var(--dark); font-weight: 600;">📝 แก้ไขการแสดงผล</a>
-        <a href="javascript:void(0)" onclick="openDeleteModal()" style="border-color: #b91c1c; color: #b91c1c;">🗑️ แจ้งลบข้อมูล</a>
+        <a href="javascript:void(0)" onclick="openEditAuthModal()" style="border-color: var(--dark); color: var(--dark); font-weight: 600;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            เข้าสู่โหมดจัดการ
+        </a>
       </div>
-      <div class="copyright">© 2026 SuperBButter Bakery. All rights reserved.</div>
+      <div class="copyright">© 2026 SuperBButter. All rights reserved.</div>
     </div>
   </div> 
 </div>
 
-<div id="addAuthModal" class="modal">
-  <div class="modal-content">
-    <h3>🔑 เข้าสู่ระบบหลังเตา</h3>
-    <input type="password" id="addMasterPin" class="modal-input" placeholder="รหัสผ่าน">
-    <button class="btn-confirm" onclick="checkAddAuth()">ยืนยันรหัส</button>
-    <span class="btn-close-modal" onclick="closeModal('addAuthModal')">ยกเลิก</span>
-  </div>
+<div id="floating-home-btn" class="floating-home-btn" onclick="showPage('home', document.getElementById('nav-home'))" title="กลับหน้าโฮม">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+</div>
+
+<div id="floating-top-btn" class="floating-top-btn" onclick="scrollToTop()" title="เลื่อนขึ้นบนสุด">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
 </div>
 
 <div id="addCharModal" class="modal">
   <div class="modal-content" style="text-align: left;">
-    <h3 style="text-align: center;">🧁 อบขนมชิ้นใหม่</h3>
+    <h3 style="text-align: center; margin-bottom: 20px; display:flex; justify-content:center; align-items:center; gap:6px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 10h12l-1.5 11h-9L6 10z"></path><path d="M6 10C6 6.5 8.5 4 12 4s6 2.5 6 6"></path></svg>
+        อบขนมชิ้นใหม่
+    </h3>
+    
     <label class="modal-label">หมวดหมู่ *</label>
-    <select id="charCategory" class="modal-select"><option value="ขนมปัง">ขนมปัง</option><option value="เค้ก">เค้ก</option><option value="เครื่องดื่ม">เครื่องดื่ม</option></select>
-    <label class="modal-label">ชื่อขนม *</label><input type="text" id="charName" class="modal-input">
-    <label class="modal-label">คำบรรยาย</label><input type="text" id="charDesc" class="modal-input">
-    <label class="modal-label">ลิ้งก์รูป *</label><input type="text" id="charImg" class="modal-input">
-    <label class="modal-label">นักวาด *</label><input type="text" id="charArtist" class="modal-input">
-    <label class="modal-label">ลิ้งก์นักวาด</label><input type="text" id="charArtistLink" class="modal-input">
-    <label class="modal-label">มูลค่า *</label><input type="text" id="charPrice" class="modal-input">
-    <label class="modal-label">ลิ้งก์เพิ่มเติม *</label><input type="text" id="charMore" class="modal-input">
-    <button class="btn-confirm" style="width:100%" onclick="submitNewCharacter()">🚀 ส่งเข้าเตาอบ</button>
-    <span class="btn-close-modal" style="text-align: center;" onclick="closeModal('addCharModal')">กลับหน้าหลัก</span>
+    <select id="charCategory" class="modal-select">
+        <option value="ขนมปัง">ขนมปัง</option>
+        <option value="เค้ก">เค้ก</option>
+        <option value="เครื่องดื่ม">เครื่องดื่ม</option>
+    </select>
+
+    <label class="modal-label">ชื่อขนม *</label>
+    <input type="text" id="charName" class="modal-input">
+    
+    <label class="modal-label">คำบรรยาย</label>
+    <input type="text" id="charDesc" class="modal-input">
+
+    <label class="modal-label">ข้อมูลเพิ่มเติม (ซ่อนในการ์ด)</label>
+    <textarea id="charAdditionalInfo" class="modal-input" placeholder="ใส่ข้อมูลเพิ่มเติม... (ไม่จำเป็นต้องใส่)"></textarea>
+    
+    <label class="modal-label">ลิ้งก์รูปตัวละคร (ภาพหลัก) *</label>
+    <input type="text" id="charImgLink" class="modal-input" placeholder="วางลิ้งก์รูปภาพที่นี่" oninput="updateImgPreview(this, 'preview_add_main')">
+    <div id="preview_add_main" class="image-preview-container"></div>
+
+    <div class="watermark-container">
+        <div class="watermark-label-text">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            ใส่ลายน้ำภาพหลัก (ป้องกันเซฟ)
+        </div>
+        <label class="toggle-switch">
+            <input type="checkbox" id="charWatermark">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <label class="modal-label">นักวาด (ภาพหลัก) *</label>
+    <input type="text" id="charArtist" class="modal-input" oninput="populateArtistSuggestions(this.value, 'addArtistLinksDatalist')" placeholder="พิมพ์เพื่อค้นหา...">
+    
+    <label class="modal-label">ลิ้งก์นักวาด</label>
+    <input type="text" id="charArtistLink" class="modal-input" list="addArtistLinksDatalist" placeholder="ใส่ลิ้งก์ใหม่ หรือเลือกจากที่เคยมี">
+    <datalist id="addArtistLinksDatalist"></datalist>
+
+    <label class="modal-label">มูลค่า *</label>
+    <input type="text" id="charPrice" class="modal-input" placeholder="ตัวอย่าง: 500, 10$, Free">
+    
+    <label class="modal-label">ลิ้งก์เพิ่มเติม (เพจ/เว็บตัวละคร)</label>
+    <input type="text" id="charMore" class="modal-input" placeholder="ถ้าไม่มีให้เว้นว่างไว้">
+
+    <label class="modal-label">สถานะบ้าน *</label>
+    <select id="charSale" class="modal-select">
+        <option value="1">Forever Home</option>
+        <option value="2">EO</option>
+        <option value="3">OTA/SP</option>
+    </select>
+
+    <label class="modal-label">สิทธิ์การใช้งาน *</label>
+    <select id="charUsage" class="modal-select">
+        <option value="Personal">Personal (ส่วนตัว)</option>
+        <option value="Commercial">Commercial (เชิงพาณิชย์)</option>
+        <option value="สิทธิ์ขาด">สิทธิ์ขาด (Full Rights)</option>
+    </select>
+
+    <label class="modal-label">สถานะความรัก *</label>
+    <select id="charLove" class="modal-select">
+        <option value="2">โสด</option>
+        <option value="1">มีคู่</option>
+        <option value="3">ไม่มีความรัก</option>
+    </select>
+
+    <div style="margin-top: 25px; border-top: 2px dashed rgba(196, 164, 247, 0.5); padding-top: 15px;">
+        <h4 style="font-size: 14px; margin-bottom: 10px; color: var(--darker); display:flex; justify-content:space-between; align-items:center;">
+            <span style="display:flex; align-items:center; gap:4px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                รูปเพิ่มเติม (Gallery)
+            </span>
+            <button type="button" onclick="addExtraImgField('addExtraImgsContainer')" style="background:var(--main); border:none; padding:5px 10px; border-radius:15px; font-size:11px; font-weight:bold; color:#fff; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                เพิ่มรูป
+            </button>
+        </h4>
+        <div id="addExtraImgsContainer"></div>
+    </div>
+
+    <button class="btn-confirm" id="btnSubmitAdd" onclick="submitNewCharacter()" style="margin-top:20px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"></path><path d="M22 2L15 22 11 13 2 9l20-7z"></path></svg>
+        ส่งเข้าเตาอบ
+    </button>
+    <span class="btn-close-modal" onclick="closeModal('addCharModal')">ยกเลิก</span>
   </div>
 </div>
 
 <div id="editAuthModal" class="modal">
   <div class="modal-content">
-    <h3>🔑 ยืนยันตัวตนเชฟ</h3>
+    <h3 style="margin-bottom: 15px; display:flex; justify-content:center; align-items:center; gap:6px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+        ยืนยันตัวตนเชฟ (เข้าโหมดจัดการ)
+    </h3>
     <input type="password" id="editMasterPin" class="modal-input" placeholder="รหัสผ่าน">
     <button class="btn-confirm" onclick="checkEditAuth()">ยืนยันรหัส</button>
     <span class="btn-close-modal" onclick="closeModal('editAuthModal')">ยกเลิก</span>
   </div>
 </div>
 
-<div id="manageModal" class="modal">
-  <div class="modal-content" style="max-width: 480px; text-align: left;">
-    <h3 style="text-align: center;">🎨 ปรับแต่งห้องครัว</h3>
-    <div class="manage-nav">
-        <div class="manage-tab active" data-cat="ขนมปัง" onclick="setManageCategory(this)">ขนมปัง</div>
-        <div class="manage-tab" data-cat="เค้ก" onclick="setManageCategory(this)">เค้ก</div>
-        <div class="manage-tab" data-cat="เครื่องดื่ม" onclick="setManageCategory(this)">เครื่องดื่ม</div>
-    </div>
-    <div id="edit-list-container" style="margin-top: 5px; max-height: 400px; overflow-y: auto; padding: 5px;"></div>
-    <button class="btn-confirm" onclick="saveAllEdits()">💾 บันทึกและรีโหลด</button>
-    <span class="btn-close-modal" style="text-align: center;" onclick="closeModal('manageModal')">ปิดหน้าต่าง</span>
-  </div>
-</div>
-
-<div id="deleteModal" class="modal">
-  <div class="modal-content">
-    <h3>📢 แจ้งถอนการติดตั้ง</h3>
-    <input type="text" id="delName" class="modal-input" placeholder="ชื่อขนม">
-    <input type="password" id="delPin" class="modal-input" placeholder="รหัสลับ">
-    <button class="btn-delete-confirm" onclick="confirmDelete()">🔥 ยืนยันการลบ</button>
-    <span class="btn-close-modal" onclick="closeModal('deleteModal')">ยกเลิก</span>
-  </div>
-</div>
-
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbzb3N4bE4I-pqMQOHrSflrZ8uCHHdv0TSVrL-YdrKQ4Hc607ScWemSO6itMFt4w9bwBfg/exec';
-let allData = []; 
-let currentManageCategory = "ขนมปัง";
+const API_URL = 'https://script.google.com/macros/s/AKfycbz7_u5Xd9uXGiBswifeqw5Q0hefHI_ckMJVwHGEFL6SdJJ4FHViQBKNM0OhvT6EnA9DDA/exec';
 
-function acceptRules() {
-  const gate = document.getElementById('rules-gate');
-  const mainWrapper = document.getElementById('main-wrapper');
-  gate.style.opacity = '0';
-  setTimeout(() => {
-    gate.style.display = 'none';
-    mainWrapper.style.display = 'flex';
-    mainWrapper.style.flexDirection = 'column';
-    mainWrapper.style.alignItems = 'center';
-    setTimeout(() => { mainWrapper.style.opacity = '1'; }, 50);
-    document.body.classList.remove('locked');
-  }, 500);
+let allData = []; 
+let isEditMode = false;
+let allUniqueArtistLinks = []; 
+let globalSortMode = 'AUTO'; 
+
+// 🌟 ฟังก์ชันจัดการแสดงปุ่มเลื่อนขึ้นบนสุด 🌟
+window.onscroll = function() {
+    const topBtn = document.getElementById("floating-top-btn");
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.style.display = "flex";
+    } else {
+        topBtn.style.display = "none";
+    }
+};
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function showPage(pageId, element) {
+function parseImageUrlForPreview(url) {
+    if(!url) return '';
+    let parsedLink = String(url).trim();
+    if (parsedLink.includes('drive.google.com/file/d/')) {
+        const matchId = parsedLink.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (matchId) parsedLink = `https://drive.google.com/thumbnail?id=${matchId[1]}&sz=w1000`;
+    }
+    return parsedLink;
+}
+
+function updateImgPreview(inputElement, previewContainerId) {
+    const url = inputElement.value;
+    const previewContainer = document.getElementById(previewContainerId);
+    if (!previewContainer) return;
+
+    if (url.trim() !== '') {
+        const finalUrl = parseImageUrlForPreview(url);
+        previewContainer.innerHTML = `<img src="${finalUrl}" alt="Preview" onerror="this.parentElement.innerText='โหลดรูปไม่สำเร็จ กรุณาตรวจสอบลิ้งก์'; this.parentElement.style.padding='15px'; this.parentElement.style.color='#D484B6';">`;
+        previewContainer.style.display = 'block';
+        previewContainer.style.padding = '0'; 
+    } else {
+        previewContainer.innerHTML = '';
+        previewContainer.style.display = 'none';
+    }
+}
+
+function formatURL(url) {
+    if(!url) return '';
+    let cleanUrl = String(url).trim();
+    if(cleanUrl !== '' && !cleanUrl.match(/^https?:\/\//i)) {
+        return 'https://' + cleanUrl;
+    }
+    return cleanUrl;
+}
+
+function escapeHTML(str) {
+    if(str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function formatPrice(val) {
+    let p = String(val).trim();
+    if (!p || p === '-') return p;
+    if (/^[\d,\.]+$/.test(p)) {
+        return p + ' ฿';
+    }
+    return p;
+}
+
+function showPage(pageId, element, skipScroll = false) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  element.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  if(element) {
+      element.classList.add('active');
+  }
+
+  const fab = document.getElementById('floating-home-btn');
+  if (fab) {
+      if (pageId !== 'home') {
+          fab.style.display = 'flex';
+      } else {
+          fab.style.display = 'none';
+      }
+  }
+
+  if (!skipScroll) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  if (isEditMode) {
+      if (pageId !== 'home') document.getElementById('admin-add-bar').style.display = 'block';
+      else document.getElementById('admin-add-bar').style.display = 'none';
+  } else {
+      document.getElementById('admin-add-bar').style.display = 'none';
+  }
 }
 
-function toggleMenu(headerElement) { headerElement.parentElement.classList.toggle('open'); }
-function openAddAuthModal() { document.getElementById('addAuthModal').style.display = 'block'; }
-function openDeleteModal() { document.getElementById('deleteModal').style.display = 'block'; }
+function jumpToCard(categoryName, cardId) {
+    let pageId = '';
+    let navId = '';
+    
+    if(categoryName === 'bread' || categoryName.includes('ปัง')) { pageId = 'bread'; navId = 'nav-bread'; }
+    else if(categoryName === 'cake' || categoryName.includes('เค้ก')) { pageId = 'cake'; navId = 'nav-cake'; }
+    else if(categoryName === 'drink' || categoryName.includes('ดื่ม')) { pageId = 'drink'; navId = 'nav-drink'; }
+
+    if(pageId && navId) {
+        showPage(pageId, document.getElementById(navId), true);
+        
+        setTimeout(() => {
+            const card = document.getElementById(cardId);
+            if(card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if(!card.classList.contains('open')) {
+                    card.classList.add('open');
+                }
+                card.style.transition = 'box-shadow 0.5s ease';
+                card.style.boxShadow = '0 0 25px rgba(196, 164, 247, 0.9)';
+                setTimeout(() => { card.style.boxShadow = '0 4px 12px rgba(107, 78, 144, 0.05)'; }, 2000);
+            }
+        }, 100); 
+    }
+}
+
+function toggleMenu(headerElement) { 
+    headerElement.parentElement.classList.toggle('open'); 
+}
+
+function toggleGallery(event, galleryId) {
+    event.stopPropagation();
+    const gallery = document.getElementById(galleryId);
+    if(gallery.style.display === 'none') {
+        gallery.style.display = 'block';
+    } else {
+        gallery.style.display = 'none';
+    }
+}
+
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-function checkAddAuth() {
-    if(document.getElementById('addMasterPin').value === "8888") {
-        closeModal('addAuthModal');
-        document.getElementById('addCharModal').style.display = 'block';
-    } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); }
+function populateArtistSuggestions(typedName, datalistId) {
+    const listElem = document.getElementById(datalistId);
+    if(!listElem) return;
+    listElem.innerHTML = '';
+    typedName = typedName.trim().toLowerCase();
+    if(!typedName) return;
+
+    allUniqueArtistLinks.forEach(pair => {
+        if(pair.name.toLowerCase().includes(typedName)) {
+            const option = document.createElement('option');
+            option.value = pair.link;
+            option.textContent = `ลิงก์ของ: ${pair.name}`;
+            listElem.appendChild(option);
+        }
+    });
 }
 
-function submitNewCharacter() {
-    const data = {
-        category: document.getElementById('charCategory').value,
-        name: document.getElementById('charName').value,
-        desc: document.getElementById('charDesc').value,
-        img: document.getElementById('charImg').value,
-        artist: document.getElementById('charArtist').value,
-        artistLink: document.getElementById('charArtistLink').value,
-        price: document.getElementById('charPrice').value,
-        more: document.getElementById('charMore').value
+function applyHomeFilter() {
+    const showSp = document.getElementById('filter-sp').checked;
+    const showEo = document.getElementById('filter-eo').checked;
+    const showFh = document.getElementById('filter-fh').checked;
+    
+    document.querySelectorAll('.mini-char-card').forEach(card => {
+        const s = card.getAttribute('data-status');
+        if (s === '3' && showSp) card.style.display = 'block';
+        else if (s === '2' && showEo) card.style.display = 'block';
+        else if (s === '1' && showFh) card.style.display = 'block';
+        else card.style.display = 'none';
+    });
+}
+
+function moveExtraImgBlock(btn, direction) {
+    const block = btn.closest('.extra-img-block');
+    const container = block.parentElement;
+    if (direction === -1 && block.previousElementSibling) {
+        container.insertBefore(block, block.previousElementSibling);
+    } else if (direction === 1 && block.nextElementSibling) {
+        container.insertBefore(block.nextElementSibling, block); 
+    }
+}
+
+function addExtraImgField(containerId, link, artist, artistLink, price) {
+    link = link || '';
+    artist = artist || '';
+    artistLink = artistLink || '';
+    price = price || '';
+    
+    const container = document.getElementById(containerId);
+    const block = document.createElement('div');
+    block.className = 'extra-img-block';
+    block.style.cssText = 'background: rgba(196, 164, 247, 0.1); padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px dashed var(--main); position: relative;';
+    
+    const datalistId = `datalist_ex_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    const previewId = `preview_new_ex_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    
+    block.innerHTML = `
+        <div style="position: absolute; right: 15px; top: 12px; display: flex; gap: 5px; z-index: 10;">
+            <button type="button" class="btn-move-ex" onclick="moveExtraImgBlock(this, -1)" title="เลื่อนขึ้น"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg></button>
+            <button type="button" class="btn-move-ex" onclick="moveExtraImgBlock(this, 1)" title="เลื่อนลง"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+            <span onclick="this.closest('.extra-img-block').remove()" style="cursor: pointer; color: #D484B6; font-weight: 600; font-size:12px; background:#FFF5F8; padding:2px 8px; border-radius:10px; display:flex; align-items:center;">ลบทิ้ง</span>
+        </div>
+        <label class="modal-label" style="margin-top:0;">ลิ้งก์รูปเพิ่มเติม</label>
+        <input type="text" class="modal-input ex-img" style="margin-bottom:10px; padding:10px;" placeholder="วางลิ้งก์รูปภาพที่นี่" value="${escapeHTML(link)}" oninput="updateImgPreview(this, '${previewId}')">
+        <div id="${previewId}" class="image-preview-container" style="display: ${link ? 'block' : 'none'}; margin-bottom:10px;">
+            ${link ? `<img src="${parseImageUrlForPreview(link)}" onerror="this.parentElement.innerText='โหลดรูปไม่สำเร็จ กรุณาตรวจสอบลิ้งก์'; this.parentElement.style.padding='15px'; this.parentElement.style.color='#D484B6';">` : ''}
+        </div>
+        
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+                <label class="modal-label">นักวาด (ถ้ามี)</label>
+                <input type="text" class="modal-input ex-artist" style="margin-bottom:10px; padding:10px;" placeholder="พิมพ์ค้นหา..." value="${escapeHTML(artist)}" oninput="populateArtistSuggestions(this.value, '${datalistId}')">
+            </div>
+            <div style="flex:1;">
+                <label class="modal-label">มูลค่า (ถ้ามี)</label>
+                <input type="text" class="modal-input ex-price" style="margin-bottom:10px; padding:10px;" placeholder="เช่น 500" value="${escapeHTML(price)}">
+            </div>
+        </div>
+        
+        <label class="modal-label">ลิ้งก์นักวาด (ถ้ามี)</label>
+        <input type="text" class="modal-input ex-artistlink" style="margin-bottom:0; padding:10px;" placeholder="ใส่ลิ้งก์ใหม่ หรือเลือกจากที่เคยมี" value="${escapeHTML(artistLink)}" list="${datalistId}">
+        <datalist id="${datalistId}"></datalist>
+    `;
+    container.appendChild(block);
+}
+
+function getExtraImgsData(containerId) {
+    const container = document.getElementById(containerId);
+    if(!container) return '';
+    const blocks = container.querySelectorAll('.extra-img-block');
+    let result = [];
+    blocks.forEach(block => {
+        const imgNode = block.querySelector('.ex-img');
+        const artistNode = block.querySelector('.ex-artist');
+        const artistlinkNode = block.querySelector('.ex-artistlink');
+        const priceNode = block.querySelector('.ex-price');
+        
+        const img = imgNode ? imgNode.value.trim() : '';
+        const artist = artistNode ? artistNode.value.trim() : '';
+        const artistLink = artistlinkNode ? artistlinkNode.value.trim() : '';
+        const price = priceNode ? priceNode.value.trim() : '';
+        
+        if(img) { 
+            result.push(`${img} | ${artist} | ${artistLink} | ${price}`);
+        }
+    });
+    return result.join('\n'); 
+}
+
+function openAddCharModal() { 
+    document.getElementById('charName').value = '';
+    document.getElementById('charDesc').value = '';
+    document.getElementById('charAdditionalInfo').value = ''; 
+    document.getElementById('charImgLink').value = ''; 
+    document.getElementById('preview_add_main').style.display = 'none'; 
+    document.getElementById('preview_add_main').innerHTML = '';
+    document.getElementById('charWatermark').checked = false; 
+    document.getElementById('charArtist').value = '';
+    document.getElementById('charArtistLink').value = '';
+    document.getElementById('charPrice').value = '';
+    document.getElementById('charMore').value = '';
+    document.getElementById('charSale').value = '1';
+    document.getElementById('charLove').value = '2';
+    document.getElementById('charUsage').value = 'Personal';
+    document.getElementById('addExtraImgsContainer').innerHTML = ''; 
+
+    const activePageId = document.querySelector('.page.active').id;
+    const categorySelect = document.getElementById('charCategory');
+    if (activePageId === 'bread') categorySelect.value = 'ขนมปัง';
+    if (activePageId === 'cake') categorySelect.value = 'เค้ก';
+    if (activePageId === 'drink') categorySelect.value = 'เครื่องดื่ม';
+
+    document.getElementById('addCharModal').style.display = 'block'; 
+}
+
+async function submitNewCharacter() {
+    const nameInput = document.getElementById('charName').value;
+    const finalImgData = document.getElementById('charImgLink').value;
+    const artist = document.getElementById('charArtist').value;
+    const price = document.getElementById('charPrice').value;
+    const additionalInfo = document.getElementById('charAdditionalInfo').value;
+    const isWatermark = document.getElementById('charWatermark').checked ? 'Yes' : 'No';
+    
+    if(!nameInput || !finalImgData || !artist || !price) {
+        return alert("[ ผิดพลาด ] กรุณากรอกข้อมูลสำคัญที่มีสัญลักษณ์ * ให้ครบถ้วนค่ะ");
+    }
+
+    let finalUniqueName = nameInput.trim();
+    while (allData.some(i => i && i['ชื่อขนม'] === finalUniqueName)) {
+        finalUniqueName += '\u200B'; 
+    }
+
+    const newItem = {
+        "หมวดหมู่": document.getElementById('charCategory').value,
+        "ชื่อขนม": finalUniqueName,
+        "คำบรรยาย": document.getElementById('charDesc').value,
+        "ข้อมูลเพิ่มเติม": additionalInfo,
+        "Link รูปตัวละคร": finalImgData,
+        "ลายน้ำภาพหลัก": isWatermark, 
+        "นักวาด": artist,
+        "Link นักวาด": document.getElementById('charArtistLink').value,
+        "มูลค่า": price,
+        "Link เพื่อดูเพิ่มเติม": document.getElementById('charMore').value,
+        "สถานะบ้าน": document.getElementById('charSale').value,
+        "สถานะความรัก": document.getElementById('charLove').value,
+        "สิทธิ์การใช้งาน": document.getElementById('charUsage').value,
+        "รูปเพิ่มเติม": getExtraImgsData('addExtraImgsContainer') 
     };
-    if(!data.name || !data.img || !data.artist || !data.price || !data.more) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ");
-    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeeE5PmUTSmDN-dJ97oABe23DgAqubMoPzkAOPAtWLKTy3ckg/formResponse";
-    const params = new URLSearchParams();
-    params.append('entry.1342287640', data.category);
-    params.append('entry.1240441369', data.name);
-    params.append('entry.590471728', data.desc);
-    params.append('entry.57350701', data.img);
-    params.append('entry.1596328020', data.artist);
-    params.append('entry.632817786', data.artistLink);
-    params.append('entry.825859639', data.price);
-    params.append('entry.232575950', data.more);
-    fetch(formUrl, { method: 'POST', mode: 'no-cors', body: params }).then(() => {
-        alert("อบขนมสำเร็จ!"); location.reload();
-    }).catch(err => alert("เกิดข้อผิดพลาดค่ะ"));
+
+    const btnSubmit = document.getElementById('btnSubmitAdd');
+    btnSubmit.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' style='vertical-align:middle; margin-right:4px;'><circle cx='12' cy='12' r='10'></circle><polyline points='12 6 12 12 16 14'></polyline></svg> กำลังอบขนม...";
+    
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "add", data: newItem })
+        });
+        alert("[ สำเร็จ ] อบขนมสำเร็จ!"); 
+        closeModal('addCharModal'); 
+        btnSubmit.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' style='vertical-align:middle; margin-right:4px;'><path d='M22 2L11 13'></path><path d='M22 2L15 22 11 13 2 9l20-7z'></path></svg> ส่งเข้าเตาอบ";
+        fetchData(); 
+    } catch (e) {
+        console.error(e);
+        alert("[ ผิดพลาด ] บันทึกไม่สำเร็จ! ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตค่ะ");
+        btnSubmit.innerHTML = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' style='vertical-align:middle; margin-right:4px;'><path d='M22 2L11 13'></path><path d='M22 2L15 22 11 13 2 9l20-7z'></path></svg> ส่งเข้าเตาอบ";
+    }
 }
 
 function openEditAuthModal() { document.getElementById('editAuthModal').style.display = 'block'; }
+
 function checkEditAuth() {
     if(document.getElementById('editMasterPin').value === "8888") {
         closeModal('editAuthModal');
-        document.getElementById('manageModal').style.display = 'block';
-        renderEditList();
-    } else { alert("รหัสผ่านไม่ถูกต้องค่ะ ❌"); }
-}
-function setManageCategory(element) {
-    document.querySelectorAll('.manage-tab').forEach(t => t.classList.remove('active'));
-    element.classList.add('active');
-    currentManageCategory = element.dataset.cat;
-    renderEditList();
-}
-function getLocalSettings() { return JSON.parse(localStorage.getItem('bakery_settings') || '{}'); }
+        document.getElementById('editMasterPin').value = '';
+        isEditMode = true;
+        document.getElementById('admin-bar').style.display = 'block';
+        
+        const activePageId = document.querySelector('.page.active').id;
+        if (activePageId !== 'home') document.getElementById('admin-add-bar').style.display = 'block';
+        else document.getElementById('admin-add-bar').style.display = 'none';
 
-function renderEditList() {
-    const container = document.getElementById('edit-list-container');
-    const settings = getLocalSettings();
-    const items = allData.filter(i => i['หมวดหมู่'] === currentManageCategory).sort((a,b) => (settings[a['ชื่อขนม']]?.order || 0) - (settings[b['ชื่อขนม']]?.order || 0));
-    container.innerHTML = '';
-    items.forEach((item, index) => {
-        const name = item['ชื่อขนม'];
-        const set = settings[name] || {};
-        container.innerHTML += `
-            <div class="edit-card-item" data-name="${name}">
-                <div class="edit-row">
-                    <strong style="color:var(--darker)">${name}</strong> 
-                    <div class="order-group">
-                        <div class="btn-order" onclick="moveItem('${name}', -1)">↑</div>
-                        <div class="btn-order" onclick="moveItem('${name}', 1)">↓</div>
-                    </div>
-                </div>
-                <div class="edit-row" style="gap:10px;">
-                    <select class="modal-select edit-sale" style="margin:0; flex:1">
-                        <option value="1" ${set.sale=='1'?'selected':''}>Forever Home</option>
-                        <option value="2" ${set.sale=='2'?'selected':''}>TENT</option>
-                        <option value="3" ${set.sale=='3'?'selected':''}>OTA/SP</option>
-                    </select>
-                    <select class="modal-select edit-love" style="margin:0; flex:1">
-                        <option value="1" ${set.love=='1'?'selected':''}>มีคู่ ❤️</option>
-                        <option value="2" ${set.love=='2'?'selected':''}>โสด 🤍</option>
-                        <option value="3" ${set.love=='3'?'selected':''}>ไม่มีความรัก 🚫</option>
-                    </select>
-                </div>
-            </div>`;
-    });
+        displayData(allData); 
+    } else { alert("[ ผิดพลาด ] รหัสผ่านไม่ถูกต้องค่ะ"); }
 }
 
-function moveItem(name, dir) {
-    const settings = getLocalSettings();
-    const items = allData.filter(i => i['หมวดหมู่'] === currentManageCategory).sort((a,b) => (settings[a['ชื่อขนม']]?.order || 0) - (settings[b['ชื่อขนม']]?.order || 0));
-    const idx = items.findIndex(i => i['ชื่อขนม'] === name);
-    if(idx + dir >= 0 && idx + dir < items.length) {
-        const temp = items[idx]; items[idx] = items[idx+dir]; items[idx+dir] = temp;
-        items.forEach((it, i) => { if(!settings[it['ชื่อขนม']]) settings[it['ชื่อขนม']]={}; settings[it['ชื่อขนม']].order = i; });
-        localStorage.setItem('bakery_settings', JSON.stringify(settings));
-        renderEditList();
+function exitEditMode() {
+    isEditMode = false;
+    document.getElementById('admin-bar').style.display = 'none';
+    document.getElementById('admin-add-bar').style.display = 'none'; 
+    displayData(allData); 
+}
+
+async function toggleSortMode(mode) {
+    globalSortMode = mode;
+    
+    let configItem = allData.find(i => i && i['ชื่อขนม'] === '__SYS_CONFIG_SORT__');
+    if (configItem) {
+        configItem['คำบรรยาย'] = mode;
+    } else {
+        allData.push({ "หมวดหมู่": "SYSTEM", "ชื่อขนม": "__SYS_CONFIG_SORT__", "คำบรรยาย": mode });
     }
+
+    displayData(allData); 
+    
+    const dataObj = { "หมวดหมู่": "SYSTEM", "ชื่อขนม": "__SYS_CONFIG_SORT__", "คำบรรยาย": mode };
+    try {
+        if (configItem) {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "edit", oldName: "__SYS_CONFIG_SORT__", data: dataObj }) });
+        } else {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "add", data: dataObj }) });
+        }
+    } catch(e) { console.error("Save config failed"); }
 }
 
-function saveAllEdits() {
-    const settings = getLocalSettings();
-    document.querySelectorAll('.edit-card-item').forEach(card => {
-        const name = card.dataset.name;
-        if(!settings[name]) settings[name] = {};
-        settings[name].sale = card.querySelector('.edit-sale').value;
-        settings[name].love = card.querySelector('.edit-love').value;
+function sortItems(items, isHome) {
+    return items.slice().sort((a, b) => {
+        let sA = parseInt(a['สถานะบ้าน'] || '1');
+        let sB = parseInt(b['สถานะบ้าน'] || '1');
+        
+        let weightStatusA, weightStatusB;
+        if (isHome) {
+            weightStatusA = sA === 3 ? 1 : (sA === 2 ? 2 : 3);
+            weightStatusB = sB === 3 ? 1 : (sB === 2 ? 2 : 3);
+        } else {
+            weightStatusA = sA;
+            weightStatusB = sB;
+        }
+        if (weightStatusA !== weightStatusB) return weightStatusA - weightStatusB;
+
+        let nA_clean = String(a['ชื่อขนม'] || '').replace(/[\s\u200B-\u200D\uFEFF]/g, '').toLowerCase();
+        let nB_clean = String(b['ชื่อขนม'] || '').replace(/[\s\u200B-\u200D\uFEFF]/g, '').toLowerCase();
+        
+        if (nA_clean !== nB_clean) {
+            let nA_show = String(a['ชื่อขนม'] || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+            let nB_show = String(b['ชื่อขนม'] || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+            
+            let weightLangA = nA_clean === 'tba' ? 3 : (/^[a-z]/.test(nA_clean) ? 1 : 2);
+            let weightLangB = nB_clean === 'tba' ? 3 : (/^[a-z]/.test(nB_clean) ? 1 : 2);
+            
+            if (weightLangA !== weightLangB) return weightLangA - weightLangB;
+            
+            return nA_show.localeCompare(nB_show, 'th');
+        }
+
+        return a.originalIndex - b.originalIndex;
     });
-    localStorage.setItem('bakery_settings', JSON.stringify(settings));
-    alert("บันทึกสำเร็จ!"); location.reload();
 }
 
-async function fetchData() {
-  try {
-    const response = await fetch(API_URL);
-    allData = await response.json();
-    displayData(allData);
-  } catch (error) { console.error('Error:', error); }
+async function fetchData() { 
+    try {
+        const response = await fetch(API_URL);
+        allData = await response.json();
+        displayData(allData);
+    } catch (error) { 
+        console.error('Error fetching data:', error); 
+        document.getElementById('bread-container').innerHTML = '<div class="loading-text" style="grid-column: 1 / -1; color:#B084F5;">โหลดข้อมูลไม่สำเร็จ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-left:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M16 16s-1.5-2-4-2-4 2-4 2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg></div>';
+    }
 }
 
 function displayData(data) {
-  const containers = { 'ขนมปัง': document.getElementById('bread-container'), 'เค้ก': document.getElementById('cake-container'), 'เครื่องดื่ม': document.getElementById('drink-container') };
-  // 🌟 ไม่ใช้ innerHTML = '' เพราะจะไปลบคำบรรยายหมวดหมู่ 🌟
-  // เราจะทำการลบเฉพาะรายชื่อตัวละครเดิมออกเท่านั้น
-  Object.values(containers).forEach(c => {
-      const cards = c.querySelectorAll('.menu-card, .loading-text');
-      cards.forEach(card => card.remove());
-  });
+  try {
+      if(!Array.isArray(data)) return;
 
-  const settings = getLocalSettings();
-  data.sort((a, b) => (settings[a['ชื่อขนม']]?.order || 999) - (settings[b['ชื่อขนม']]?.order || 999));
+      let configItem = data.find(i => i && i['ชื่อขนม'] === '__SYS_CONFIG_SORT__');
+      if (configItem) globalSortMode = configItem['คำบรรยาย'] || 'AUTO';
+      
+      const btnAuto = document.getElementById('btn-sort-auto');
+      const btnManual = document.getElementById('btn-sort-manual');
+      if(btnAuto && btnManual) {
+          if(globalSortMode === 'AUTO') {
+              btnAuto.classList.add('active');
+              btnManual.classList.remove('active');
+          } else {
+              btnManual.classList.add('active');
+              btnAuto.classList.remove('active');
+          }
+      }
 
-  data.forEach(item => {
-    const target = containers[item['หมวดหมู่']];
-    if (!target) return;
-    const name = item['ชื่อขนม'];
-    const set = settings[name] || {sale:'1', love:'2'};
+      let validData = data.map((item, index) => { 
+          if(item) item.originalIndex = index; 
+            return item; 
+      }).filter(item => item && item['ชื่อขนม'] !== '__SYS_CONFIG_SORT__');
 
-    let lightClass = 'status-forever';
-    if(set.sale === '2') lightClass = 'status-tent';
-    if(set.sale === '3') lightClass = 'status-sp-ota';
+      const tempMap = new Map(); 
+      validData.forEach(item => {
+          const name = String(item['นักวาด'] || '').trim();
+          const link = String(item['Link นักวาด'] || '').trim();
+          if(name && link) tempMap.set(name, link);
 
-    let loveIcon = '';
-    if(set.love === '1') loveIcon = '<span style="margin-left:5px">❤️</span>';
-    if(set.love === '2') loveIcon = '<span style="margin-left:5px">🤍</span>';
-    if(set.love === '3') loveIcon = '<span style="margin-left:5px">🚫</span>';
+          const extraImgsStr = String(item['รูปเพิ่มเติม'] || '');
+          const extraImgsArray = extraImgsStr.split('\n').map(link => link.trim()).filter(link => link !== '');
+          extraImgsArray.forEach(line => {
+              const parts = line.split('|').map(p => p.trim());
+              const exName = parts[1] || '';
+              const exLink = parts[2] || '';
+              if(exName && exLink) tempMap.set(exName, exLink);
+          });
+      });
+      allUniqueArtistLinks = Array.from(tempMap.entries()).map(([name, link]) => ({ name, link }));
 
-    let imgUrl = item['Link รูปตัวละคร'] || ''; 
-    if (imgUrl.includes('drive.google.com/file/d/')) {
-      const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
-    }
-    const artistDisplay = item['Link นักวาด'] ? `<a href="${item['Link นักวาด']}" target="_blank" style="color:var(--darker); text-decoration:underline;">${item['นักวาด']}</a>` : item['นักวาด'];
-    const introText = item['คำบรรยาย'] ? `<div style="font-size: 11px; font-weight: normal; opacity: 0.7; margin-top: 2px; line-height: 1.3; width:100%;">${item['คำบรรยาย']}</div>` : '';
+      const containers = { 
+          'ขนมปัง': document.getElementById('bread-container'), 
+          'เค้ก': document.getElementById('cake-container'), 
+          'เครื่องดื่ม': document.getElementById('drink-container') 
+      };
 
-    target.innerHTML += `
-      <div class="menu-card">
-        <div class="menu-header" onclick="toggleMenu(this)">
-          <img src="${imgUrl}" alt="${name}" class="menu-img">
-          <div class="menu-title-row">
-            <div class="menu-title">
-                <span class="status-light ${lightClass}"></span>
-                ${name} ${loveIcon}
-                ${introText}
-            </div>
-            <div class="menu-icon">▼</div>
-          </div>
-        </div>
-        <div class="menu-details">
-          <div class="detail-text"><span>🎨</span> <strong>นักวาด:</strong> ${artistDisplay}</div>
-          <div class="detail-text"><span>💰</span> <strong>มูลค่า:</strong> ${item['มูลค่า']}</div>
-          <a href="${item['Link เพื่อดูเพิ่มเติม'] || '#'}" class="btn-view" target="_blank">🔍 ดูข้อมูลเพิ่มเติม</a>
-        </div>
-      </div>`;
-  });
-  Object.keys(containers).forEach(key => { 
-      if (containers[key].querySelectorAll('.menu-card').length === 0) 
-          containers[key].innerHTML += '<div class="loading-text">ยังไม่มีเมนูในหมวดนี้ 🥺</div>'; 
-  });
+      const homeGrids = {
+          'ขนมปัง': document.getElementById('home-bread-grid'),
+          'เค้ก': document.getElementById('home-cake-grid'),
+          'เครื่องดื่ม': document.getElementById('home-drink-grid')
+      };
+
+      Object.values(containers).forEach(c => { if(c) c.innerHTML = ''; });
+      Object.values(homeGrids).forEach(g => { if(g) g.innerHTML = ''; });
+
+      if(validData.length === 0) {
+          Object.values(containers).forEach(c => { if (c) c.innerHTML = '<div class="loading-text" style="grid-column: 1 / -1;">ยังไม่มีเมนูในหมวดนี้</div>'; });
+          Object.values(homeGrids).forEach(g => { if (g) g.innerHTML = '<div class="loading-text" style="grid-column: 1 / -1; font-size: 12px; opacity: 0.7;">ว่างเปล่า</div>'; });
+          return;
+      }
+
+      Object.keys(containers).forEach(category => {
+          let itemsInCategory = validData.filter(item => {
+              let cat = String(item['หมวดหมู่'] || '').trim();
+              if (cat.includes('ปัง') && category === 'ขนมปัง') return true;
+              if (cat.includes('เค้ก') && category === 'เค้ก') return true;
+              if (cat.includes('ดื่ม') && category === 'เครื่องดื่ม') return true;
+              return false;
+          });
+
+          let renderItemsHome = globalSortMode === 'AUTO' ? sortItems(itemsInCategory, true) : itemsInCategory;
+          let renderItemsPage = globalSortMode === 'AUTO' ? sortItems(itemsInCategory, false) : itemsInCategory;
+
+          // หน้าโฮม
+          let gridTarget = homeGrids[category];
+          if (gridTarget && renderItemsHome.length > 0) {
+              let catForWarp = category === 'เค้ก' ? 'cake' : (category === 'เครื่องดื่ม' ? 'drink' : 'bread');
+              renderItemsHome.forEach(item => {
+                  let name = String(item['ชื่อขนม'] || '').replace(/[\u200B-\u200D\uFEFF]/g, '');
+                  let escapedName = escapeHTML(name);
+                  let saleStatus = String(item['สถานะบ้าน'] || '1');
+                  let mainCardId = 'card_char_' + item.originalIndex; 
+                  
+                  let lightClass = 'status-forever';
+                  if(saleStatus == '2') lightClass = 'status-eo';
+                  if(saleStatus == '3') lightClass = 'status-sp-ota';
+
+                  let imgUrl = String(item['Link รูปตัวละคร'] || ''); 
+                  if (imgUrl.includes('drive.google.com/file/d/')) {
+                      const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                      if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
+                  }
+                  
+                  let isWatermarked = (item['ลายน้ำภาพหลัก'] === 'Yes' || item['ลายน้ำภาพหลัก'] === 'true' || item['ลายน้ำภาพหลัก'] === 'TRUE');
+                  let miniWatermarkHtml = isWatermarked ? `<div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:url('https://drive.google.com/thumbnail?id=1e3zyO1VT4FCB020UAEmq5fOThW2R38SL&sz=w1600'); background-repeat:repeat; background-size:150px; pointer-events:none; z-index:2;"></div>` : '';
+
+                  gridTarget.innerHTML += `
+                  <div class="mini-char-card" data-status="${saleStatus}" onclick="jumpToCard('${catForWarp}', '${mainCardId}')">
+                      <div style="position: relative; width: 80px; height: 80px; margin: 0 auto 6px;">
+                          <div class="mini-char-img-wrapper no-save" style="width: 100%; height: 100%; margin: 0;">
+                              <img src="${imgUrl}" alt="${escapedName}" oncontextmenu="return false;" draggable="false">
+                              ${miniWatermarkHtml}
+                              <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:5;" oncontextmenu="return false;"></div>
+                          </div>
+                          <div class="mini-status-dot ${lightClass}"></div>
+                      </div>
+                      <div class="mini-char-name">${escapedName}</div>
+                  </div>`;
+              });
+          }
+
+          // หน้าหมวดหมู่
+          let target = containers[category];
+          if (target && renderItemsPage.length > 0) {
+              
+              if (globalSortMode === 'AUTO') {
+                  let existingStatuses = [...new Set(renderItemsPage.map(i => String(i['สถานะบ้าน'] || '1')))];
+                  let jumpBtnsHtml = '<div class="jump-bar" style="grid-column: 1 / -1;">';
+                  if(existingStatuses.includes('1')) jumpBtnsHtml += `<button class="jump-btn" onclick="document.getElementById('div-${category}-1').scrollIntoView({behavior: 'smooth', block: 'start'})"><span class="status-light status-forever" style="margin:0;"></span>Forever Home</button>`;
+                  if(existingStatuses.includes('2')) jumpBtnsHtml += `<button class="jump-btn" onclick="document.getElementById('div-${category}-2').scrollIntoView({behavior: 'smooth', block: 'start'})"><span class="status-light status-eo" style="margin:0;"></span>EO</button>`;
+                  if(existingStatuses.includes('3')) jumpBtnsHtml += `<button class="jump-btn" onclick="document.getElementById('div-${category}-3').scrollIntoView({behavior: 'smooth', block: 'start'})"><span class="status-light status-sp-ota" style="margin:0;"></span>SP/OTA</button>`;
+                  jumpBtnsHtml += '</div>';
+                  target.innerHTML += jumpBtnsHtml;
+              }
+
+              let lastStatus = null;
+
+              renderItemsPage.forEach(item => {
+                  let currentStatus = String(item['สถานะบ้าน'] || '1');
+                  
+                  if (globalSortMode === 'AUTO' && lastStatus !== currentStatus) {
+                      let statusName = currentStatus == '1' ? 'Forever Home' : (currentStatus == '2' ? 'EO' : 'SP / OTA');
+                      target.innerHTML += `
+                      <div id="div-${category}-${currentStatus}" style="grid-column: 1 / -1; width:100%; text-align:center; margin: 20px 0 10px; position:relative; scroll-margin-top: 60px;">
+                          <hr style="border:none; border-top:2px dashed var(--main); position:absolute; top:50%; left:0; right:0; transform:translateY(-50%); z-index:1; margin:0;">
+                          <span style="background:var(--bg); background-image:linear-gradient(135deg, #FFF8EC 0%, #F7EFFF 100%); padding:0 15px; color:var(--darker); font-size:14px; font-weight:600; position:relative; z-index:2; border-radius:15px; border:1px solid rgba(196, 164, 247, 0.4);">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 12 12 14 14"></polyline></svg> ${statusName}
+                          </span>
+                      </div>`;
+                      lastStatus = currentStatus;
+                  }
+
+                  const name = String(item['ชื่อขนม'] || '').replace(/[\u200B-\u200D\uFEFF]/g, '');
+                  const escapedCleanName = escapeHTML(name); 
+                  const origIndex = item.originalIndex;
+                  const idSafeName = "char_" + origIndex; 
+                  const galleryId = 'gallery_' + idSafeName;
+                  const mainCardId = 'card_' + idSafeName; 
+                  
+                  const loveStatus = String(item['สถานะความรัก'] || '2');
+                  const usageRights = String(item['สิทธิ์การใช้งาน'] || ''); 
+                  const extraImgsStr = String(item['รูปเพิ่มเติม'] || '');
+                  const extraImgsArray = extraImgsStr.split('\n').map(link => link.trim()).filter(link => link !== '');
+                  const mainImageWatermark = String(item['ลายน้ำภาพหลัก'] || 'No'); 
+                  const additionalInfoStr = String(item['ข้อมูลเพิ่มเติม'] || '').trim();
+
+                  let lightClass = currentStatus == '2' ? 'status-eo' : (currentStatus == '3' ? 'status-sp-ota' : 'status-forever');
+
+                  let imgUrl = String(item['Link รูปตัวละคร'] || ''); 
+                  if (imgUrl.includes('drive.google.com/file/d/')) {
+                      const id = imgUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                      if (id) imgUrl = `https://drive.google.com/thumbnail?id=${id[1]}&sz=w1000`;
+                  }
+
+                  const isWatermarked = (mainImageWatermark === 'Yes' || mainImageWatermark === 'true' || mainImageWatermark === 'TRUE');
+                  const mainWatermarkHtml = isWatermarked ? `<div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:url('https://drive.google.com/thumbnail?id=1e3zyO1VT4FCB020UAEmq5fOThW2R38SL&sz=w1600'); background-repeat:repeat; background-size:400px; pointer-events:none; z-index:2;"></div>` : '';
+
+                  let usageIcon = '';
+                  if(usageRights === 'Personal') usageIcon = `<span class="usage-badge usage-personal" title="Personal (ส่วนตัว)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>`;
+                  else if(usageRights === 'Commercial') usageIcon = `<span class="usage-badge usage-commercial" title="Commercial (เชิงพาณิชย์)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span>`;
+                  else if(usageRights === 'สิทธิ์ขาด') usageIcon = `<span class="usage-badge usage-full" title="สิทธิ์ขาด (Full Rights)"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>`;
+
+                  let loveIcon = '';
+                  if(loveStatus == '1') loveIcon = `<span class="usage-badge love-taken" title="มีคู่"><svg width="11" height="11" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></span>`;
+                  else if(loveStatus == '2') loveIcon = `<span class="usage-badge love-single" title="โสด"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></span>`;
+                  else if(loveStatus == '3') loveIcon = `<span class="usage-badge love-none" title="ไม่มีความรัก"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg></span>`;
+
+                  let safeArtistLink = formatURL(item['Link นักวาด']);
+                  const artistDisplay = safeArtistLink ? `<a href="${safeArtistLink}" target="_blank" style="color:var(--darker); text-decoration:underline; position:relative; z-index:10;">${escapeHTML(item['นักวาด'])}</a>` : escapeHTML(item['นักวาด'] || '');
+                  const introText = item['คำบรรยาย'] ? `<div style="font-size: 11px; font-weight: normal; opacity: 0.7; margin-top: 2px; line-height: 1.3; width:100%;">${escapeHTML(item['คำบรรยาย'])}</div>` : '';
+
+                  let additionalInfoHtml = additionalInfoStr ? `<div class="extra-info-box">${escapeHTML(additionalInfoStr).replace(/\n/g, '<br>')}</div>` : '';
+
+                  const moreLinkUrl = formatURL(item['Link เพื่อดูเพิ่มเติม']);
+                  let moreLinkHtml = moreLinkUrl ? `<a href="${moreLinkUrl}" class="btn-view" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>ดูข้อมูลตัวละครทั้งหมด</a>` : '';
+
+                  let extraGalleryHtml = '';
+                  let toggleGalleryBtn = '';
+                  if (extraImgsArray.length > 0) {
+                      let imagesHtml = extraImgsArray.map(line => {
+                          const parts = line.split('|').map(p => p.trim());
+                          let link = parts[0] || ''; let artist = parts[1] || ''; let artistLink = parts[2] || ''; let price = parts[3] || '';
+
+                          let parsedLink = link;
+                          if (link.includes('drive.google.com/file/d/')) {
+                              const matchId = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                              if (matchId) parsedLink = `https://drive.google.com/thumbnail?id=${matchId[1]}&sz=w1000`;
+                          }
+                          
+                          let captionHtml = '';
+                          if (artist || price) {
+                              let artistDisplayExtra = escapeHTML(artist);
+                              let safeExLink = formatURL(artistLink);
+                              if (artist && safeExLink) artistDisplayExtra = `<a href="${safeExLink}" target="_blank" style="color:var(--dark); text-decoration:underline; font-weight:500; position:relative; z-index:10;">${artistDisplayExtra}</a>`;
+                              
+                              let artistHtml = artist ? `<span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.628-1.628H18c2.21 0 4-1.79 4-4 0-3.86-4.48-8-10-8z"></path></svg> นักวาด: ${artistDisplayExtra}</span>` : '';
+                              let priceHtml = price ? `<span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><line x1="12" y1="18" x2="12" y2="22"></line><line x1="12" y1="2" x2="12" y2="6"></line></svg> มูลค่า: ${escapeHTML(formatPrice(price))}</span>` : '';
+                              let separator = (artist && price) ? ' &nbsp;•&nbsp; ' : '';
+
+                              captionHtml = `<div style="background: rgba(255,255,255,0.8); padding: 10px; border: 1px solid rgba(196, 164, 247, 0.5); border-top: none; border-radius: 0 0 15px 15px; font-size: 12px; text-align: center; color: var(--darker);">${artistHtml}${separator}${priceHtml}</div>`;
+                          }
+
+                          let imgRadiusStyle = captionHtml ? 'border-radius: 15px 15px 0 0; border-bottom: none;' : 'border-radius: 15px;';
+
+                          return `
+                          <div class="no-save" style="margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius:15px;">
+                              <div style="position:relative; width:100%; ${imgRadiusStyle} overflow:hidden; border:1px solid rgba(196, 164, 247, 0.5); background-color:var(--img-bg-pale);">
+                                  <img src="${parsedLink}" style="width:100%; display:block; pointer-events:none;" alt="รูปเพิ่มเติม" oncontextmenu="return false;" draggable="false">
+                                  <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image:url('https://drive.google.com/thumbnail?id=1e3zyO1VT4FCB020UAEmq5fOThW2R38SL&sz=w1600'); background-repeat:repeat; background-size:400px; pointer-events:none;"></div>
+                                  <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:5;" oncontextmenu="return false;"></div>
+                              </div>
+                              ${captionHtml}
+                          </div>`;
+                      }).join('');
+
+                      extraGalleryHtml = `<div id="${galleryId}" style="display:none; margin-top:15px; padding-top:15px; border-top:1px dashed var(--main);">${imagesHtml}</div>`;
+                      toggleGalleryBtn = `<button onclick="toggleGallery(event, '${galleryId}')" class="btn-view btn-gallery" style="background:#F7EFFF; border:1px dashed var(--main); color:var(--dark); margin-top:10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>ดูรูปเพิ่มเติม (${extraImgsArray.length} รูป)</button>`;
+                  }
+
+                  let adminBtns = '';
+                  if(isEditMode) {
+                      let showMoveBtns = true;
+                      if (globalSortMode === 'AUTO') {
+                          let dupCount = itemsInCategory.filter(i => {
+                              let n1 = String(i['ชื่อขนม'] || '').replace(/[\s\u200B-\u200D\uFEFF]/g, '').toLowerCase();
+                              let n2 = String(item['ชื่อขนม'] || '').replace(/[\s\u200B-\u200D\uFEFF]/g, '').toLowerCase();
+                              return n1 === n2;
+                          }).length;
+                          if (dupCount <= 1) showMoveBtns = false;
+                      }
+
+                      let moveBtnsHtml = showMoveBtns ? `
+                          <button class="btn-move-inline" onclick="event.stopPropagation(); moveItemInline(${origIndex}, -1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>
+                          <button class="btn-move-inline" onclick="event.stopPropagation(); moveItemInline(${origIndex}, 1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></button>
+                      ` : '';
+
+                      adminBtns = `
+                      <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:6px; margin-top:10px; width: 100%; border-top: 1px dashed rgba(196, 164, 247, 0.5); padding-top: 10px;">
+                          ${moveBtnsHtml}
+                          <button class="btn-edit-inline" onclick="event.stopPropagation(); openEditForm(this, ${origIndex}, '${idSafeName}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> แก้ไข</button>
+                          <button class="btn-delete-inline" onclick="event.stopPropagation(); deleteItemInline(${origIndex})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> ลบ</button>
+                      </div>`;
+                  }
+
+                  target.innerHTML += `
+                    <div class="menu-card" id="${mainCardId}">
+                      <div class="menu-header" onclick="toggleMenu(this)" style="cursor:pointer;">
+                        
+                        <div class="menu-img-wrapper" style="background-color: #ffffff;">
+                            <img src="${imgUrl}" alt="${escapedCleanName}" class="menu-img no-save" oncontextmenu="return false;" draggable="false">
+                            ${mainWatermarkHtml}
+                            <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:5;" oncontextmenu="return false;"></div>
+                        </div>
+                        
+                        <div class="menu-title-row">
+                          <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                              <div class="menu-title" style="align-items:center;">
+                                  <span class="status-light ${lightClass}"></span>
+                                  <span>${escapedCleanName}</span>
+                                  <span style="display:inline-flex; align-items:center; gap: 4px; margin-left: 4px;">${usageIcon}${loveIcon}</span>
+                              </div>
+                              <div class="menu-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                          </div>
+                          ${introText}
+                          ${adminBtns}
+                        </div>
+
+                      </div>
+                      <div class="menu-details">
+                        ${additionalInfoHtml}
+                        <div class="detail-text"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.628-1.628H18c2.21 0 4-1.79 4-4 0-3.86-4.48-8-10-8z"></path></svg> <strong>นักวาด:</strong> ${artistDisplay}</div>
+                        <div class="detail-text"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><line x1="12" y1="18" x2="12" y2="22"></line><line x1="12" y1="2" x2="12" y2="6"></line></svg> <strong>มูลค่า:</strong> ${escapeHTML(formatPrice(item['มูลค่า']))}</div>
+                        ${moreLinkHtml}
+                        ${toggleGalleryBtn}
+                        ${extraGalleryHtml}
+                      </div>
+                    </div>`;
+              });
+          }
+      });
+      
+      Object.keys(containers).forEach(key => { 
+          if (containers[key] && containers[key].querySelectorAll('.menu-card').length === 0) {
+              containers[key].innerHTML += `<div class="loading-text" style="grid-column: 1 / -1;">ยังไม่มีเมนูในหมวดนี้</div>`;
+          }
+          if (homeGrids[key] && homeGrids[key].querySelectorAll('.mini-char-card').length === 0) {
+              homeGrids[key].innerHTML += `<div class="loading-text" style="grid-column: 1 / -1; font-size:12px; opacity:0.6;">ยังไม่มีขนมในตู้นี้ค่ะ</div>`;
+          }
+      });
+
+      applyHomeFilter(); 
+
+  } catch (e) {
+      console.error(e);
+      alert("[ ผิดพลาด ] มีข้อผิดพลาดในการโหลดหน้าเว็บ: " + e.message);
+  }
 }
 
-async function confirmDelete() {
-  const name = document.getElementById('delName').value;
-  const pin = document.getElementById('delPin').value;
-  if(!name || !pin) return alert("กรุณากรอกข้อมูลให้ครบถ้วนค่ะ");
-  if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${name}"?`)) {
-    const resp = await fetch(`${API_URL}?action=delete&name=${encodeURIComponent(name)}&pin=${encodeURIComponent(pin)}`);
-    const result = await resp.text();
-    if(result === "Success") { alert("ลบข้อมูลแล้วค่ะ!"); location.reload(); }
-    else { alert("ข้อมูลไม่ถูกต้องค่ะ 🥲"); }
-  }
+async function moveItemInline(origIndex, dir) {
+    document.querySelectorAll('.btn-move-inline').forEach(b => b.disabled = true);
+    const name = allData[origIndex]['ชื่อขนม']; 
+    const category = allData[origIndex]['หมวดหมู่'];
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "move", name: name, category: category, direction: dir })
+        });
+        fetchData(); 
+    } catch (e) {
+        console.error(e);
+        alert("[ ผิดพลาด ] เกิดข้อผิดพลาดในการเลื่อนอันดับค่ะ");
+        document.querySelectorAll('.btn-move-inline').forEach(b => b.disabled = false);
+    }
+}
+
+async function deleteItemInline(origIndex) {
+    const name = allData[origIndex]['ชื่อขนม']; 
+    const showName = name.replace(/[\u200B-\u200D\uFEFF]/g, '');
+    if(confirm(`คุณแน่ใจนะคะว่าจะลบ "${showName}" ออกจากเตาอบ?`)) {
+        try {
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ action: "delete", name: name })
+            });
+            alert("[ สำเร็จ ] ลบข้อมูลแล้วค่ะ!");
+            fetchData(); 
+        } catch (e) {
+            console.error(e);
+            alert("[ ผิดพลาด ] เกิดข้อผิดพลาดในการเชื่อมต่อเพื่อลบข้อมูลค่ะ");
+        }
+    }
+}
+
+function openEditForm(btn, origIndex, idSafeName) {
+    const card = btn.closest('.menu-card');
+    const item = allData[origIndex]; 
+
+    const displayImgLink = item['Link รูปตัวละคร'] || '';
+    const extraImgsStr = String(item['รูปเพิ่มเติม'] || '');
+    const editContainerId = 'editExtraImgsContainer_' + idSafeName;
+    const isWatermarkChecked = (item['ลายน้ำภาพหลัก'] === 'Yes' || item['ลายน้ำภาพหลัก'] === 'true' || item['ลายน้ำภาพหลัก'] === 'TRUE') ? 'checked' : '';
+
+    const datalistId = `datalist_edit_${idSafeName}`;
+    const cleanEditName = String(item['ชื่อขนม']).replace(/[\u200B-\u200D\uFEFF]/g, '');
+    const additionalInfo = String(item['ข้อมูลเพิ่มเติม'] || '');
+
+    let existingExtraImgsHtml = '';
+    const extraImgsArray = extraImgsStr.split('\n').map(link => link.trim()).filter(link => link !== '');
+    extraImgsArray.forEach(line => {
+        const parts = line.split('|').map(p => p.trim());
+        const exArtistName = parts[1] || '';
+        const previewId = `preview_edit_ex_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+        
+        existingExtraImgsHtml += `
+        <div class="extra-img-block" style="background: rgba(196, 164, 247, 0.1); padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px dashed var(--main); position: relative;">
+            <div style="position: absolute; right: 15px; top: 12px; display: flex; gap: 5px; z-index: 10;">
+                <button type="button" class="btn-move-ex" onclick="moveExtraImgBlock(this, -1)" title="เลื่อนขึ้น"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"></polyline></svg></button>
+                <button type="button" class="btn-move-ex" onclick="moveExtraImgBlock(this, 1)" title="เลื่อนลง"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                <span onclick="this.closest('.extra-img-block').remove()" style="cursor: pointer; color: #D484B6; font-weight: 600; font-size:12px; background:#FFF5F8; padding:2px 8px; border-radius:10px; display:flex; align-items:center;">ลบทิ้ง</span>
+            </div>
+            <label class="modal-label" style="margin-top:0;">ลิ้งก์รูปเพิ่มเติม</label>
+            <input type="text" class="modal-input ex-img" style="margin-bottom:10px; padding:10px;" value="${escapeHTML(parts[0] || '')}" oninput="updateImgPreview(this, '${previewId}')">
+            <div id="${previewId}" class="image-preview-container" style="display: ${parts[0] ? 'block' : 'none'}; margin-bottom:10px;">
+                ${parts[0] ? `<img src="${parseImageUrlForPreview(parts[0])}" onerror="this.parentElement.innerText='โหลดรูปไม่สำเร็จ กรุณาตรวจสอบลิ้งก์'; this.parentElement.style.padding='15px'; this.parentElement.style.color='#D484B6';">` : ''}
+            </div>
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label class="modal-label">นักวาด (ถ้ามี)</label>
+                    <input type="text" class="modal-input ex-artist" style="margin-bottom:10px; padding:10px;" value="${escapeHTML(exArtistName)}" oninput="populateArtistSuggestions(this.value, '${datalistId}')" placeholder="พิมพ์ชื่อค้นหา...">
+                </div>
+                <div style="flex:1;">
+                    <label class="modal-label">มูลค่า (ถ้ามี)</label>
+                    <input type="text" class="modal-input ex-price" style="margin-bottom:10px; padding:10px;" value="${escapeHTML(parts[3] || '')}">
+                </div>
+            </div>
+            <label class="modal-label">ลิ้งก์นักวาด (ถ้ามี)</label>
+            <input type="text" class="modal-input ex-artistlink" style="margin-bottom:0; padding:10px;" value="${escapeHTML(parts[2] || '')}" list="${datalistId}" placeholder="ใส่ลิ้งก์ใหม่ หรือเลือกจากที่เคยมี">
+        </div>`;
+    });
+
+    const formHtml = `
+        <div class="edit-form-container" onclick="event.stopPropagation()">
+            <label class="modal-label">หมวดหมู่:</label>
+            <select id="edit_cat_${idSafeName}" class="modal-select">
+                <option value="ขนมปัง" ${item['หมวดหมู่']==='ขนมปัง'?'selected':''}>ขนมปัง</option>
+                <option value="เค้ก" ${item['หมวดหมู่']==='เค้ก'?'selected':''}>เค้ก</option>
+                <option value="เครื่องดื่ม" ${item['หมวดหมู่']==='เครื่องดื่ม'?'selected':''}>เครื่องดื่ม</option>
+            </select>
+
+            <label class="modal-label">ชื่อขนม:</label>
+            <input type="text" id="edit_name_${idSafeName}" class="modal-input" value="${escapeHTML(cleanEditName)}">
+            
+            <label class="modal-label">คำบรรยาย:</label>
+            <input type="text" id="edit_desc_${idSafeName}" class="modal-input" value="${escapeHTML(item['คำบรรยาย'] || '')}">
+
+            <label class="modal-label">ข้อมูลเพิ่มเติม (ซ่อนในการ์ด):</label>
+            <textarea id="edit_additionalInfo_${idSafeName}" class="modal-input" placeholder="ใส่ข้อมูลเพิ่มเติม... (ไม่จำเป็นต้องใส่)">${escapeHTML(additionalInfo)}</textarea>
+
+            <label class="modal-label">ลิ้งก์รูปตัวละคร (ภาพหลัก):</label>
+            <input type="text" id="edit_img_link_${idSafeName}" class="modal-input" value="${escapeHTML(displayImgLink)}" placeholder="วางลิ้งก์รูปภาพที่นี่" oninput="updateImgPreview(this, 'preview_edit_main_${idSafeName}')">
+            <div id="preview_edit_main_${idSafeName}" class="image-preview-container" style="display: ${displayImgLink ? 'block' : 'none'};">
+                ${displayImgLink ? `<img src="${parseImageUrlForPreview(displayImgLink)}" onerror="this.parentElement.innerText='โหลดรูปไม่สำเร็จ กรุณาตรวจสอบลิ้งก์'; this.parentElement.style.padding='15px'; this.parentElement.style.color='#D484B6';">` : ''}
+            </div>
+
+            <div class="watermark-container">
+                <div class="watermark-label-text">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                    ใส่ลายน้ำภาพหลัก (ป้องกันเซฟ)
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="edit_watermark_${idSafeName}" ${isWatermarkChecked}>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <label class="modal-label">นักวาด (ภาพหลัก):</label>
+            <input type="text" id="edit_artist_${idSafeName}" class="modal-input" value="${escapeHTML(item['นักวาด'] || '')}" oninput="populateArtistSuggestions(this.value, '${datalistId}')" placeholder="พิมพ์ชื่อนักวาด">
+            
+            <label class="modal-label">ลิ้งก์นักวาด:</label>
+            <input type="text" id="edit_artistlink_${idSafeName}" class="modal-input" value="${escapeHTML(item['Link นักวาด'] || '')}" list="${datalistId}" placeholder="ใส่ลิ้งก์ใหม่ หรือเลือกจากที่เคยมี">
+            <datalist id="${datalistId}"></datalist>
+
+            <label class="modal-label">มูลค่า:</label>
+            <input type="text" id="edit_price_${idSafeName}" class="modal-input" value="${escapeHTML(item['มูลค่า'] || '')}" placeholder="ตัวอย่าง: 500, 10$, Free">
+            
+            <label class="modal-label">ลิ้งก์เพิ่มเติม (เพจ/ข้อมูลตัวละคร):</label>
+            <input type="text" id="edit_more_${idSafeName}" class="modal-input" placeholder="ถ้าไม่มีให้เว้นว่างไว้" value="${escapeHTML(item['Link เพื่อดูเพิ่มเติม'] || '')}">
+
+            <label class="modal-label">สถานะบ้าน (Sale):</label>
+            <select id="edit_sale_${idSafeName}" class="modal-select">
+                <option value="1" ${item['สถานะบ้าน']=='1'?'selected':''}>Forever Home</option>
+                <option value="2" ${item['สถานะบ้าน']=='2'?'selected':''}>EO</option>
+                <option value="3" ${item['สถานะบ้าน']=='3'?'selected':''}>OTA/SP</option>
+            </select>
+
+            <label class="modal-label">สิทธิ์การใช้งาน:</label>
+            <select id="edit_usage_${idSafeName}" class="modal-select">
+                <option value="Personal" ${item['สิทธิ์การใช้งาน']==='Personal'?'selected':''}>Personal (ส่วนตัว)</option>
+                <option value="Commercial" ${item['สิทธิ์การใช้งาน']==='Commercial'?'selected':''}>Commercial (เชิงพาณิชย์)</option>
+                <option value="สิทธิ์ขาด" ${item['สิทธิ์การใช้งาน']==='สิทธิ์ขาด'?'selected':''}>สิทธิ์ขาด (Full Rights)</option>
+            </select>
+
+            <label class="modal-label">สถานะความรัก (Love):</label>
+            <select id="edit_love_${idSafeName}" class="modal-select">
+                <option value="2" ${item['สถานะความรัก']=='2'?'selected':''}>โสด</option>
+                <option value="1" ${item['สถานะความรัก']=='1'?'selected':''}>มีคู่</option>
+                <option value="3" ${item['สถานะความรัก']=='3'?'selected':''}>ไม่มีความรัก</option>
+            </select>
+
+            <div style="margin-top: 15px; border-top: 2px dashed rgba(196, 164, 247, 0.5); padding-top: 15px;">
+                <h4 style="font-size: 13px; margin-bottom: 10px; color: var(--darker); display:flex; justify-content:space-between; align-items:center;">
+                    <span style="display:flex; align-items:center; gap:4px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        รูปเพิ่มเติม (Gallery)
+                    </span>
+                    <button type="button" onclick="addExtraImgField('${editContainerId}')" style="background:var(--main); border:none; padding:5px 10px; border-radius:15px; font-size:11px; font-weight:bold; color:#fff; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        เพิ่มรูป
+                    </button>
+                </h4>
+                <div id="${editContainerId}">${existingExtraImgsHtml}</div>
+            </div>
+
+            <div class="edit-actions">
+                <button class="btn-save-inline" onclick="saveInlineEdit(${origIndex}, '${idSafeName}', '${editContainerId}')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    บันทึก
+                </button>
+                <button class="btn-cancel-inline" onclick="displayData(allData)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    ยกเลิก
+                </button>
+            </div>
+        </div>
+    `;
+    card.innerHTML = formHtml;
+}
+
+async function saveInlineEdit(origIndex, idSafeName, containerId) {
+    const safeOldName = allData[origIndex]['ชื่อขนม']; 
+
+    const newCat = document.getElementById(`edit_cat_${idSafeName}`).value;
+    const newNameInput = document.getElementById(`edit_name_${idSafeName}`).value;
+    const newDesc = document.getElementById(`edit_desc_${idSafeName}`).value;
+    const newArtist = document.getElementById(`edit_artist_${idSafeName}`).value;
+    const newArtistLink = document.getElementById(`edit_artistlink_${idSafeName}`).value;
+    const newPrice = document.getElementById(`edit_price_${idSafeName}`).value;
+    const newAdditionalInfo = document.getElementById(`edit_additionalInfo_${idSafeName}`).value;
+    const newMore = document.getElementById(`edit_more_${idSafeName}`).value;
+    const newSale = document.getElementById(`edit_sale_${idSafeName}`).value;
+    const newLove = document.getElementById(`edit_love_${idSafeName}`).value;
+    const newUsage = document.getElementById(`edit_usage_${idSafeName}`).value; 
+    const finalImgData = document.getElementById(`edit_img_link_${idSafeName}`).value;
+    const newWatermark = document.getElementById(`edit_watermark_${idSafeName}`).checked ? 'Yes' : 'No';
+    const newExtraImgs = getExtraImgsData(containerId); 
+
+    if(!newNameInput || !finalImgData || !newArtist || !newPrice) {
+        return alert("[ ผิดพลาด ] กรุณากรอกข้อมูลสำคัญ (ชื่อ, ลิ้งก์รูปปก, นักวาด, มูลค่า) ให้ครบถ้วนค่ะ");
+    }
+
+    let finalUniqueName = newNameInput.trim();
+    while (allData.some((i, idx) => i && i['ชื่อขนม'] === finalUniqueName && idx !== origIndex)) {
+        finalUniqueName += '\u200B'; 
+    }
+
+    const newItemData = {
+        "หมวดหมู่": newCat,
+        "ชื่อขนม": finalUniqueName,
+        "คำบรรยาย": newDesc,
+        "ข้อมูลเพิ่มเติม": newAdditionalInfo,
+        "Link รูปตัวละคร": finalImgData,
+        "ลายน้ำภาพหลัก": newWatermark, 
+        "นักวาด": newArtist,
+        "Link นักวาด": newArtistLink,
+        "มูลค่า": newPrice,
+        "Link เพื่อดูเพิ่มเติม": newMore,
+        "สถานะบ้าน": newSale,
+        "สถานะความรัก": newLove,
+        "สิทธิ์การใช้งาน": newUsage,
+        "รูปเพิ่มเติม": newExtraImgs 
+    };
+    
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ action: "edit", oldName: safeOldName, data: newItemData })
+        });
+        alert("[ สำเร็จ ] บันทึกข้อมูลเรียบร้อยค่ะ!");
+        fetchData();
+    } catch (e) {
+        console.error(e);
+        alert("[ ผิดพลาด ] บันทึกไม่สำเร็จ! กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตค่ะ");
+    }
 }
 
 fetchData();
